@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "794187183102",
+    "project_id": "qr-go-gotta-catch-em-all",
+    "storage_bucket": "qr-go-gotta-catch-em-all.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794187183102:android:784fe19373c103d2f306af",
+        "android_client_info": {
+          "package_name": "com.example.qr_go_gotta_scan_em_all"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794187183102-4hq6lb0spuq0em8h07cr2dtjjr3730ui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDljawFdLLikvHrci_gguEUmSTTXiC3NU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794187183102-4hq6lb0spuq0em8h07cr2dtjjr3730ui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
