@@ -1,7 +1,7 @@
 ---
 name: User story
 about: Create a user story
-title: ''
+title: US XX.XX.XX
 labels: ''
 assignees: ''
 
