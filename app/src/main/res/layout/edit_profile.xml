@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false">
+
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="370dp"
+        android:layout_height="51dp"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/material_dynamic_neutral90"
+        android:backgroundTintMode="multiply"
+        android:ems="10"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:textColor="@color/dark_grey"
+        android:textColorHint="@color/dark_grey"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/border2"
+        app:layout_constraintVertical_bias="0.604" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/border2"
+        android:layout_width="412dp"
+        android:layout_height="361dp"
+        android:background="@drawable/rounded_rect"
+        android:backgroundTint="@color/dark_grey"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="162dp"
+        android:layout_height="146dp"
+        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="92dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="Edit Profile"
+        android:textColor="#FDFAFA"
+        android:textSize="34sp"
+        android:textStyle="italic"
+        tools:layout_editor_absoluteX="122dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <ImageView
+        android:id="@+id/create_button"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"
+        app:srcCompat="@drawable/img_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
