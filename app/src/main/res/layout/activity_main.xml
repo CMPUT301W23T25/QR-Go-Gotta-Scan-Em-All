@@ -14,7 +14,8 @@
         app:backgroundTint="@color/dark_grey"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="10dp">
+        app:fabCradleVerticalOffset="10dp"
+        app:navigationIconTint="@color/pokemon_red">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/btmNavView"
@@ -22,9 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp"
             android:background="@drawable/transparent_bg"
-            app:menu="@menu/bottom_nav_bar"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/pokemon_red"/>
+            app:itemIconTint="@color/col_sel"
+            app:itemTextColor="@color/pokemon_red"
+            app:menu="@menu/bottom_nav_bar" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
