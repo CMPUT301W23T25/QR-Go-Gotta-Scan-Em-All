@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        switchToLoginActivity();
+
         setContentView(R.layout.activity_main);
 
         handleLogin();
@@ -50,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
     private void handleNavBar(){
         btmNavView.setItemRippleColor(ColorStateList.valueOf(Color.RED));
         // On select listener
+        handleNavBar();
+    }
+
+    private void handleNavBar(){
+
         btmNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
