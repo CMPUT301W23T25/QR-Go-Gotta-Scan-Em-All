@@ -31,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
         pokeBall = findViewById(R.id.poke_ball);
 
 
-
-
-
-
-
     }
 
     private void handleLogin(){
@@ -50,12 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleNavBar(){
-        btmNavView.setItemRippleColor(ColorStateList.valueOf(Color.RED));
-        // On select listener
-        handleNavBar();
-    }
-
+    
     private void handleNavBar(){
 
         btmNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
