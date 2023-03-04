@@ -78,5 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private void switchToLoginActivity() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 }
