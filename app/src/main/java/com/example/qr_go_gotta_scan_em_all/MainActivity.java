@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         btmNavView = findViewById(R.id.btmNavView);
         pokeBall = findViewById(R.id.poke_ball);
 
+        handleNavBar();
+
 
     }
 
