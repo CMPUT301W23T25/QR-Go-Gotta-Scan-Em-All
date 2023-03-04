@@ -3,6 +3,7 @@ package com.example.qr_go_gotta_scan_em_all;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,17 +16,40 @@ public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
     private FloatingActionButton pokeBall;
+    boolean loggedIn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        switchToLoginActivity();
+
         setContentView(R.layout.activity_main);
+
+        handleLogin();
+
         btmNavView = findViewById(R.id.btmNavView);
         pokeBall = findViewById(R.id.poke_ball);
 
-        btmNavView.setItemRippleColor(ColorStateList.valueOf(Color.RED));
+        handleNavBar();
 
 
-        // On select listener
+    }
+
+    private void handleLogin(){
+        // if not logged in, disable the back button
+
+        if (!loggedIn){
+            // Go to the login activity
+            switchToLoginActivity();
+
+        }else{
+
+        }
+    }
+
+    
+    private void handleNavBar(){
+
         btmNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -49,5 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void switchToLoginActivity() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
