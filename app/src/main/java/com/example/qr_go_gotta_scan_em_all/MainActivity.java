@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btmNavView = findViewById(R.id.btmNavView);
         pokeBall = findViewById(R.id.poke_ball);
 
@@ -50,7 +49,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 }
