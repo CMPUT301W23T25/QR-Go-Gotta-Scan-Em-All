@@ -6,6 +6,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="SecondActivity">
 
+    <TextView
+        android:id="@+id/email_val"
+        android:layout_width="112dp"
+        android:layout_height="39dp"
+        android:text="optional"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="514dp" />
+
+    <TextView
+        android:id="@+id/high_score_val"
+        android:layout_width="112dp"
+        android:layout_height="39dp"
+        android:text=""
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="480dp" />
+
+    <TextView
+        android:id="@+id/total_score"
+        android:layout_width="112dp"
+        android:layout_height="39dp"
+        android:text=""
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="441dp" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
         android:layout_width="412dp"
@@ -139,4 +164,12 @@
         app:layout_constraintStart_toEndOf="@+id/username_view"
         app:layout_constraintTop_toBottomOf="@+id/border"
         app:srcCompat="@drawable/img_2" />
+
+    <TextView
+        android:id="@+id/username_val"
+        android:layout_width="112dp"
+        android:layout_height="39dp"
+        android:text=""
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="404dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
