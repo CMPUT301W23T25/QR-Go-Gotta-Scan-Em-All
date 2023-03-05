@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userText = findViewById(R.id.editTextTextPersonName);
-        userName = userText.getText().toString();
+
         loginButton = findViewById(R.id.enter_now_button);
         intent = new Intent(LoginActivity.this, MainActivity.class);
 
@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Create user session function
     private void createUserSession(){
+        userName = userText.getText().toString();
         LoginInfo loginInfo;
 
 
@@ -58,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             - Either use the PhoneID or generate a randomID through randomUUID
             - If PhoneID is used, check the database to find the phoneID of the user
             */
-
             loginInfo = new LoginInfo(userName,this);
 
 
