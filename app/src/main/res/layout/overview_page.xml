@@ -4,54 +4,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".OverviewFragment">
 
     <View
         android:id="@+id/divider2"
         android:layout_width="409dp"
         android:layout_height="6dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="91dp"
         android:background="@color/pokemon_red"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="526dp" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="58dp"
-        android:layout_height="24dp"
-        android:text="Score"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="312dp"
-        tools:layout_editor_absoluteY="275dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="409dp"
         android:layout_height="6dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="1dp"
         android:background="@color/pokemon_red"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="301dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="70dp"
-        android:layout_height="24dp"
-        android:text="QR Code"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="275dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_scanned" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
@@ -87,27 +75,27 @@
         android:id="@+id/toal_score_view"
         android:layout_width="112dp"
         android:layout_height="39dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="sans-serif-medium"
         android:text="Total Score:"
         android:textColor="#4F5357"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        tools:layout_editor_absoluteX="258dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintStart_toEndOf="@+id/high_score_view"
+        app:layout_constraintTop_toBottomOf="@+id/border" />
 
     <TextView
         android:id="@+id/high_score_view"
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="283dp"
         android:fontFamily="sans-serif-medium"
         android:text="High Score:"
         android:textColor="#4F5357"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border"
         app:layout_constraintVertical_bias="0.091" />
@@ -116,13 +104,16 @@
         android:id="@+id/places_visited"
         android:layout_width="112dp"
         android:layout_height="39dp"
+        android:layout_marginStart="130dp"
         android:layout_marginTop="108dp"
+        android:layout_marginEnd="41dp"
         android:fontFamily="sans-serif-medium"
         android:text="Places Visited:"
         android:textColor="#4F5357"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        tools:layout_editor_absoluteX="258dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_scanned"
+        app:layout_constraintTop_toBottomOf="@+id/border" />
 
     <TextView
         android:id="@+id/item_scanned"
@@ -130,14 +121,11 @@
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="283dp"
         android:fontFamily="sans-serif-medium"
         android:text="Item Scanned:"
         android:textColor="#4F5357"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border"
         app:layout_constraintVertical_bias="0.058" />
