@@ -25,24 +25,28 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // handle the login
         handleLogin();
 
-        btmNavView = findViewById(R.id.btmNavView);
-        pokeBall = findViewById(R.id.poke_ball);
+        if (loggedIn){
+            btmNavView = findViewById(R.id.btmNavView);
+            pokeBall = findViewById(R.id.poke_ball);
 
-        handleNavBar();
+            handleNavBar();
+
+        }
 
 
     }
 
     private void handleLogin(){
+        // Connect to the database and get login information based on the device ID
+
         // if not logged in, disable the back button
 
         if (!loggedIn){
             // Go to the login activity
             switchToLoginActivity();
-
-        }else{
 
         }
     }
