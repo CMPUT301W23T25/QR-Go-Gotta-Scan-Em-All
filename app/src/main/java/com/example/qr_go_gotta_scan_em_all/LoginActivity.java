@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         dIDMan = new DeviceIdHelper(this);
-        phoneID = dIDMan.getDeviceId();
+        /*phoneID = dIDMan.getDeviceId();*/
 
     }
 
