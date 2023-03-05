@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
             // Get the user
             LoginInfo login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
 
-            player = new Player(login.getUserName(), login.getUserId());
+            if (login != null){
+                player = new Player(login.getUserName(), login.getUserId());
+            }
+
         } else{
             btmNavView = findViewById(R.id.btmNavView);
             pokeBall = findViewById(R.id.poke_ball);
