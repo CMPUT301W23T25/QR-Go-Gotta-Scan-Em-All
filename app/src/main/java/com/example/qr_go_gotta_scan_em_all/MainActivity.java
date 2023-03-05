@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     Intent switchIntent;
     FragmentManager fragmentManager;
+    LoginInfo login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +34,15 @@ public class MainActivity extends AppCompatActivity {
         switchIntent = new Intent(MainActivity.this, LoginActivity.class);
 
         // handle the login (i.e if the user is not registered)
-        if (!CheckIfUserRegistered()){
+        if (checkNotRegistered()){
             // Go to the login activity
             switchToLoginActivity();
             // Get the user
-            LoginInfo login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
 
-            if (login != null){
-                player = new Player(login.getUserName(), login.getUserId());
-            }
 
         } else{
-
+            player = new Player(login.getUserName(), login.getUserId());
+            System.out.println(login.getUserName());
             btmNavView = findViewById(R.id.btmNavView);
             pokeBall = findViewById(R.id.poke_ball);
             fragmentManager = getSupportFragmentManager();
@@ -106,13 +104,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, profilePageFragment.class, null);
+        transaction.replace(R.id.container, new profilePageFragment(player), null);
         transaction.commit();
     }
 
-    private boolean CheckIfUserRegistered(){
+    private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
-        System.out.println(((LoginInfo)getIntent().getSerializableExtra("loginInfo")));
-        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") != null;
+
+        if ((LoginInfo)getIntent().getSerializableExtra("loginInfo") != null){
+            login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
+        }
+
+        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
     }
 }
