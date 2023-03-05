@@ -16,42 +16,34 @@ public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
     private FloatingActionButton pokeBall;
-    boolean loggedIn = false;
+
+
+    Player player;
+
+    Intent switchIntent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        switchToLoginActivity();
-
         setContentView(R.layout.activity_main);
+        switchIntent = new Intent(MainActivity.this, LoginActivity.class);
 
-        // handle the login
-        handleLogin();
-
-        if (loggedIn){
-            btmNavView = findViewById(R.id.btmNavView);
-            pokeBall = findViewById(R.id.poke_ball);
-
-            handleNavBar();
-
-        }
-
-
-    }
-
-    private void handleLogin(){
-        // Connect to the database and get login information based on the device ID
-
-        // if not logged in, disable the back button
-
-        if (!loggedIn){
+        // handle the login (i.e if the user is not registered)
+        if (!CheckIfUserRegistered()){
             // Go to the login activity
             switchToLoginActivity();
+            // Get the user
+            LoginInfo login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
 
+            player = new Player(login.getUserName(), login.getUserId());
+        } else{
+            btmNavView = findViewById(R.id.btmNavView);
+            pokeBall = findViewById(R.id.poke_ball);
+            handleNavBar();
         }
     }
 
-    
     private void handleNavBar(){
 
         btmNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -80,8 +72,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchToLoginActivity() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
+
+        startActivity(switchIntent);
         finish();
+    }
+
+    private boolean CheckIfUserRegistered(){
+        // Implement based on if it is decided to use the text file, or the phone ID
+        System.out.println(((LoginInfo)getIntent().getSerializableExtra("loginInfo")));
+        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") != null;
     }
 }
