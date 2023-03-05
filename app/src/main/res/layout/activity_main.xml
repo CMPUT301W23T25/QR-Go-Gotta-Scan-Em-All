@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="697dp"
+        android:layout_above="@id/btmAppBar">
+
+    </FrameLayout>
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/btmAppBar"
         android:layout_width="match_parent"
@@ -21,7 +29,7 @@
             android:id="@+id/btmNavView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
+
             android:background="@drawable/transparent_bg"
             app:itemIconTint="@color/col_sel"
             app:itemTextColor="@color/pokemon_red"
