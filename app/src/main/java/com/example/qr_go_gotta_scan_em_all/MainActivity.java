@@ -2,6 +2,8 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -22,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Player player;
 
     Intent switchIntent;
-
+    FragmentManager fragmentManager;
+    LoginInfo login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,19 @@ public class MainActivity extends AppCompatActivity {
         switchIntent = new Intent(MainActivity.this, LoginActivity.class);
 
         // handle the login (i.e if the user is not registered)
-        if (!CheckIfUserRegistered()){
+        if (checkNotRegistered()){
             // Go to the login activity
             switchToLoginActivity();
             // Get the user
-            LoginInfo login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
 
-            if (login != null){
-                player = new Player(login.getUserName(), login.getUserId());
-            }
 
         } else{
+            player = new Player(login.getUserName(), login.getUserId());
+            System.out.println(login.getUserName());
             btmNavView = findViewById(R.id.btmNavView);
             pokeBall = findViewById(R.id.poke_ball);
+            fragmentManager = getSupportFragmentManager();
+            goToOverview();
             handleNavBar();
         }
     }
@@ -57,7 +60,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.home:
                         // Do something for menu item 1
-                        break;
+                        // Credits: Android Studio Website
+                        // https://developer.android.com/reference/android/view/View.OnClickListener
+                        // FragmentManager manages all the fragments within an activity
+                        // beginTransaction will access the fragment manager and listen to what the
+                        // transaction will be
+                        // Create new fragment and transaction
+                        goToOverview();
                     case R.id.leaderboard:
                         // Do something for menu item 2
                         break;
@@ -66,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.person:
                         // Do something for menu item 4
-                        break;
+                        goToPerson();
                 }
 
                 // Return true to indicate that the item click has been handled
@@ -81,9 +90,31 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean CheckIfUserRegistered(){
+    private void goToOverview(){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+
+        // Replace whatever is in the fragment_container view with this fragment
+        transaction.replace(R.id.container, OverviewFragment.class, null);
+        transaction.commit();
+    }
+
+    private void goToPerson(){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+
+        // Replace whatever is in the fragment_container view with this fragment
+        transaction.replace(R.id.container, new profilePageFragment(player), null);
+        transaction.commit();
+    }
+
+    private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
-        System.out.println(((LoginInfo)getIntent().getSerializableExtra("loginInfo")));
-        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") != null;
+
+        if ((LoginInfo)getIntent().getSerializableExtra("loginInfo") != null){
+            login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
+        }
+
+        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
     }
 }
