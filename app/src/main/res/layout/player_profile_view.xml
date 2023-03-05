@@ -164,7 +164,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.969"
-        app:srcCompat="@drawable/Add_as_Friend" />
+        app:srcCompat="@drawable/add_as_friend" />
 
     <TextView
         android:id="@+id/usernameView_show"
