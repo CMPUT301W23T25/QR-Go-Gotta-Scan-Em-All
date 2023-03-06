@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/username_view2"
+        android:id="@+id/usernameView_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username"
@@ -66,30 +66,30 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@+id/border"
         app:layout_constraintEnd_toEndOf="@+id/border"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="@+id/border"
         app:layout_constraintTop_toTopOf="@+id/border"
-        app:layout_constraintVertical_bias="0.566" />
+        app:layout_constraintVertical_bias="0.266" />
 
     <TextView
         android:id="@+id/toal_score_view"
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="128dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="sans-serif-medium"
         android:text="Total Score:"
         android:textColor="#4F5357"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toEndOf="@+id/high_score_view"
         app:layout_constraintTop_toBottomOf="@+id/border" />
 
     <TextView
         android:id="@+id/high_score_view"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
+        android:layout_width="110dp"
+        android:layout_height="29dp"
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="High Score:"
@@ -102,8 +102,8 @@
 
     <TextView
         android:id="@+id/places_visited"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
+        android:layout_width="114dp"
+        android:layout_height="43dp"
         android:layout_marginStart="130dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="41dp"
@@ -112,6 +112,7 @@
         android:textColor="#4F5357"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/item_scanned"
         app:layout_constraintTop_toBottomOf="@+id/border" />
 
@@ -130,5 +131,47 @@
         app:layout_constraintTop_toBottomOf="@+id/border"
         app:layout_constraintVertical_bias="0.058" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="51dp"
+        android:layout_height="26dp"
+        android:text="Profile"
+        android:textColor="#FDFDFD"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="67dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="6dp"
+        android:layout_height="16dp"
+        android:text=""
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/TotalScoreNum"
+        android:layout_width="13dp"
+        android:layout_height="24dp"
+        android:text=""
+        tools:layout_editor_absoluteX="370dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/PlacesVisitedNum"
+        android:layout_width="11dp"
+        android:layout_height="25dp"
+        android:text=""
+        tools:layout_editor_absoluteX="372dp"
+        tools:layout_editor_absoluteY="210dp" />
+
+    <TextView
+        android:id="@+id/ItemScannedNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="210dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
