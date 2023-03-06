@@ -5,6 +5,14 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+dependencyResolutionManagement {
 
+    repositories {
+
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+        jcenter()
+    }
+}
 rootProject.name = "QR-Go-Gotta-Scan-Em-All"
 include ':app'
