@@ -43,6 +43,8 @@ allprojects {
 
         mavenCentral()  // Maven Central repository
         //referenced from - https://github.com/yuriy-budiyev/code-scanner
+        // MIT License
+        // Copyright (c) 2017 Yuriy Budiyev [yuriy.budiyev@yandex.ru]
         maven { url 'https://jitpack.io' }
     }
 

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     Player player;
 
-    Intent switchIntent;
+    Intent switchLoginIntent;
     FragmentManager fragmentManager;
     LoginInfo login;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        switchIntent = new Intent(MainActivity.this, LoginActivity.class);
+        switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
 
         // handle the login (i.e if the user is not registered)
         if (checkNotRegistered()){
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchToLoginActivity() {
 
-        startActivity(switchIntent);
+        startActivity(switchLoginIntent);
         finish();
     }
 
@@ -112,12 +112,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToQrScanner(){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setReorderingAllowed(true);
-
-        // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, ScannerFragment.class, null);
-        transaction.commit();
+        Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+        startActivity(switchScannerIntent);
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setReorderingAllowed(true);
+//
+//        // Replace whatever is in the fragment_container view with this fragment
+//        transaction.replace(R.id.container, ScannerFragment.class, null);
+//        transaction.commit();
 
     }
     private boolean checkNotRegistered(){
