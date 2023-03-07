@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
     private FloatingActionButton pokeBall;
-
+    private String qrResult;
 
     Player player;
 
-    Intent switchIntent;
+    Intent switchLoginIntent;
     FragmentManager fragmentManager;
     LoginInfo login;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        switchIntent = new Intent(MainActivity.this, LoginActivity.class);
+        switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
 
         // handle the login (i.e if the user is not registered)
         if (checkNotRegistered()){
@@ -67,8 +67,10 @@ public class MainActivity extends AppCompatActivity {
                         // transaction will be
                         // Create new fragment and transaction
                         goToOverview();
+                        break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
+                        goToQrScanner();
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.person:
                         // Do something for menu item 4
                         goToPerson();
+                        break;
                 }
 
                 // Return true to indicate that the item click has been handled
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchToLoginActivity() {
 
-        startActivity(switchIntent);
+        startActivity(switchLoginIntent);
         finish();
     }
 
@@ -108,6 +111,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void goToQrScanner(){
+        Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+        startActivity(switchScannerIntent);
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setReorderingAllowed(true);
+//
+//        // Replace whatever is in the fragment_container view with this fragment
+//        transaction.replace(R.id.container, ScannerFragment.class, null);
+//        transaction.commit();
+
+    }
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
 
@@ -116,5 +130,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
+    }
+
+    public String getMyData() {
+        return qrResult;
     }
 }
