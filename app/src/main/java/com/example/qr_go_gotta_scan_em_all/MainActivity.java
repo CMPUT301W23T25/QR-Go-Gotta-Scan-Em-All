@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     LoginInfo login;
 
+    Database db;
+
     private boolean cameraPermissionGranted =false;
     private boolean locationPermissionGranted=false;
     @Override
