@@ -15,6 +15,7 @@ import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentManager = getSupportFragmentManager();
             goToOverview();
             handleNavBar();
+            handlePokeBall();
         }
     }
 
@@ -82,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
-                        cameraPermissionGranted=checkCameraPermission();
-                        goToQrScanner();
+
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -97,6 +98,18 @@ public class MainActivity extends AppCompatActivity {
 
                 // Return true to indicate that the item click has been handled
                 return true;
+            }
+        });
+    }
+
+    private void handlePokeBall(){
+        pokeBall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle button click
+                // For example, you can show a Toast message:
+                cameraPermissionGranted=checkCameraPermission();
+                goToQrScanner();
             }
         });
     }
