@@ -2,18 +2,27 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.webkit.PermissionRequest;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.security.Permission;
 
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
@@ -27,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     LoginInfo login;
 
+    private boolean cameraPermissionGranted =false;
+    private boolean locationPermissionGranted;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
+
 
         // handle the login (i.e if the user is not registered)
         if (checkNotRegistered()){
@@ -112,15 +124,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToQrScanner(){
-        Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
-        startActivity(switchScannerIntent);
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setReorderingAllowed(true);
-//
-//        // Replace whatever is in the fragment_container view with this fragment
-//        transaction.replace(R.id.container, ScannerFragment.class, null);
-//        transaction.commit();
-
+        cameraPermissionGranted=checkCameraPermission();
+        if(cameraPermissionGranted){
+            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+            startActivity(switchScannerIntent);
+            //add other things
+            }
+    }
+    private boolean checkCameraPermission(){
+        if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)){
+            Toast.makeText(this, "Please Grant Camera permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                return true;
+            } else{return false;}
+        } else {return true;}
     }
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.zxing.Result;
 public class QrScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private Button back_btn;
+
 
 
     @Override
@@ -42,7 +44,7 @@ public class QrScanner extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(QrScanner.this,result.getText() , Toast.LENGTH_SHORT).show();
-
+                        finish();
                     }
                 });
             }
