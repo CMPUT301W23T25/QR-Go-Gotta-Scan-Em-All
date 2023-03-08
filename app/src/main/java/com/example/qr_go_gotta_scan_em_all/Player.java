@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Player implements Serializable {
 
-    ArrayList<Pokemon> QRArray;
+    ArrayList<Pokemon> PokemonArray;
     private String userName;
     private String userId;
 
@@ -14,7 +14,7 @@ public class Player implements Serializable {
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = userName;
-        this.QRArray = QRArray;
+        this.PokemonArray = QRArray;
     }
 
     public Player(String userName, String userId) {
@@ -22,7 +22,7 @@ public class Player implements Serializable {
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = userName;
-        this.QRArray = new ArrayList<Pokemon>();
+        this.PokemonArray = new ArrayList<Pokemon>();
     }
 
 
@@ -35,6 +35,6 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Pokemon> getQRCode(){
-        return new ArrayList<>(QRArray);
+        return new ArrayList<>(this.PokemonArray);
     }
 }
