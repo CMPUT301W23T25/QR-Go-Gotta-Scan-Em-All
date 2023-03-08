@@ -5,39 +5,110 @@
     android:id="@+id/edit_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBEB2524"
+    android:background="#FFFFFF"
     android:clipToPadding="false">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/border5"
+        android:layout_width="412dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="650dp"
+        android:background="@drawable/rounded_rect"
+        android:backgroundTint="#2B2C2D"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:text="Add text here"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="45dp" />
+        android:id="@+id/usernameView_show3"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="675dp"
+        android:text="PokeScanner"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/border"
+        app:layout_constraintEnd_toEndOf="@+id/border"
+        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintStart_toStartOf="@+id/border"
+        app:layout_constraintTop_toTopOf="@+id/border"
+        app:layout_constraintVertical_bias="0.266" />
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/qr_scanner_view"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="167dp"
+        android:layout_marginBottom="102dp"
         app:autoFocusButtonColor="@color/white"
         app:autoFocusButtonVisible="true"
         app:flashButtonVisible="true"
-        app:maskVisible="true"
-        app:maskColor="#A6332F2F"/>
+        app:maskVisible="true" />
 
-    <Button
-        android:id="@+id/qr_scanner_back_btn"
-        android:layout_width="132dp"
+    <ImageView
+        android:id="@+id/retake_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="269dp"
-        android:layout_marginBottom="97dp"
-        android:text="back"
-        android:textColorHint="@color/white"
-        app:iconTint="@color/_bg__pressing_edit_ek2_color" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="647dp"
+        android:layout_marginEnd="225dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:srcCompat="@drawable/retake_btn" />
+
+    <ImageView
+        android:id="@+id/retake_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="226dp"
+        android:layout_marginTop="646dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:srcCompat="@drawable/save_btn" />
+
+    <ImageView
+        android:id="@+id/qr_scanner_back_btn"
+        android:layout_width="47dp"
+        android:layout_height="51dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="345dp"
+        android:layout_marginBottom="666dp"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+
 </RelativeLayout>
