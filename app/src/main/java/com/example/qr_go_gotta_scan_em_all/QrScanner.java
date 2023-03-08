@@ -1,8 +1,11 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,16 +19,15 @@ import com.google.zxing.Result;
 public class QrScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private Button back_btn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_scanner);
         CodeScannerView scannerView = findViewById(R.id.qr_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
-
-
         back_btn = findViewById(R.id.qr_scanner_back_btn);
-
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +41,8 @@ public class QrScanner extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QrScanner.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QrScanner.this,result.getText() , Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
