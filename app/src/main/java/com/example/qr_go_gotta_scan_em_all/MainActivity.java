@@ -133,9 +133,18 @@ public class MainActivity extends AppCompatActivity {
     }
     private boolean checkCameraPermission(){
         if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)){
-            Toast.makeText(this, "Please Grant Camera permission", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                return true;
+            } else{return false;}
+        } else {return true;}
+    }
+    private boolean checkLocationPermission(){
+        if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)){
+            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 return true;
             } else{return false;}
         } else {return true;}
