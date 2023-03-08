@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     LoginInfo login;
 
     private boolean cameraPermissionGranted =false;
-    private boolean locationPermissionGranted;
+    private boolean locationPermissionGranted=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +82,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
+                        cameraPermissionGranted=checkCameraPermission();
                         goToQrScanner();
                         break;
                     case R.id.map:
                         // Do something for menu item 3
+                        locationPermissionGranted = checkLocationPermission();
                         break;
                     case R.id.person:
                         // Do something for menu item 4
@@ -124,16 +126,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToQrScanner(){
-        cameraPermissionGranted=checkCameraPermission();
+
         if(cameraPermissionGranted){
             Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
             startActivity(switchScannerIntent);
             //add other things
             }
+        else{
+            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
+        }
     }
     private boolean checkCameraPermission(){
         if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)){
-            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
                 return true;
