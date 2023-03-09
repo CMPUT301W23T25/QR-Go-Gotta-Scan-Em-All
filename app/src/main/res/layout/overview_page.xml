@@ -133,14 +133,14 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="51dp"
-        android:layout_height="26dp"
-        android:text="Profile"
+        android:layout_width="84dp"
+        android:layout_height="29dp"
+        android:text="Homepage"
         android:textColor="#FDFDFD"
         android:textSize="16sp"
         android:textStyle="bold|italic"
-        tools:layout_editor_absoluteX="169dp"
-        tools:layout_editor_absoluteY="67dp" />
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="64dp" />
 
     <TextView
         android:id="@+id/textView5"
