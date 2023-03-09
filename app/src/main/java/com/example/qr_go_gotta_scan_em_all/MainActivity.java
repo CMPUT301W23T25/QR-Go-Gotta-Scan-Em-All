@@ -2,36 +2,51 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.PermissionRequest;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.security.Permission;
+
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
     private FloatingActionButton pokeBall;
-
+    private String qrResult;
 
     Player player;
 
-    Intent switchIntent;
+    Intent switchLoginIntent;
     FragmentManager fragmentManager;
     LoginInfo login;
 
+    Database db;
+    private boolean cameraPermissionGranted =false;
+    private boolean locationPermissionGranted=false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        switchIntent = new Intent(MainActivity.this, LoginActivity.class);
+        switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
+
 
         // handle the login (i.e if the user is not registered)
         if (checkNotRegistered()){
@@ -48,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentManager = getSupportFragmentManager();
             goToOverview();
             handleNavBar();
+            handlePokeBall();
         }
     }
 
@@ -67,15 +83,19 @@ public class MainActivity extends AppCompatActivity {
                         // transaction will be
                         // Create new fragment and transaction
                         goToOverview();
+                        break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
+
                         break;
                     case R.id.map:
                         // Do something for menu item 3
+                        locationPermissionGranted = checkLocationPermission();
                         break;
                     case R.id.person:
                         // Do something for menu item 4
                         goToPerson();
+                        break;
                 }
 
                 // Return true to indicate that the item click has been handled
@@ -84,9 +104,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void handlePokeBall(){
+        pokeBall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle button click
+                // For example, you can show a Toast message:
+                cameraPermissionGranted = checkCameraPermission();
+                goToQrScanner();
+            }
+        });
+    }
+
     private void switchToLoginActivity() {
 
-        startActivity(switchIntent);
+        startActivity(switchLoginIntent);
         finish();
     }
 
@@ -108,6 +140,34 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void goToQrScanner(){
+
+        if(cameraPermissionGranted){
+            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+            startActivity(switchScannerIntent);
+            //add other things
+            }
+        else{
+            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private boolean checkCameraPermission(){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                return true;
+            } else{return false;}
+        } else {return true;}
+    }
+    private boolean checkLocationPermission(){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                return true;
+            } else{return false;}
+        } else {return true;}
+    }
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
 
@@ -116,5 +176,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
+    }
+
+    public String getMyData() {
+        return qrResult;
     }
 }
