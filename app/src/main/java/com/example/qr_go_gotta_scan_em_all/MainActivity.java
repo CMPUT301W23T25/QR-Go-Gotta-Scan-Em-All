@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     LoginInfo login;
 
     Database db;
-
     private boolean cameraPermissionGranted =false;
     private boolean locationPermissionGranted=false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Handle button click
                 // For example, you can show a Toast message:
-                cameraPermissionGranted=checkCameraPermission();
+                cameraPermissionGranted = checkCameraPermission();
                 goToQrScanner();
             }
         });
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private boolean checkCameraPermission(){
-        if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
                 return true;
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         } else {return true;}
     }
     private boolean checkLocationPermission(){
-        if (!(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
