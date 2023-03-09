@@ -26,6 +26,8 @@ public class PokemonAdd extends AppCompatActivity {
     Button save_btn;
     Button release_btn;
     ActivityResultLauncher<Intent> activityResultLauncher;
+    Bitmap locationImgRaw;
+    String pokemonCaught;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class PokemonAdd extends AppCompatActivity {
         save_btn = findViewById(R.id.add_pokemon_btn);
         add_location =findViewById(R.id.add_location_btn);
 
-        String pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
+        pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.pokemon_name);
         title.setText("You caught "+pokemonCaught);
 
@@ -46,7 +48,9 @@ public class PokemonAdd extends AppCompatActivity {
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null){
                     Bundle bundleImage = result.getData().getExtras();
-                    Bitmap bitmapImage = (Bitmap) bundleImage.get("data");
+                    locationImgRaw = (Bitmap) bundleImage.get("data");
+
+                    // Convert the raw image into a JPEG so it doesn't take storage too much
 
                 }
             }
