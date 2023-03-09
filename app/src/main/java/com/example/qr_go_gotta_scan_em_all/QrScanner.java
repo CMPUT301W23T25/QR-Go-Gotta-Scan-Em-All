@@ -44,7 +44,9 @@ public class QrScanner extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QrScanner.this,result.getText() , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QrScanner.this,"You caught a pokemon" , Toast.LENGTH_SHORT).show();
+                        Intent switchPokemonAddIntent = new Intent(QrScanner.this, PokemonAdd.class);
+                        switchPokemonAddIntent.putExtra("PokemonCaught", result.getText());
                         finish();
                     }
                 });
