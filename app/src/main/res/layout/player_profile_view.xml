@@ -11,7 +11,6 @@
         android:id="@+id/emailView_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:textColor="@color/dark_grey"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +31,7 @@
         app:layout_constraintHorizontal_bias="0.377"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.673" />
+        app:layout_constraintVertical_bias="0.728" />
 
     <TextView
         android:id="@+id/totalscore_show"
@@ -45,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.377"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.618" />
+        app:layout_constraintVertical_bias="0.728" />
 
     <TextView
         android:id="@+id/Username"
@@ -63,15 +62,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455" />
+        app:layout_constraintVertical_bias="0.457" />
 
     <TextView
         android:id="@+id/emailView"
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="283dp"
+        android:layout_marginEnd="284dp"
         android:fontFamily="sans-serif-medium"
         android:text="Email:"
         android:textColor="@color/dark_grey"
@@ -80,34 +78,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672" />
+        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintVertical_bias="0.744" />
+
 
     <TextView
         android:id="@+id/totalScoreView"
         android:layout_width="112dp"
         android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="283dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="284dp"
+        android:layout_marginBottom="216dp"
         android:fontFamily="sans-serif-medium"
         android:text="Total Score:"
         android:textColor="@color/dark_grey"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintTop_toBottomOf="@+id/border3"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/playerHighScore"
         android:layout_width="112dp"
         android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="283dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="284dp"
+        android:layout_marginBottom="252dp"
         android:fontFamily="sans-serif-medium"
         android:text="High Score:"
         android:textColor="@color/dark_grey"
@@ -116,8 +115,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.981" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border3"
@@ -134,26 +133,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="162dp"
         android:layout_height="146dp"
-        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="102dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/border3"
+        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
         android:fontFamily="sans-serif-medium"
         android:text="Profile"
         android:textColor="#FDFAFA"
         android:textSize="34sp"
         android:textStyle="italic"
-        tools:layout_editor_absoluteX="157dp"
-        tools:layout_editor_absoluteY="264dp" />
+        app:layout_constraintBottom_toTopOf="@+id/create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.101" />
 
     <ImageView
         android:id="@+id/create_button"
@@ -161,10 +168,10 @@
         android:layout_height="190dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.969"
+        app:layout_constraintVertical_bias="0.97"
         app:srcCompat="@drawable/enter_now" />
 
     <TextView
