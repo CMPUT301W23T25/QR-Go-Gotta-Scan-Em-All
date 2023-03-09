@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 return true;
             } else{return false;}
