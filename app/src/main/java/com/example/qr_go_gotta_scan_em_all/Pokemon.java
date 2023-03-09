@@ -1,9 +1,17 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.graphics.Bitmap;
+import android.util.Pair;
+
 public class Pokemon {
     private String ID;
     private String name;
     private String hash;
+
+    // Implement later
+    private Bitmap image;
+
+    private Pair<Float,Float> location;
 
     public Pokemon(String ID, String name, String hash) {
         this.ID = ID;
