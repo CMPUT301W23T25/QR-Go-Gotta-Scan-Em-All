@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     LoginInfo login;
 
-    private boolean cameraPermissionGranted = false;
-    private boolean locationPermissionGranted = false;
+    Database db;
+    private boolean cameraPermissionGranted =false;
+    private boolean locationPermissionGranted=false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
