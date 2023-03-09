@@ -24,7 +24,7 @@ public class Database {
 
     DatabaseReference playersRef;
 
-    DatabaseReference pokemonsRef;
+    DatabaseReference pokemonRef;
     /**
      * Initialize the Database
      */
@@ -34,34 +34,8 @@ public class Database {
         this.fireStore = FirebaseFirestore.getInstance();
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-        playersRef = dbRef.child("Players");
-        pokemonsRef = dbRef.child("Pokemons");
-
-        // ASK: Will we ever have a scenario where the collections won't exist and
-        // we will need to create them?
-/*        playersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    // Players collection does not exist, create it
-                    playersRef.setValue(new HashMap<String, Object>());
-                } else {
-                    // Players collection exists, assign it to a variable
-                    Iterable<DataSnapshot> playerSnapshots = dataSnapshot.getChildren();
-                    List<Player> players = new ArrayList<>();
-                    for (DataSnapshot playerSnapshot : playerSnapshots) {
-                        Player player = playerSnapshot.getValue(Player.class);
-                        players.add(player);
-                    }
-                    // Do something with the players collection
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
-            }
-        });*/
+        playersRef = dbRef.child("players");
+        pokemonRef = dbRef.child("pokemon");
     }
 
     public void addPlayer(Player player){
