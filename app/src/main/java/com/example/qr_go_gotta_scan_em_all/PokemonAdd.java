@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+
 public class PokemonAdd extends AppCompatActivity {
 
     Button photo_btn;
@@ -91,6 +93,16 @@ public class PokemonAdd extends AppCompatActivity {
         });
 
     }
+
+/*    private FileOutputStream bmpToJpeg(Bitmap bmp){
+        try {
+            FileOutputStream out = new FileOutputStream(filename);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 
 
 }

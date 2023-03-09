@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
 
+        // initialize the database
+        db = new Database(this);
+
 
         // handle the login (i.e if the user is not registered)
         if (checkNotRegistered()){
