@@ -15,6 +15,8 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     ImageView loginButton;
 
+    Database db;
+
 
 
     @Override
@@ -25,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.enter_now_button);
         intent = new Intent(LoginActivity.this, MainActivity.class);
+        db = new Database(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             - If PhoneID is used, check the database to find the phoneID of the user
             */
             loginInfo = new LoginInfo(userName,this);
+            db.addPlayer(new Player(userName,loginInfo.getUserId()));
 
 
             // Pass this onto the MainActivity

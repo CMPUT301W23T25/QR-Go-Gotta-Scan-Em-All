@@ -23,8 +23,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -135,29 +138,36 @@ public class Database {
 
     public boolean isPlayerIDExist(String ID){
         // Checks if the player ID already exists in database
-        DocumentReference docRef = playerCol.document(ID);
+        // https://firebase.google.com/docs/firestore/query-data/queries
 
-        // Get the document snapshot for the player reference
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        // TODO Make query handler class so the listeners are in one place.
+
+        final boolean[] checkExists = {false};
+
+
+        Query playerID = playerCol.whereEqualTo("id", ID);
+        ObjectInputStream.GetField query;
+        playerID.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                    if (!querySnapshot.isEmpty()) {
                         Log.d(TAG, "Player with ID " + ID + " exists in the database");
-                        // Do something if the player exists
+                        checkExists[0] = true;
                     } else {
                         Log.d(TAG, "Player with ID " + ID + " does not exist in the database");
                         // Do something if the player does not exist
+                        checkExists[0] = false;
                     }
                 } else {
-                    Log.d(TAG, "Error getting player document", task.getException());
+                    Log.d(TAG, "Error getting player documents", task.getException());
                     // Handle the error case
                 }
             }
         });
 
-        return true;
+        return checkExists[0];
     }
 
 

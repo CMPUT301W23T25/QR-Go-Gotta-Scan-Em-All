@@ -22,6 +22,12 @@ public class LoginInfo implements Serializable {
                 Settings.Secure.ANDROID_ID);
     }
 
+    public LoginInfo(Context context) {
+        this.userId = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+    }
+
 
     public String getUserName() {
         return userName;

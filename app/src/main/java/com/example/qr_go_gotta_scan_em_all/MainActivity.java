@@ -174,11 +174,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
 
-        if ((LoginInfo)getIntent().getSerializableExtra("loginInfo") != null){
-            login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
-        }
-
-        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
+        return !db.isPlayerIDExist(new LoginInfo(this).getUserId());
     }
 
     public String getMyData() {
