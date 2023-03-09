@@ -12,12 +12,17 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 public class PokemonAdd extends AppCompatActivity {
 
@@ -28,6 +33,7 @@ public class PokemonAdd extends AppCompatActivity {
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap locationImgRaw;
     String pokemonCaught;
+    OutputStream locationImgCompressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,18 @@ public class PokemonAdd extends AppCompatActivity {
         TextView title = findViewById(R.id.pokemon_name);
         title.setText("You caught "+pokemonCaught);
 
+        //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null){
                     Bundle bundleImage = result.getData().getExtras();
                     locationImgRaw = (Bitmap) bundleImage.get("data");
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+
 
                     // Convert the raw image into a JPEG so it doesn't take storage too much
 
