@@ -37,7 +37,7 @@ public class PokemonAdd extends AppCompatActivity {
         save_btn = findViewById(R.id.add_pokemon_btn);
         add_location =findViewById(R.id.add_location_btn);
 
-        String pokemonCaught = (String) getIntent().getSerializableExtra("pokemonCaught");
+        String pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.pokemon_name);
         title.setText("You caught "+pokemonCaught);
 
