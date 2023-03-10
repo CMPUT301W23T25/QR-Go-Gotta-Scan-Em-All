@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.map:
                         // Do something for menu item 3
                         locationPermissionGranted = checkLocationPermission();
+                        goToMap();
                         break;
                     case R.id.person:
                         // Do something for menu item 4
@@ -151,6 +152,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
         }
     }
+    private void goToMap(){
+
+        if(locationPermissionGranted){
+            Intent switchScannerIntent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(switchScannerIntent);
+            //add other things
+        }
+        else{
+            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private boolean checkCameraPermission(){
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
@@ -162,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},2);
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 return true;
             } else{return false;}
