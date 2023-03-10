@@ -18,6 +18,7 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+//referenced from https://github.com/yuriy-budiyev/code-scanner
 public class QrScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private ImageView back_btn;
