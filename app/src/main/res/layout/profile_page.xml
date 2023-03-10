@@ -11,26 +11,42 @@
         android:id="@+id/email_val"
         android:layout_width="112dp"
         android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="163dp"
+        android:layout_marginBottom="178dp"
         android:text="optional"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="137dp"
-        tools:layout_editor_absoluteY="514dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/email_view"
+        app:layout_constraintTop_toBottomOf="@+id/high_score_val"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/high_score_val"
         android:layout_width="112dp"
         android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="163dp"
         android:text=""
-        tools:layout_editor_absoluteX="137dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/high_score_view"
         tools:layout_editor_absoluteY="480dp" />
 
     <TextView
         android:id="@+id/total_score"
         android:layout_width="112dp"
         android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="163dp"
         android:text=""
-        tools:layout_editor_absoluteX="137dp"
-        tools:layout_editor_absoluteY="441dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/total_score_view"
+        tools:layout_editor_absoluteY="440dp" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
@@ -118,7 +134,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.013" />
+        app:layout_constraintVertical_bias="0.009" />
 
     <TextView
         android:id="@+id/total_score_view"
@@ -143,17 +159,16 @@
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
         android:layout_marginEnd="283dp"
-        android:layout_marginBottom="179dp"
+        android:layout_marginBottom="172dp"
         android:fontFamily="sans-serif-medium"
         android:text="Email:"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/create_button"
@@ -170,11 +185,10 @@
         android:id="@+id/username_val"
         android:layout_width="112dp"
         android:layout_height="39dp"
+        android:layout_marginTop="40dp"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/total_score"
         app:layout_constraintEnd_toStartOf="@+id/create_button"
-        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toEndOf="@+id/username_view"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.926" />
+        app:layout_constraintTop_toBottomOf="@+id/border" />
 </androidx.constraintlayout.widget.ConstraintLayout>
