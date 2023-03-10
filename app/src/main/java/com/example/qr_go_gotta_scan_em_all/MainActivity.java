@@ -1,5 +1,7 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -14,14 +16,18 @@ import android.content.res.ColorStateList;
 import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.security.Permission;
 
@@ -40,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
     Database db;
     private boolean cameraPermissionGranted =false;
     private boolean locationPermissionGranted=false;
+
+    private boolean isRegistered = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+        // initialize the database
+        db = new Database(this);
 
 
         // handle the login (i.e if the user is not registered)
@@ -56,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } else{
+            login = new LoginInfo(this);
             player = new Player(login.getUserName(), login.getUserId());
             System.out.println(login.getUserName());
             btmNavView = findViewById(R.id.btmNavView);
@@ -183,13 +195,42 @@ public class MainActivity extends AppCompatActivity {
     }
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
-
-        if ((LoginInfo)getIntent().getSerializableExtra("loginInfo") != null){
-            login = (LoginInfo)getIntent().getSerializableExtra("loginInfo");
-        }
-
-        return  (LoginInfo)getIntent().getSerializableExtra("loginInfo") == null;
+        isUserRegisteredQuery();
+        return isRegistered;
     }
+
+    private void isUserRegisteredQuery(){
+        db.getPlayerCol().document(new LoginInfo(this).getUserId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Document exists
+                                isRegistered = true;
+                                System.out.println("registed alrady");
+                            } else {
+                                // Document doesn't exist
+                                isRegistered = false;
+                                System.out.println("registed not");
+                            }
+                        } else {
+                            // Error getting document
+                            Log.d(TAG, "get failed with ", task.getException());
+                            // go to network not found activity
+                            switchToNetworkFail();
+                        }
+                    }
+                });
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
+        finish();
+    }
+
 
     public String getMyData() {
         return qrResult;
