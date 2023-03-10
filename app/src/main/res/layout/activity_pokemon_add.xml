@@ -2,68 +2,146 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PokemonAdd">
+    android:background="#FFFFFF"
+    android:clipToPadding="false">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/border3"
+        android:layout_width="match_parent"
+        android:layout_height="583dp"
+        android:background="@drawable/rounded_rect"
+        android:backgroundTint="@color/dark_grey"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ImageView
+        android:id="@+id/Pokemon_capture_message"
+        android:layout_width="wrap_content"
+        android:layout_height="122dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="461dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/capture_text" />
+
+    <ImageView
+        android:id="@+id/pokeball_capture_view"
+        android:layout_width="176dp"
+        android:layout_height="211dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="315dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/pokeball_capture" />
+
+    <ImageView
+        android:id="@+id/add_photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="82dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="363dp"
+        android:layout_marginEnd="252dp"
+        android:layout_marginBottom="138dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/add_pokemon_photo" />
+
+    <ImageView
+        android:id="@+id/add_location_button"
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="257dp"
+        android:layout_marginTop="361dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="137dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/add_capture_location" />
 
     <TextView
-        android:id="@+id/pokemon_name"
-        android:layout_width="288dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="603dp"
-        android:text="You have caught"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="66dp" />
-
-    <Button
-        android:id="@+id/add_photo_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="518dp"
-        android:text="Add a photo"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="121dp" />
-
-    <Button
-        android:id="@+id/add_location_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="417dp"
-        android:text="Add geolocation"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="300dp" />
-
-    <Button
-        android:id="@+id/add_pokemon_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="244dp"
-        android:text="Add"
-        tools:layout_editor_absoluteX="73dp"
-        tools:layout_editor_absoluteY="488dp" />
-
-    <Button
-        android:id="@+id/release_btn"
+        android:id="@+id/captured_pokemon_reveal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginBottom="243dp"
-        android:text="Release"
-        tools:layout_editor_absoluteX="275dp"
-        tools:layout_editor_absoluteY="488dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="121dp"
+        android:layout_marginTop="281dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="28dp"
+        android:text="It's:"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/captured_pokemon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="181dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginBottom="28dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold|italic" />
+
+    <ImageView
+        android:id="@+id/release_pokemon_button"
+        android:layout_width="wrap_content"
+        android:layout_height="86dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="257dp"
+        android:layout_marginTop="444dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="53dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/release_pokemon" />
+
+    <ImageView
+        android:id="@+id/capture_pokemon_button"
+        android:layout_width="wrap_content"
+        android:layout_height="78dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="447dp"
+        android:layout_marginEnd="251dp"
+        android:layout_marginBottom="54dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/capture_pokemon" />
 </RelativeLayout>
