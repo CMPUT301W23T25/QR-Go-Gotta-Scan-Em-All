@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
     // Declare method to switch to LoginActivity
@@ -63,7 +64,13 @@ public class LoginActivity extends AppCompatActivity {
             - If PhoneID is used, check the database to find the phoneID of the user
             */
             loginInfo = new LoginInfo(userName,this);
-            db.addPlayer(new Player(userName,loginInfo.getUserId()));
+
+            try {
+                db.addPlayer(new Player(userName, loginInfo.getUserId()));
+            } catch (Exception e){
+                Toast toast=Toast.makeText(getApplicationContext(),"No connection to Database", Toast.LENGTH_SHORT);
+            }
+
 
 
             // Pass this onto the MainActivity

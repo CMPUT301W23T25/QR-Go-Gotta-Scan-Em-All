@@ -41,6 +41,8 @@ public class Database {
     DatabaseReference pokemonRef;
 
     CollectionReference playerCol;
+
+    CollectionReference pokemonCol;
     /**
      * Initialize the Database
      */
@@ -52,9 +54,10 @@ public class Database {
         this.playersRef = dbRef.child("players");
         this.pokemonRef = dbRef.child("pokemon");
         this.playerCol = fireStore.collection("players");
+        this.pokemonCol = fireStore.collection("pokemon");
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) throws Exception{
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
         String ID = player.getUserId();
@@ -78,19 +81,20 @@ public class Database {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding player data", e);
+                        throw new RuntimeException("Failed to add player data to Firestore");
                     }
                 });
 
-        // Code with exception
+/*        // Code with exception
         // Set the data of the document with the playerMap
-/*        playerRef.set(playerMap)
+        docRef.set(playerMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Player data added successfully");
 
                         // Throw an exception if the task fails
-                        if (!playerRef.get().isSuccessful()) {
+                        if (!docRef.get().isSuccessful()) {
                             throw new RuntimeException("Failed to add player data to Firestore");
                         }
                     }
