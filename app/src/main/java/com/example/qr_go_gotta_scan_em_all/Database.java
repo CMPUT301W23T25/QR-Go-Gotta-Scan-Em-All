@@ -131,48 +131,7 @@ public class Database {
     public void getPokemon(String ID){
         // Add a pokemon to the database
     }
-
-    public boolean isPokemonExistInDB(Pokemon pokemon){
-        // Checks if the specific pokemon exists in the database
-        // If not, then the function will return false
-
-
-        return true;
-    }
-
-    public boolean isPlayerIDExist(String ID){
-        // Checks if the player ID already exists in database
-        // https://firebase.google.com/docs/firestore/query-data/queries
-
-        // TODO Make query handler class so the listeners are in one place.
-
-        final boolean[] checkExists = {false};
-
-
-        Query playerID = playerCol.whereEqualTo("id", ID);
-        ObjectInputStream.GetField query;
-        playerID.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                    if (!querySnapshot.isEmpty()) {
-                        Log.d(TAG, "Player with ID " + ID + " exists in the database");
-                        checkExists[0] = true;
-                    } else {
-                        Log.d(TAG, "Player with ID " + ID + " does not exist in the database");
-                        // Do something if the player does not exist
-                        checkExists[0] = false;
-                    }
-                } else {
-                    Log.d(TAG, "Error getting player documents", task.getException());
-                    // Handle the error case
-                }
-            }
-        });
-
-        return checkExists[0];
-    }
+    
 
     public FirebaseFirestore getFireStore() {
         return fireStore;
