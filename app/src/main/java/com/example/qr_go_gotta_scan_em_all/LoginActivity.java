@@ -1,22 +1,34 @@
 package com.example.qr_go_gotta_scan_em_all;
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.gms.common.util.ScopeUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     // Declare method to switch to LoginActivity
-    TextView userText;
-    String userName;
-    Intent intent;
-    ImageView loginButton;
+    private TextView userText;
+    private String userName;
+    private Intent intent;
+    private ImageView loginButton;
 
-    Database db;
+    private Database db;
+
+    private Intent networkFailed;
+
+    private boolean isRegistered = false;
 
 
 
@@ -25,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userText = findViewById(R.id.editTextTextPersonName);
-
+        networkFailed = new Intent(LoginActivity.this, ConnectionErrorActivity.class);
         loginButton = findViewById(R.id.enter_now_button);
         intent = new Intent(LoginActivity.this, MainActivity.class);
         db = new Database(this);
@@ -68,8 +80,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 db.addPlayer(new Player(userName, loginInfo.getUserId()));
             } catch (Exception e){
-                Toast toast=Toast.makeText(getApplicationContext(),"No connection to Database", Toast.LENGTH_SHORT);
+                switchToNetworkFail();
             }
+
+
 
 
 
@@ -86,6 +100,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void switchToMainActivity() {
         startActivity(intent);
+        finish();
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(networkFailed);
         finish();
     }
 

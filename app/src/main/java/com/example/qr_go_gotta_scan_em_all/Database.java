@@ -57,7 +57,7 @@ public class Database {
         this.pokemonCol = fireStore.collection("pokemon");
     }
 
-    public void addPlayer(Player player) throws Exception{
+    public void addPlayer(Player player) {
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
         String ID = player.getUserId();
@@ -174,11 +174,27 @@ public class Database {
         return checkExists[0];
     }
 
+    public FirebaseFirestore getFireStore() {
+        return fireStore;
+    }
 
+    public DatabaseReference getDbRef() {
+        return dbRef;
+    }
 
+    public DatabaseReference getPlayersRef() {
+        return playersRef;
+    }
 
+    public DatabaseReference getPokemonRef() {
+        return pokemonRef;
+    }
 
+    public CollectionReference getPlayerCol() {
+        return playerCol;
+    }
 
-
-
+    public CollectionReference getPokemonCol() {
+        return pokemonCol;
+    }
 }
