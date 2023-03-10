@@ -16,15 +16,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class PokemonAdd extends AppCompatActivity {
 
-    Button photo_btn;
-    Button add_location;
-    Button save_btn;
-    Button release_btn;
+    ImageView photo_btn;
+    ImageView add_location;
+    ImageView save_btn;
+    ImageView release_btn;
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap locationImgRaw;
     String pokemonCaught;
@@ -34,13 +35,13 @@ public class PokemonAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_add);
 
-        release_btn = findViewById(R.id.release_btn);
-        photo_btn = findViewById(R.id.add_photo_btn);
-        save_btn = findViewById(R.id.add_pokemon_btn);
-        add_location =findViewById(R.id.add_location_btn);
+        release_btn = findViewById(R.id.release_pokemon_button);
+        photo_btn = findViewById(R.id.add_photo_button);
+        save_btn = findViewById(R.id.capture_pokemon_button);
+        add_location =findViewById(R.id.add_location_button);
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
-        TextView title = findViewById(R.id.pokemon_name);
+        TextView title = findViewById(R.id.captured_pokemon_name);
         title.setText("You caught "+pokemonCaught);
 
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
