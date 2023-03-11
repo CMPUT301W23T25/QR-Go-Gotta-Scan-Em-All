@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
-
                         break;
                     case R.id.map:
                         // Do something for menu item 3
