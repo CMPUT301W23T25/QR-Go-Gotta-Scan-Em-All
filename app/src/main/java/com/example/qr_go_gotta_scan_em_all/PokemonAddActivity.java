@@ -4,28 +4,20 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 
-public class PokemonAdd extends AppCompatActivity {
+public class PokemonAddActivity extends AppCompatActivity {
 
     ImageView photo_btn;
     ImageView add_location;
@@ -79,7 +71,7 @@ public class PokemonAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //need to implement
-                Toast.makeText(PokemonAdd.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -87,14 +79,14 @@ public class PokemonAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save to db
-                Toast.makeText(PokemonAdd.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAddActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
         release_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PokemonAdd.this, "Pokemon released to the wild", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAddActivity.this, "Pokemon released to the wild", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
