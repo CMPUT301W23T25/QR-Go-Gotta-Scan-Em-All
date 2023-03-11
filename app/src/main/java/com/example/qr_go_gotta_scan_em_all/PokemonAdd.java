@@ -34,7 +34,7 @@ public class PokemonAdd extends AppCompatActivity {
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap locationImgRaw;
     String pokemonCaught;
-    OutputStream locationImgCompressed;
+    private byte[] locationImgCompressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +59,7 @@ public class PokemonAdd extends AppCompatActivity {
                     locationImgRaw = (Bitmap) bundleImage.get("data");
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    byte[] byteArray = stream.toByteArray();
-
-
-
+                    locationImgCompressed = stream.toByteArray();
                     // Convert the raw image into a JPEG so it doesn't take storage too much
 
                 }
@@ -97,8 +94,7 @@ public class PokemonAdd extends AppCompatActivity {
         release_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(PokemonAdd.this, "Pokemon released to the wilde", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAdd.this, "Pokemon released to the wild", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
