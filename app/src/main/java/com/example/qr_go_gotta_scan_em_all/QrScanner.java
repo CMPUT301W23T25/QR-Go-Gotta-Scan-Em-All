@@ -35,6 +35,9 @@ public class QrScanner extends AppCompatActivity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("PokemonCaught","back");
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -46,9 +49,10 @@ public class QrScanner extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(QrScanner.this,"You caught a pokemon" , Toast.LENGTH_SHORT).show();
-                        Intent switchPokemonAddIntent = new Intent(QrScanner.this, PokemonAdd.class);
-                        switchPokemonAddIntent.putExtra("PokemonCaught", result.getText());
-                        startActivity(switchPokemonAddIntent);
+                        //taking the pokemon Caught back to main activity
+                        Intent intent = new Intent();
+                        intent.putExtra("PokemonCaught",result.getText());
+                        setResult(RESULT_OK,intent);
                         finish();
                     }
                 });

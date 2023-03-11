@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/emailView_show"
+        android:id="@+id/totalScoreView_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark_grey"
@@ -18,10 +18,23 @@
         app:layout_constraintHorizontal_bias="0.377"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.728" />
+        app:layout_constraintVertical_bias="0.674" />
 
     <TextView
-        android:id="@+id/highscoreview_show"
+        android:id="@+id/highScoreView_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.377"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619" />
+
+    <TextView
+        android:id="@+id/emailView_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/dark_grey"
@@ -135,15 +148,15 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="162dp"
-        android:layout_height="146dp"
+        android:layout_width="135dp"
+        android:layout_height="127dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/border3"
         app:layout_constraintTop_toTopOf="@+id/border3"
         app:layout_constraintVertical_bias="0.172"
-        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1" />
+        app:srcCompat="@drawable/pokeball_closed" />
 
     <TextView
         android:id="@+id/textView3"

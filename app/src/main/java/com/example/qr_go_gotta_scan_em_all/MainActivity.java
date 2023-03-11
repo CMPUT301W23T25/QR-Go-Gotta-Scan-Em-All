@@ -2,6 +2,10 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -48,7 +52,24 @@ public class MainActivity extends AppCompatActivity {
     private boolean locationPermissionGranted=false;
 
     private boolean isRegistered = false;
-    
+
+    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            String pokemonCaught;
+            if (result != null && result.getResultCode()==RESULT_OK){
+                pokemonCaught = result.getData().getStringExtra("PokemonCaught");
+                Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
+                if (pokemonCaught != null){
+                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAdd.class);
+                    switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                    startActivity(switchToPokemonAdd);
+                }
+            }
+
+        }
+    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
-
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -157,9 +177,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(cameraPermissionGranted){
             Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
-            startActivity(switchScannerIntent);
-            //add other things
-            }
+            startQrScanner.launch(switchScannerIntent);
+        }
         else{
             Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
         }
@@ -167,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
     private void goToMap(){
 
         if(locationPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(switchScannerIntent);
+            Intent switchMapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(switchMapsIntent);
             //add other things
         }
         else{
