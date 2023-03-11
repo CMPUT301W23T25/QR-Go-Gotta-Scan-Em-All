@@ -8,14 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     // Declare method to switch to LoginActivity
@@ -77,14 +85,8 @@ public class LoginActivity extends AppCompatActivity {
             */
             loginInfo = new LoginInfo(userName,this);
 
-            try {
-                db.addPlayer(new Player(userName, loginInfo.getUserId()));
-            } catch (Exception e){
-                switchToNetworkFail();
-            }
 
-
-
+                addPlayer(loginInfo);
 
 
             // Pass this onto the MainActivity
@@ -111,6 +113,35 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isUserTaken(){
 
         return false;
+    }
+
+    private void addPlayer(LoginInfo login){
+        // Add the player to the database
+        // NOTE: A player object that has an ID and username must be passed into the database
+        String ID = login.getUserId();
+        HashMap<String, Object> playerMap = new HashMap<>();
+        playerMap.put("username",login.getUserName());
+        // order of hash map: {ID of Pokemon in Database:(The image, the Latitude and longitude)}
+        playerMap.put("pokemon_owned",new ArrayList<Map<String, Pair<Object,Object>>>());
+
+        // make sure the specific ID of the player is used
+        DocumentReference docRef = db.getPlayerCol().document(ID);
+
+        // Set the data of the document with the playerMap
+        docRef.set(playerMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Player data added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding player data", e);
+                        switchToNetworkFail();
+                    }
+                });
     }
 
 
