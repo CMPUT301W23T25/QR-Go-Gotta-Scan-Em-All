@@ -31,9 +31,9 @@
 
             android:background="@drawable/transparent_bg"
             app:itemIconTint="@color/col_sel"
+            app:itemRippleColor="@color/pokemon_red"
             app:itemTextColor="@color/pokemon_red"
-            app:menu="@menu/bottom_nav_bar"
-            app:itemRippleColor="@color/pokemon_red"/>
+            app:menu="@menu/bottom_nav_bar" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,7 +44,7 @@
         android:tintMode="multiply"
         app:backgroundTint="#FFFFFF"
         app:backgroundTintMode="add"
-        app:layout_anchor="@+id/btmAppBar"
+        app:layout_anchor="@id/btmAppBar"
         app:maxImageSize="80dp"
         app:rippleColor="#FFFFFF"
         app:tint="@color/pokemon_red" />
