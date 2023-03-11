@@ -93,8 +93,9 @@
         app:layout_constraintVertical_bias="0.452" />
 
     <SearchView
-        android:layout_width="103dp"
-        android:layout_height="45dp"
+        android:layout_width="213dp"
+        android:layout_height="51dp"
+        android:theme="@style/ThemeOverlay.Material3.DynamicColors.Dark"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
