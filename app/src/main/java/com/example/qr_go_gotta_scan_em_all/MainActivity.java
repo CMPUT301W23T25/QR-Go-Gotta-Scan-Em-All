@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
                 Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
                 if (pokemonCaught != null){
-                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAdd.class);
+                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
                     switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
                     startActivity(switchToPokemonAdd);
                 }
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void goToQrScanner(){
 
         if(cameraPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+            Intent switchScannerIntent = new Intent(MainActivity.this, QrScannerActivity.class);
             startQrScanner.launch(switchScannerIntent);
         }
         else{
