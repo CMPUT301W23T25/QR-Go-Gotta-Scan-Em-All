@@ -16,14 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Camera;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,8 +28,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.security.Permission;
 
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
@@ -169,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new profilePageFragment(player), null);
+        transaction.replace(R.id.container, new ProfilePageFragment(player), null);
         transaction.commit();
     }
 
