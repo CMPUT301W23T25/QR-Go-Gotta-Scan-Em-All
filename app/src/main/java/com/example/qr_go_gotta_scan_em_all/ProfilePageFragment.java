@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link profilePageFragment} factory method to
+ * Use the {@link ProfilePageFragment} factory method to
  * create an instance of this fragment.
  */
-public class profilePageFragment extends Fragment {
+public class ProfilePageFragment extends Fragment {
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -25,11 +25,11 @@ public class profilePageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private Player player;
 
-    public profilePageFragment() {
+    public ProfilePageFragment() {
         // Required empty public constructor
     }
 
-    public profilePageFragment(Player player) {
+    public ProfilePageFragment(Player player) {
         // Required empty public constructor
         this.player = player;
     }

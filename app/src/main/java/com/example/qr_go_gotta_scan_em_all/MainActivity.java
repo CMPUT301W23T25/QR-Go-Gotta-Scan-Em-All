@@ -37,10 +37,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
@@ -64,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
                 Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
                 if (pokemonCaught != null){
-                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAdd.class);
+                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
                     switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
                     startActivity(switchToPokemonAdd);
                 }
@@ -171,14 +167,14 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new profilePageFragment(player), null);
+        transaction.replace(R.id.container, new ProfilePageFragment(player), null);
         transaction.commit();
     }
 
     private void goToQrScanner(){
 
         if(cameraPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+            Intent switchScannerIntent = new Intent(MainActivity.this, QrScannerActivity.class);
             startQrScanner.launch(switchScannerIntent);
         }
         else{
