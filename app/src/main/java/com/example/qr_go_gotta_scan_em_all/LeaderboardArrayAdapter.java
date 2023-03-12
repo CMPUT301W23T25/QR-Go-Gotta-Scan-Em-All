@@ -23,7 +23,7 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
         if(convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.content,parent,false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_leaderboard_list, parent,false);
         } else {
             view = convertView;
         }

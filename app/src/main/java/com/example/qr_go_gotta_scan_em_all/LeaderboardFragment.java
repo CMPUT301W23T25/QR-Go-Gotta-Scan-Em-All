@@ -9,12 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.qr_go_gotta_scan_em_all.placeholder.PlaceholderContent;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -46,11 +44,11 @@ public class LeaderboardFragment extends Fragment {
 
         // TODO: Replace with data from Database
         ArrayList<Player> data = new ArrayList<>();
-        Map<String, String> mockPlayer1 = new Map<String, String>() {{
+        Map<String, String> mockPlayer1 = new HashMap<String, String>() {{
             put("username", "User1");
             put("totalScore", "10000");
         }};
-        Map<String, String> mockPlayer2 = new Map<String, String>() {{
+        Map<String, String> mockPlayer2 = new HashMap<String, String>() {{
             put("username", "User2");
             put("totalScore", "9000");
         }};
