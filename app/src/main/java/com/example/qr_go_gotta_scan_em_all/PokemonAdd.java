@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class PokemonAdd extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class PokemonAdd extends AppCompatActivity {
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
-        title.setText("You caught "+pokemonCaught);
+        title.setText("It's "+pokemonCaught);
 
         //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -79,6 +80,7 @@ public class PokemonAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //need to implement
+                //add this pokemon to class
                 Toast.makeText(PokemonAdd.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
             }
         });
