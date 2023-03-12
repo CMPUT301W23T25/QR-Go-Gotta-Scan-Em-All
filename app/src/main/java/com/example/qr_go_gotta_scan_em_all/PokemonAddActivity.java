@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class PokemonAddActivity extends AppCompatActivity {
 
@@ -40,7 +42,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
-        title.setText("You caught "+pokemonCaught);
+        title.setText("It's "+pokemonCaught);
 
         //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -63,7 +65,6 @@ public class PokemonAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLauncher.launch(cameraIntent);
-
             }
         });
 
@@ -71,6 +72,7 @@ public class PokemonAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //need to implement
+                //add this pokemon to class
                 Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
             }
         });
@@ -80,6 +82,11 @@ public class PokemonAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //save to db
                 Toast.makeText(PokemonAddActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("PokemonCaught", pokemonCaught);
+                intent.putExtra("photo", locationImgRaw);
+                intent.putExtra("location", (String) null);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
