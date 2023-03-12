@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +24,32 @@ public class OverviewFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
     // TODO: Rename and change types of parameters
-    private Player player;
-
+    private String mParam1;
+    private String mParam2;
+    private Pokemon pokemon;
     public OverviewFragment() {
         // Required empty public constructor
     }
 
-    public OverviewFragment(Player player) {
-        // Required empty public constructor
-        this.player = player;
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment OverviewFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public OverviewFragment (Pokemon pokemon){
+        this.pokemon =pokemon;
+    }
+    public static OverviewFragment newInstance(String param1, String param2) {
+        OverviewFragment fragment = new OverviewFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -47,6 +65,8 @@ public class OverviewFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.overview_page, container, false);
+
+
     }
 
     @Override
