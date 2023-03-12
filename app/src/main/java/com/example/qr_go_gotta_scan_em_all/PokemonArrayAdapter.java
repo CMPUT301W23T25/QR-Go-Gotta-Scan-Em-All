@@ -46,7 +46,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
 
         // Name
-        int hash = pokemon.getHash();
+        String hash = pokemon.getID();
         String visualReper = pokemon.visualReper();
         // Carbon
 
@@ -55,7 +55,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
         // Simple date format requires date object
 
-        pokemonNameTextView.setText("Name: "+Integer.toString(hash));
+        pokemonNameTextView.setText("Name: "+hash);
         hashTextView.setText("Visual: " + visualReper);
 
 
