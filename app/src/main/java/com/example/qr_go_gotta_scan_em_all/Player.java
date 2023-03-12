@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Player implements Serializable {
 
-    private ArrayList<Pokemon> PokemonArray;
+    private ArrayList<Pokemon> pokemonArray;
     private String userName;
     private String userId;
 
@@ -17,15 +17,17 @@ public class Player implements Serializable {
 
     private ArrayList<Player> friends;
 
+/*    private ArrayList<Map<Pokemon,Pair<Object,Object>>>pokemonImageLoc;*/
 
-    public Player(String userName, String userId, ArrayList<Pokemon> PokemonArray, Map<String,Integer> leaderboardStats,ArrayList<Player> friends) {
+    private String emailAddress;
 
-        // The login contains the unique ID of the player
-        this.userId = userId;
+    public Player(ArrayList<Pokemon> pokemonArray, String userName, String userId, Map<String, Integer> leaderboardStats, ArrayList<Player> friends, String emailAddress) {
+        this.pokemonArray = pokemonArray;
         this.userName = userName;
-        this.PokemonArray = PokemonArray;
+        this.userId = userId;
         this.leaderboardStats = leaderboardStats;
         this.friends = friends;
+        this.emailAddress = emailAddress;
     }
 
     public Player(String userName, String userId) {
@@ -33,16 +35,19 @@ public class Player implements Serializable {
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = userName;
-        this.PokemonArray = new ArrayList<Pokemon>();
+        this.pokemonArray = new ArrayList<Pokemon>();
         this.leaderboardStats = new HashMap<>();
         this.friends = new ArrayList<Player>();
+/*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
     }
 
 
     public Player() {
         this.userId = null;
         this.userName = null;
-        this.PokemonArray = null;
+        this.pokemonArray = new ArrayList<Pokemon>();
+        this.friends = null;
+/*        this.pokemonImageLoc = null;*/
     }
 
     public String getUserName() {
@@ -54,11 +59,11 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Pokemon> getPokemonArray(){
-        return new ArrayList<>(this.PokemonArray);
+        return new ArrayList<>(this.pokemonArray);
     }
 
     public void setPokemonArray(ArrayList<Pokemon> pokemonArray) {
-        PokemonArray = pokemonArray;
+        this.pokemonArray = pokemonArray;
     }
 
     public void setUserName(String userName) {
@@ -67,5 +72,9 @@ public class Player implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public void addPokemonToArray(Pokemon pokemon){
+        this.pokemonArray.add(pokemon);
     }
 }
