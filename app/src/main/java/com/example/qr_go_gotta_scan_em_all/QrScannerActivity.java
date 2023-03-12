@@ -1,15 +1,11 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,7 +15,7 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
 //referenced from https://github.com/yuriy-budiyev/code-scanner
-public class QrScanner extends AppCompatActivity {
+public class QrScannerActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
 
@@ -44,7 +40,7 @@ public class QrScanner extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QrScanner.this,"You caught a pokemon" , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QrScannerActivity.this,"You caught a pokemon" , Toast.LENGTH_SHORT).show();
                         //taking the pokemon Caught back to main activity
                         Intent intent = new Intent();
                         intent.putExtra("PokemonCaught",result.getText());

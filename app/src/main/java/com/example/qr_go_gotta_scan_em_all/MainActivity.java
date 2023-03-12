@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
                 Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
                 if (pokemonCaught != null){
-                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAdd.class);
+                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
                     switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
                     startPokemonAdd.launch(switchToPokemonAdd);
                 }
@@ -183,14 +182,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new profilePageFragment(player), null);
+        transaction.replace(R.id.container, new ProfilePageFragment(player), null);
         transaction.commit();
     }
 
     private void goToQrScanner(){
 
         if(cameraPermissionGranted){
-
             startQrScanner.launch(switchScannerIntent);
         }
         else{

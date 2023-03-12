@@ -41,10 +41,10 @@
             android:value="AIzaSyC8X83nPUZJgduop9jQ8Prqj9e69ZHPL-8" />
 
         <activity
-            android:name=".PokemonAdd"
+            android:name=".PokemonAddActivity"
             android:exported="false" />
         <activity
-            android:name=".QrScanner"
+            android:name=".QrScannerActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

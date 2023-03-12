@@ -49,7 +49,7 @@
         android:id="@+id/imageView"
         android:layout_width="162dp"
         android:layout_height="146dp"
-        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1"
+        app:srcCompat="@drawable/pokeball_closed"
         tools:layout_editor_absoluteX="124dp"
         tools:layout_editor_absoluteY="92dp" />
 

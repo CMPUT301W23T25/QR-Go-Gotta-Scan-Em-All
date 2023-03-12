@@ -47,13 +47,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="162dp"
-        android:layout_height="146dp"
+        android:layout_width="141dp"
+        android:layout_height="139dp"
         app:layout_constraintBottom_toBottomOf="@+id/border"
         app:layout_constraintEnd_toEndOf="@+id/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/border"
-        app:srcCompat="@drawable/png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1" />
+        app:srcCompat="@drawable/pokeball_closed" />
 
     <TextView
         android:id="@+id/textView"
