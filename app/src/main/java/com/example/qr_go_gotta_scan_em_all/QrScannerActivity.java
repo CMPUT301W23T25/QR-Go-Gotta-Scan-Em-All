@@ -31,9 +31,7 @@ public class QrScannerActivity extends AppCompatActivity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("PokemonCaught","back");
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
