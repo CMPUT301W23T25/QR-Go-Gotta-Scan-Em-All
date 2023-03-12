@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,24 +17,29 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Camera;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.Permission;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
@@ -45,13 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     Intent switchLoginIntent;
     FragmentManager fragmentManager;
-    LoginInfo login;
-
     Database db;
     private boolean cameraPermissionGranted =false;
     private boolean locationPermissionGranted=false;
 
-    private boolean isRegistered = false;
 
     ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -81,23 +84,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         // handle the login (i.e if the user is not registered)
-        if (checkNotRegistered()){
+
             // Go to the login activity
-            switchToLoginActivity();
+
             // Get the user
 
 
-        } else{
-            login = new LoginInfo(this);
-            player = new Player(login.getUserName(), login.getUserId());
-            System.out.println(login.getUserName());
-            btmNavView = findViewById(R.id.btmNavView);
-            pokeBall = findViewById(R.id.poke_ball);
-            fragmentManager = getSupportFragmentManager();
-            goToOverview();
-            handleNavBar();
-            handlePokeBall();
-        }
+
+        // load player from db
+        getPlayerData();
+        btmNavView = findViewById(R.id.btmNavView);
+        pokeBall = findViewById(R.id.poke_ball);
+        fragmentManager = getSupportFragmentManager();
+        goToOverview();
+        handleNavBar();
+        handlePokeBall();
+
     }
 
     private void handleNavBar(){
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, OverviewFragment.class, null);
+        transaction.replace(R.id.container, new OverviewFragment(player), null);
         transaction.commit();
     }
 
@@ -212,14 +214,17 @@ public class MainActivity extends AppCompatActivity {
             } else{return false;}
         } else {return true;}
     }
+/*
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
         isUserRegisteredQuery();
         return isRegistered;
     }
+*/
 
+/*
     private void isUserRegisteredQuery(){
-        db.getPlayerCol().document(new LoginInfo(this).getUserId())
+        db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -244,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+*/
 
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
@@ -253,5 +259,26 @@ public class MainActivity extends AppCompatActivity {
 
     public String getMyData() {
         return qrResult;
+    }
+
+    private void getPlayerData() {
+        Map<String,Object> playerMap = new HashMap<>();
+        PlayerIDGenerator login = new PlayerIDGenerator(this);
+        db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        player = new Player((String)document.get("username"), document.getId());
+                    } else {
+                        switchToLoginActivity();
+                    }
+                }else{
+                    switchToNetworkFail();
+                }
+            }
+        });
+
     }
 }

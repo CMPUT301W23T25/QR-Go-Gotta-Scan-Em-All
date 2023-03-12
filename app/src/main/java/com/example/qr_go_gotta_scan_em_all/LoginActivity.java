@@ -13,13 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.util.ScopeUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private Intent networkFailed;
 
-    private boolean isRegistered = false;
-
 
 
     @Override
@@ -47,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         userText = findViewById(R.id.editTextTextPersonName);
         networkFailed = new Intent(LoginActivity.this, ConnectionErrorActivity.class);
         loginButton = findViewById(R.id.enter_now_button);
-        intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
         db = new Database(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     // Create user session function
     private void createUserSession(){
         userName = userText.getText().toString();
-        LoginInfo loginInfo;
+        PlayerIDGenerator playerIDGenerator;
 
 
         // Firstly check the the database if the userName is taken or not.
@@ -83,14 +77,12 @@ public class LoginActivity extends AppCompatActivity {
             - Either use the PhoneID or generate a randomID through randomUUID
             - If PhoneID is used, check the database to find the phoneID of the user
             */
-            loginInfo = new LoginInfo(userName,this);
+            playerIDGenerator = new PlayerIDGenerator(this);
 
+            Player tempPlayer = new Player(userName,playerIDGenerator.getUserId());
 
-                addPlayer(loginInfo);
-
-
-            // Pass this onto the MainActivity
-            intent.putExtra("loginInfo", loginInfo);
+            // add the player to DB
+            addPlayer(tempPlayer);
 
             switchToMainActivity();
 
@@ -115,14 +107,16 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    private void addPlayer(LoginInfo login){
+    private void addPlayer(Player p){
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
-        String ID = login.getUserId();
+        String ID = p.getUserId();
         HashMap<String, Object> playerMap = new HashMap<>();
-        playerMap.put("username",login.getUserName());
-        // order of hash map: {ID of Pokemon in Database:(The image, the Latitude and longitude)}
-        playerMap.put("pokemon_owned",new ArrayList<Map<String, Pair<Object,Object>>>());
+        playerMap.put("username",p.getUserName());
+        playerMap.put("pokemon_owned",new ArrayList<String>());
+        playerMap.put("leaderboard_stats",new HashMap<String,String>());
+        playerMap.put("friends",new ArrayList<String>());
+
 
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPlayerCol().document(ID);
