@@ -17,6 +17,8 @@ import com.google.zxing.Result;
 //referenced from https://github.com/yuriy-budiyev/code-scanner
 public class QrScannerActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
+    private ImageView back_btn;
+
 
 
     @Override
@@ -25,11 +27,13 @@ public class QrScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qr_scanner);
         CodeScannerView scannerView = findViewById(R.id.qr_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
-        ImageView back_btn = findViewById(R.id.qr_scanner_back_btn);
+        back_btn = findViewById(R.id.qr_scanner_back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_CANCELED);
+                Intent intent = new Intent();
+                intent.putExtra("PokemonCaught","back");
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
