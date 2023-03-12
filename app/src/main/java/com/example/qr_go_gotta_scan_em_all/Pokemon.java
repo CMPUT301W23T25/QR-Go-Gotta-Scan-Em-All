@@ -15,28 +15,31 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Pokemon implements Serializable {
-    private String ID;
     private String name;
-
 
     // Implement later
     private Bitmap image;
 
     private String location;
 
-    private String hexHash;
+    private String ID;
+
 
 
     /** Constructor for making a new Pokemon when a QR code is scanned
      *
-     * @param Rawname (the Raw value of the QR code)
+     * @param rawName (the Raw value of the QR code)
      */
-    public Pokemon(String Rawname) {
-        this.ID = UUID.randomUUID().toString();
+    public Pokemon(String rawName) {
         this.image = null;
         this.location = null;
-        calculateHash(name);
+        this.ID = calculateHash(rawName);
     }
+
+    public String getName() {
+        return name;
+    }
+
 
     public String getID() {
         return ID;
@@ -44,10 +47,6 @@ public class Pokemon implements Serializable {
 
     public void setID(String ID) {
         this.ID = ID;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 
@@ -72,12 +71,9 @@ public class Pokemon implements Serializable {
      * @return the long of the score
 
      **/
-    public long returnScore(){
-
-
-        return 0;
+    public double getScore(){
+        return calculateScore();
     }
-
     public void setImage(Bitmap image) {
         this.image = image;
     }
@@ -86,10 +82,7 @@ public class Pokemon implements Serializable {
         this.location = location;
     }
 
-    public String getHash() {
-        return this.hexHash;
-    }
-    private void calculateHash(String name){
+    private String calculateHash(String name){
         // https://stackoverflow.com/questions/5531455/how-to-hash-some-string-with-sha-256-in-java
         MessageDigest digest = null;
         try {
@@ -98,7 +91,7 @@ public class Pokemon implements Serializable {
             throw new RuntimeException(e);
         }
         byte[] hash = digest.digest(name.getBytes(StandardCharsets.UTF_8));
-        this.hexHash = bytesToHex(hash);
+        return bytesToHex(hash);
     }
 
     private static String bytesToHex(byte[] bytes) {
@@ -114,13 +107,18 @@ public class Pokemon implements Serializable {
         return hexString.toString();
     }
 
-    private long calculateScore(){
+    private double calculateScore(){
+
+        System.out.println(ID);
         char previousChar = 'G';
         char c;
         String consecutiveChar = "";
-        long score = 0;
-        for (int i = 0; i < hexHash.length(); i++){
-            c = hexHash.charAt(i);
+        double score = 0;
+        for (int i = 0; i < ID.length(); i++){
+            c = ID.charAt(i);
+            if (i > 0){
+                previousChar = ID.charAt(i - 1);
+            }
             // Check if c is equal to the previous char if it is, then add it to the consecutiveChar
             if (c == previousChar){
                 consecutiveChar += c;
@@ -130,7 +128,7 @@ public class Pokemon implements Serializable {
                 if (!consecutiveChar.isEmpty()){
                     // calculate the score of the consecutive char
                     char x = consecutiveChar.charAt(0);
-                    Integer base = 0;
+                    int base = 0;
 
                     // if the character is 0 then convert it to 20
                     if (x == '0'){
@@ -138,7 +136,7 @@ public class Pokemon implements Serializable {
                     } else{
                         base = Integer.parseInt(String.valueOf(x),16);
                     }
-                    score += pow()
+                    score += pow(base,consecutiveChar.length());
 
                 }
                 consecutiveChar = "";
@@ -146,6 +144,7 @@ public class Pokemon implements Serializable {
 
 
         }
+        return score;
     }
 
 }

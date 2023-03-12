@@ -148,7 +148,7 @@ public class PokemonAddActivity extends AppCompatActivity {
         // NOTE: A player object that has an ID and username must be passed into the database
         String ID = p.getID();
         HashMap<String, Object> pokeMap = new HashMap<>();
-        pokeMap.put("hash",p.getHash());
+/*        pokeMap.put("ID",p.getID());*/
         
 
         // make sure the specific ID of the player is used

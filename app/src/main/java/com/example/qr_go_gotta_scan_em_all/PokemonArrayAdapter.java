@@ -46,7 +46,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
 
         // Name
-        String hash = pokemon.getHash();
+        String hash = pokemon.getID();
         String visualReper = pokemon.visualReper();
         // Carbon
 
