@@ -73,7 +73,7 @@ public class PokemonAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //need to implement
                 //add this pokemon to class
-                Toast.makeText(PokemonAdd.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,7 +81,7 @@ public class PokemonAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save to db
-                Toast.makeText(PokemonAdd.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PokemonAddActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 intent.putExtra("photo", locationImgRaw);

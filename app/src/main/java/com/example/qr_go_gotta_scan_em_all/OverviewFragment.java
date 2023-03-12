@@ -27,6 +27,7 @@ public class OverviewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Pokemon pokemon;
+    private Player player;
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -43,13 +44,9 @@ public class OverviewFragment extends Fragment {
     public OverviewFragment (Pokemon pokemon){
         this.pokemon =pokemon;
     }
-    public static OverviewFragment newInstance(String param1, String param2) {
-        OverviewFragment fragment = new OverviewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    public OverviewFragment (Player player){
+        this.player =player;
     }
 
     @Override

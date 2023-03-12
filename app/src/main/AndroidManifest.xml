@@ -38,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC8X83nPUZJgduop9jQ8Prqj9e69ZHPL-8" />
+            android:value="API-KEY" />
 
         <activity
             android:name=".PokemonAddActivity"
@@ -47,13 +47,13 @@
             android:name=".QrScannerActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

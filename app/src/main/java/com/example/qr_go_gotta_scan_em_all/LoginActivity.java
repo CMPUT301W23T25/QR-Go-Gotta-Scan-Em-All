@@ -12,10 +12,18 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private Intent networkFailed;
 
+    private Player player;
+
+    boolean isRegistered;
+
 
 
     @Override
@@ -44,15 +56,20 @@ public class LoginActivity extends AppCompatActivity {
         intent = new Intent(this, MainActivity.class);
         db = new Database(this);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Intent class will help to go to next activity using
-                // it's object named intent.
-                // SecondActivity is the name of new created EmptyActivity.
-                createUserSession();
-            }
-        });
+        getPlayerData();
+
+        if(!isRegistered){
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Intent class will help to go to next activity using
+                    // it's object named intent.
+                    // SecondActivity is the name of new created EmptyActivity.
+                    createUserSession();
+                }
+            });
+        }
 
     }
 
@@ -64,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Firstly check the the database if the userName is taken or not.
-        boolean isTaken = isUserTaken();
+        boolean isTaken = isUserNameTaken(userName);
 
         // - if it is taken then inform the user
         // - otherwise create login the user and add the entry to the database
@@ -79,15 +96,18 @@ public class LoginActivity extends AppCompatActivity {
             */
             playerIDGenerator = new PlayerIDGenerator(this);
 
-            Player tempPlayer = new Player(userName,playerIDGenerator.getUserId());
+            player = new Player(userName,playerIDGenerator.getUserId());
 
             // add the player to DB
-            addPlayer(tempPlayer);
+            addPlayer(player);
 
+            intent.putExtra("player",player);
             switchToMainActivity();
 
+
+
         } else{
-            // Warn the user about the username being taken through a toast
+            Toast.makeText(this, "Username is already taken", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -102,10 +122,6 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean isUserTaken(){
-
-        return false;
-    }
 
     private void addPlayer(Player p){
         // Add the player to the database
@@ -138,5 +154,57 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void getPlayerData() {
+        Map<String,Object> playerMap = new HashMap<>();
+        PlayerIDGenerator login = new PlayerIDGenerator(this);
+        db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        player = new Player((String)document.get("username"), document.getId());
+                        isRegistered = true;
+                        System.out.println("registered");
+                        intent.putExtra("player",player);
+                        switchToMainActivity();
+
+                    }else{
+                        System.out.println("tre");
+                        isRegistered = false;
+                    }
+
+                }else{
+                    switchToNetworkFail();
+                }
+            }
+        });
+
+    }
+
+    private boolean isUserNameTaken(String userName){
+        boolean[] userTaken = new boolean[1];
+        db.getPlayerCol().whereEqualTo("user_name",userName).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    // Error getting documents
+                    Log.w(TAG, "Error getting documents.", e);
+                    switchToNetworkFail();
+                    return;
+                }
+
+                if (queryDocumentSnapshots.isEmpty()) {
+                    // Document doesn't exist
+                    userTaken[0] = false;
+                } else {
+                    // Document exists
+                    userTaken[0] = true;
+                }
+            }
+        });
+
+        return userTaken[0];
+    }
 
 }
