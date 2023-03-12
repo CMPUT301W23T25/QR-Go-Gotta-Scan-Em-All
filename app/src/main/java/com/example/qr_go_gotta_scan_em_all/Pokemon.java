@@ -3,15 +3,15 @@ package com.example.qr_go_gotta_scan_em_all;
 import static java.lang.Math.pow;
 
 import android.graphics.Bitmap;
-import android.util.Pair;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Pokemon implements Serializable {
@@ -37,6 +37,10 @@ public class Pokemon implements Serializable {
     }
 
     public String getName() {
+
+
+
+
         return name;
     }
 
@@ -145,6 +149,29 @@ public class Pokemon implements Serializable {
 
         }
         return score;
+    }
+
+    private String hexToBinary(String hex) {
+        // https://stackoverflow.com/questions/8640803/convert-hex-string-to-binary-string
+        int i = Integer.parseInt(hex, 16);
+        String bin = Integer.toBinaryString(i);
+        return bin;
+    }
+
+    private String generateName(){
+        String binary = hexToBinary(this.ID);
+        List<List<String>> nameList = new ArrayList<List<String>>();
+        nameList.add(Arrays.asList("cool","hot"));
+        nameList.add(Arrays.asList("Fro","Glo"));
+        nameList.add(Arrays.asList("Mo","Lo"));
+        nameList.add(Arrays.asList("Spectral","Sonic"));
+        nameList.add(Arrays.asList("Crab","Shark"));
+
+        for (int i = 0; i < binary.length(); i++){
+            int c = (int)binary.charAt(i);
+
+        }
+
     }
 
 }
