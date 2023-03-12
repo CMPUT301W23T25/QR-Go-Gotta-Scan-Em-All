@@ -3,6 +3,7 @@ package com.example.qr_go_gotta_scan_em_all;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ public class OverviewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private Pokemon pokemon;
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -37,6 +38,9 @@ public class OverviewFragment extends Fragment {
      * @return A new instance of fragment OverviewFragment.
      */
     // TODO: Rename and change types and number of parameters
+    public OverviewFragment (Pokemon pokemon){
+        this.pokemon =pokemon;
+    }
     public static OverviewFragment newInstance(String param1, String param2) {
         OverviewFragment fragment = new OverviewFragment();
         Bundle args = new Bundle();
@@ -60,5 +64,7 @@ public class OverviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.overview_page, container, false);
+
+
     }
 }

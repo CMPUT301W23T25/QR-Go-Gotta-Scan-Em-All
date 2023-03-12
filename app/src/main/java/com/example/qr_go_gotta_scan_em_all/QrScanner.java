@@ -21,8 +21,6 @@ import com.google.zxing.Result;
 //referenced from https://github.com/yuriy-budiyev/code-scanner
 public class QrScanner extends AppCompatActivity {
     private CodeScanner mCodeScanner;
-    private ImageView back_btn;
-
 
 
     @Override
@@ -31,7 +29,7 @@ public class QrScanner extends AppCompatActivity {
         setContentView(R.layout.activity_qr_scanner);
         CodeScannerView scannerView = findViewById(R.id.qr_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
-        back_btn = findViewById(R.id.qr_scanner_back_btn);
+        ImageView back_btn = findViewById(R.id.qr_scanner_back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

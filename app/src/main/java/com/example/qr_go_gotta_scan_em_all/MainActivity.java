@@ -17,6 +17,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Camera;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.io.Serializable;
 import java.security.Permission;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean locationPermissionGranted=false;
 
     private boolean isRegistered = false;
+    private Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
 
     ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -63,13 +66,24 @@ public class MainActivity extends AppCompatActivity {
                 if (pokemonCaught != null){
                     Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAdd.class);
                     switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
-                    startActivity(switchToPokemonAdd);
+                    startPokemonAdd.launch(switchToPokemonAdd);
                 }
             }
 
         }
     });
 
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result != null && result.getResultCode()==RESULT_OK){
+                String addedPokemonName = result.getData().getStringExtra("PokemonCaught");
+                Serializable userPhoto = result.getData().getSerializableExtra("photo");
+                Serializable location =result.getData().getSerializableExtra("location");
+
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private void goToQrScanner(){
 
         if(cameraPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
+
             startQrScanner.launch(switchScannerIntent);
         }
         else{

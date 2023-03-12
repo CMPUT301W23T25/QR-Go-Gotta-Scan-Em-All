@@ -72,7 +72,6 @@ public class PokemonAdd extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLauncher.launch(cameraIntent);
-
             }
         });
 
@@ -90,6 +89,11 @@ public class PokemonAdd extends AppCompatActivity {
             public void onClick(View v) {
                 //save to db
                 Toast.makeText(PokemonAdd.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("PokemonCaught", pokemonCaught);
+                intent.putExtra("photo", locationImgRaw);
+                intent.putExtra("location", (String) null);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
