@@ -38,22 +38,22 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="API-KEY" />
 
         <activity
-            android:name=".PokemonAdd"
+            android:name=".PokemonAddActivity"
             android:exported="false" />
         <activity
-            android:name=".QrScanner"
+            android:name=".QrScannerActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
