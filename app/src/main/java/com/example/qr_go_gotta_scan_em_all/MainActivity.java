@@ -65,26 +65,24 @@ public class MainActivity extends AppCompatActivity {
             String pokemonCaught;
             if (result != null && result.getResultCode() == RESULT_OK) {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
-                Serializable pkRaw = result.getData().getSerializableExtra("pokemon");
-                System.out.println(pkRaw);
-//                if (pkRaw != null){
-//                    Pokemon pk = (Pokemon)pkRaw;
-//                    player.addPokemonToArray(pk);
-//                    System.out.println("NICEEEEE");
-//                }
-
-
-                Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
-                if (pokemonCaught != null) {
-                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
-                    switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
-                    startActivity(switchToPokemonAdd);
+                Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
+                switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                startPokemonAdd.launch(switchToPokemonAdd);
                 }
             }
 
-        }
     });
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            Pokemon pokemonAdded;
+            if (result != null && result.getResultCode() == RESULT_OK) {
+                pokemonAdded = result.getData().getParcelableExtra("pokemon");
 
+            }
+        }
+
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

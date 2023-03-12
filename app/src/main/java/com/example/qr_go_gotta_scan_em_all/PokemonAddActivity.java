@@ -113,15 +113,12 @@ public class PokemonAddActivity extends AppCompatActivity {
                 }
 
                 intent.putExtra("pokemon",pokemon);
-   /*             intent.putExtra("photo", locationImgRaw);
-                intent.putExtra("location", (String) null);*/
-/*                intent.putExtra("pokemon",new Pokemon(pokemonCaught,locationImgRaw,(String)null));*/
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
                 // Also add the Image in the Images collection, assign the Pokemon field to the ID of the pokemon, the
                 // player field to the id of the player, and the visual field to the bytearray of the image.
                 // The key of the image besides the ID will be the player ID and the Pokemon ID.
-   /*             setResult(RESULT_OK,intent);*/
+                setResult(RESULT_OK,intent);
 
                 finish();
             }
@@ -151,7 +148,7 @@ public class PokemonAddActivity extends AppCompatActivity {
         // NOTE: A player object that has an ID and username must be passed into the database
         String ID = p.getID();
         HashMap<String, Object> pokeMap = new HashMap<>();
-        pokeMap.put("hash",p.getHash());
+/*        pokeMap.put("ID",p.getID());*/
         
 
         // make sure the specific ID of the player is used
