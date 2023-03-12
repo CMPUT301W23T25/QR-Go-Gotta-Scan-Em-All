@@ -37,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,12 +57,23 @@ public class MainActivity extends AppCompatActivity {
     private boolean locationPermissionGranted = false;
 
 
+
+
     ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             String pokemonCaught;
             if (result != null && result.getResultCode() == RESULT_OK) {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
+                Serializable pkRaw = result.getData().getSerializableExtra("pokemon");
+                System.out.println(pkRaw);
+//                if (pkRaw != null){
+//                    Pokemon pk = (Pokemon)pkRaw;
+//                    player.addPokemonToArray(pk);
+//                    System.out.println("NICEEEEE");
+//                }
+
+
                 Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
                 if (pokemonCaught != null) {
                     Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
@@ -72,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +106,17 @@ public class MainActivity extends AppCompatActivity {
         goToOverview();
         handleNavBar();
         handlePokeBall();
+
+        player.addPokemonToArray(new Pokemon("test1"));
+
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        System.out.println("UNPAUSED");
+        checkIfPokemonAdded();
 
     }
 
@@ -131,6 +155,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void checkIfPokemonAdded(){
+        System.out.println(getIntent());
+        Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
+        System.out.println(pkRaw);
+        if (pkRaw != null){
+            Pokemon pk = (Pokemon)pkRaw;
+            player.addPokemonToArray(pk);
+            System.out.println("NICEEEEE");
+        }
+
     }
 
     private void handlePokeBall() {

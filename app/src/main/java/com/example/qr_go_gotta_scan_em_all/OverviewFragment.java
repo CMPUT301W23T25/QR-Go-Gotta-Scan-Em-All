@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OverviewFragment#newInstance} factory method to
+ * Use the {@link OverviewFragment} factory method to
  * create an instance of this fragment.
  */
 public class OverviewFragment extends Fragment {
@@ -26,8 +30,10 @@ public class OverviewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Pokemon pokemon;
+    private PokemonArrayAdapter pokemonArrayAdapter;
+
     private Player player;
+    private ListView lW;
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -36,17 +42,15 @@ public class OverviewFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment OverviewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public OverviewFragment (Pokemon pokemon){
-        this.pokemon =pokemon;
-    }
+
 
     public OverviewFragment (Player player){
         this.player =player;
+
+
     }
 
     @Override
@@ -69,10 +73,14 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameVal = view.findViewById(R.id.usernameView_show);
+        lW = view.findViewById(R.id.list_view);
 
         try{
             System.out.println(player.getUserName());
             usernameVal.setText(player.getUserName());
+            pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
+            lW.setAdapter(pokemonArrayAdapter);
+            pokemonArrayAdapter.notifyDataSetChanged();
         }catch (NullPointerException e){
             System.out.println("loading db");
         }

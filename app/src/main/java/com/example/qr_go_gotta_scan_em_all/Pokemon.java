@@ -3,32 +3,54 @@ package com.example.qr_go_gotta_scan_em_all;
 import android.graphics.Bitmap;
 import android.util.Pair;
 
-public class Pokemon {
+import java.io.Serializable;
+import java.util.UUID;
+
+public class Pokemon implements Serializable {
     private String ID;
     private String name;
-    private String hash;
+
 
     // Implement later
     private Bitmap image;
 
-    private Pair<Float,Float> location;
+    private String location;
 
-    public Pokemon(String ID, String name, String hash) {
+    private int hash = 7;
+
+
+    public Pokemon(String ID, String name, Bitmap image, String location) {
         this.ID = ID;
         this.name = name;
-        this.hash = hash;
+        this.image = image;
+        this.location = location;
+    }
+
+    public Pokemon(String name, Bitmap image, String location) {
+        this.ID = UUID.randomUUID().toString();
+        this.image = image;
+        this.location = location;
+
+
+        for (int i = 0; i < name.length(); i++) {
+            hash = hash*31 + name.charAt(i);
+        }
+    }
+
+
+    public Pokemon(String name) {
+        this.ID = UUID.randomUUID().toString();
+        this.image = null;
+        this.location = null;
+
+
+        for (int i = 0; i < name.length(); i++) {
+            hash = hash*31 + name.charAt(i);
+        }
     }
 
     public String getID() {
         return ID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getHash() {
-        return hash;
     }
 
     public void setID(String ID) {
@@ -39,13 +61,34 @@ public class Pokemon {
         this.name = name;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 
     public String visualReper(){
         String visual = "";
 
         return visual;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int returnScore(){
+        return 0;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getHash() {
+        return hash;
     }
 }
