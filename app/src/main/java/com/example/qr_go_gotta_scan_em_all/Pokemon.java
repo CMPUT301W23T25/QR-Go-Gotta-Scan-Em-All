@@ -5,6 +5,7 @@ import static java.lang.Math.pow;
 import android.graphics.Bitmap;
 import android.util.Pair;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,7 @@ public class Pokemon implements Serializable {
     // Implement later
     private Bitmap image;
 
-
+    private byte[] imageByteArray;
     private double locationLat;
 
     private double locationLong;
@@ -271,6 +272,12 @@ public class Pokemon implements Serializable {
 
         }
         return name;
+    }
+
+    private byte[] compressImage(Bitmap img){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        return stream.toByteArray();
     }
 
 }
