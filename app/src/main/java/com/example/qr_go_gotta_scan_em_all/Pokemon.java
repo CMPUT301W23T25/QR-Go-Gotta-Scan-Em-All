@@ -35,6 +35,16 @@ public class Pokemon implements Serializable {
         this.ID = calculateHash(rawName);
     }
 
+    public Pokemon() {
+        this.image = null;
+        this.location = null;
+        this.ID = null;
+    }
+
+    public void initHash(String rawName){
+        this.ID = calculateHash(rawName);
+    }
+
     public String getName() {
 
         return generateName();

@@ -100,16 +100,18 @@ public class PokemonAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //save to db
                 Toast.makeText(PokemonAddActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PokemonAddActivity.this,MainActivity.class);
+                Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 Pokemon pokemon = new Pokemon(pokemonCaught);
+                System.out.println("POKEMON NULL TEST");
+                System.out.println(pokemon);
                 if (photoAdded){
                     // NOTE: Null is temporary
-                    pokemon.setLocation(null);
-                }
 
-                if (locationAdded){
                     pokemon.setImage(locationImgRaw);
+                }
+                if (locationAdded){
+                    pokemon.setLocation(null);
                 }
 
                 intent.putExtra("pokemon",pokemon);
