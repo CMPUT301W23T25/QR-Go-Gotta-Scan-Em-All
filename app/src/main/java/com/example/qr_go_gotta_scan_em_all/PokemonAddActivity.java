@@ -58,8 +58,8 @@ public class PokemonAddActivity extends AppCompatActivity {
     private boolean locationPermissionGranted;
     Database db;
     FusedLocationProviderClient fusedLocationProviderClient;
-    private Double longitude;
-    private Double lattitude;
+    private double longitude;
+    private double lattitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +109,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                 if (locationPermissionGranted) {
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
-                    AddLocation();
                     locationAdded = true;
+                    AddLocation();
                 } else {
                     locationAdded = false;
                 }
@@ -131,7 +131,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pokemon.setImage(locationImgRaw);
                 }
                 if (locationAdded) {
-                    pokemon.setLocation(null);
+                    pokemon.setLocation(lattitude,longitude);
                 }
 
                 intent.putExtra("pokemon", pokemon);
