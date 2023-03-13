@@ -107,9 +107,9 @@ public class PokemonAddActivity extends AppCompatActivity {
                 //add this pokemon to class
                 locationPermissionGranted = checkLocationPermission();
                 if (locationPermissionGranted) {
-                    AddLocation();
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
+                    AddLocation();
                     locationAdded = true;
                 } else {
                     locationAdded = false;
@@ -126,11 +126,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 Pokemon pokemon = new Pokemon(pokemonCaught);
-                System.out.println("POKEMON NULL TEST");
-                System.out.println(pokemon);
                 if (photoAdded) {
                     // NOTE: Null is temporary
-
                     pokemon.setImage(locationImgRaw);
                 }
                 if (locationAdded) {
@@ -210,21 +207,61 @@ public class PokemonAddActivity extends AppCompatActivity {
         }
     }
     //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
-    @SuppressLint("MissingPermission")
-    private void AddLocation() {fusedLocationProviderClient.getLastLocation().
-            addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        lattitude = addresses.get(0).getLatitude();
-                        longitude = addresses.get(0).getLongitude();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
+    private void AddLocation(){
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null){
+                                try {
+                                    Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
+                                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                    lattitude= addresses.get(0).getLatitude();
+                                    longitude= addresses.get(0).getLongitude();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
+                        }
+                    });
+
+
+        }else {
+
+            askPermission();
+
+
+        }
+
+
+    }
+
+    private void askPermission() {
+
+        ActivityCompat.requestPermissions(PokemonAddActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+
+        if (requestCode == 100){
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                AddLocation();
+            }else {
+
+                Toast.makeText(PokemonAddActivity.this,"Please provide the required permission",Toast.LENGTH_SHORT).show();
+
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
