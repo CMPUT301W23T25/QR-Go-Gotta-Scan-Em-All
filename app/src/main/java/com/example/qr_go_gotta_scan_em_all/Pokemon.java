@@ -91,20 +91,20 @@ public class Pokemon implements Serializable {
     public String visualReper(){
         String binary = hexToBinary(this.ID);
         List<List<String>> nameList = new ArrayList<List<String>>();
-        nameList.add(Arrays.asList("/\\   /\\","/    \\"));
+        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
         nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
-        nameList.add(Arrays.asList("@|  ||  |@","|  ||  |"));
+        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
         nameList.add(Arrays.asList("| ,`` ,|","|      |"));
-        nameList.add(Arrays.asList("| `--` |"," | /--\\ |"));
-        nameList.add(Arrays.asList("|______|","\\____/"));
+        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
+        nameList.add(Arrays.asList("|______|","\\______/"));
 
         String name = "";
         for (int i = 0; i < nameList.size(); i++){
             String temp = "";
             char c = binary.charAt(i);
-            temp+=c +"\n";
+            temp+=c ;
             int index = Integer.parseInt(temp);
-            name += nameList.get(i).get(index);
+            name += nameList.get(i).get(index) +"\n";
 
         }
         return name;
