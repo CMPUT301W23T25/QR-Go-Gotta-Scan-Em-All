@@ -24,7 +24,10 @@ public class Pokemon implements Serializable {
     // Implement later
     private Bitmap image;
 
-    private Pair<Double,Double> location;
+
+    private double locationLat;
+
+    private double locationLong;
 
     private String ID;
 
@@ -36,18 +39,19 @@ public class Pokemon implements Serializable {
      */
     public Pokemon(String rawName) {
         this.image = null;
-        this.location = null;
         this.ID = calculateHash(rawName);
-        this.location = null;
+        this.locationLong = 0.0;
+        this.locationLat = 0.0;
     }
     /**
      * Constructor for creating an empty Pokemon object.
      */
     public Pokemon() {
         this.image = null;
-        this.location = null;
         this.ID = null;
-        this.location = null;
+        this.locationLong = 0.0;
+        this.locationLat = 0.0;
+
     }
     /**
      * Initializes the Pokemon's ID using a given raw name.
@@ -101,7 +105,7 @@ public class Pokemon implements Serializable {
      * @return The location of the Pokemon.
      */
     public Pair<Double,Double> getLocation() {
-        return location;
+        return new Pair<Double,Double>(this.locationLat,this.locationLong);
     }
 
     /** Simple Scoring function that calculates the score based on the number of characters.
@@ -124,10 +128,12 @@ public class Pokemon implements Serializable {
 
     /**
      * Sets the location of the Pokemon to a given value.
-     * @param location The new location of the Pokemon.
+     * @param lat double of latitude
+     *  @param lon double of longitude
      */
-    public void setLocation(Pair<Double,Double> location) {
-        this.location = location;
+    public void setLocation(double lat, double lon) {
+        this.locationLong = lat;
+        this.locationLat = lon;
     }
 
     /**

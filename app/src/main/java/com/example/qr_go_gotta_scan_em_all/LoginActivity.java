@@ -29,6 +29,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+
+ The LoginActivity class represents the login screen of the app where the user can create a new session or continue an existing one.
+ The user can login by entering a username that will be saved in the database.
+ */
 public class LoginActivity extends AppCompatActivity {
     // Declare method to switch to LoginActivity
     private TextView userText;
@@ -45,7 +50,10 @@ public class LoginActivity extends AppCompatActivity {
     boolean isRegistered;
 
 
-
+    /**
+     * Called when the activity is starting. This is where most initialization of the activity should go.
+     * @param savedInstanceState the Bundle containing the activity's previously saved state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +82,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    // Create user session function
+
+    /**
+     * Creates a new session for the user. The user enters their username and a new Player object is created and added to the database.
+     * If the username is already taken, the user is informed and no new session is created.
+     */
     private void createUserSession(){
         userName = userText.getText().toString();
         PlayerIDGenerator playerIDGenerator;
@@ -112,17 +124,29 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+
+     Starts MainActivity and finishes the current activity.
+     */
     private void switchToMainActivity() {
         startActivity(intent);
         finish();
     }
 
+    /**
+
+     Starts the NetworkFailActivity and finishes the current activity.
+     */
     private void switchToNetworkFail() {
         startActivity(networkFailed);
         finish();
     }
 
+    /**
 
+     Adds a player to the database with the given player object.
+     @param p The Player object to be added to the database.
+     */
     private void addPlayer(Player p){
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
@@ -153,7 +177,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    /**
 
+     Retrieves player data from the database and sets the player object and registration status accordingly.
+     */
     private void getPlayerData() {
         Map<String,Object> playerMap = new HashMap<>();
         PlayerIDGenerator login = new PlayerIDGenerator(this);
@@ -182,6 +209,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+
+     Checks whether a given username is already taken by another player in the database.
+     @param userName The username to check.
+     @return True if the username is already taken, false otherwise.
+     */
     private boolean isUserNameTaken(String userName){
         boolean[] userTaken = new boolean[1];
         db.getPlayerCol().whereEqualTo("user_name",userName).addSnapshotListener(new EventListener<QuerySnapshot>() {

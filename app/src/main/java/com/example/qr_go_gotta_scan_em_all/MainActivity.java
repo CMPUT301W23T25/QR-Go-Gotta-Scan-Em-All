@@ -43,6 +43,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+
+ MainActivity serves as the main activity of the app. It is responsible for controlling the overall behavior of the app, such as switching between fragments and handling events.
+ */
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
@@ -59,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    /**
+     * ActivityResultLauncher used for starting the QR scanner
+     */
     ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
