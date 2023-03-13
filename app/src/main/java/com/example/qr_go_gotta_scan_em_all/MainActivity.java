@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -77,10 +76,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
             Pokemon pokemonAdded;
-            if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
-                player.addPokemonToArray(pokemonAdded);
-                goToOverview();
+            if (result != null && result.getResultCode() == RESULT_OK) {
+                pokemonAdded = result.getData().getParcelableExtra("pokemon");
 
             }
         }
@@ -116,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-
+        System.out.println("UNPAUSED");
+        checkIfPokemonAdded();
 
     }
 

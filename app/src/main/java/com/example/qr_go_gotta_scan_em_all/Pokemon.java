@@ -38,25 +38,6 @@ public class Pokemon implements Serializable {
         this.location = null;
         this.ID = calculateHash(rawName);
     }
-    /**
-     * Constructor for creating an empty Pokemon object.
-     */
-    public Pokemon() {
-        this.image = null;
-        this.location = null;
-        this.ID = null;
-    }
-    /**
-     * Initializes the Pokemon's ID using a given raw name.
-     * @param rawName The raw name to be hashed to generate the ID.
-     */
-    public void initHash(String rawName){
-        this.ID = calculateHash(rawName);
-    }
-    /**
-     * Returns the generated name of the Pokemon based on its ID.
-     * @return The name of the Pokemon.
-     */
     public String getName() {
 
         return generateName();
