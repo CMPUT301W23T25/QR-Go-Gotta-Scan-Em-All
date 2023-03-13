@@ -33,21 +33,21 @@ import java.util.Locale;
 
 public class PokemonAddActivity extends AppCompatActivity {
 
-    ImageView photo_btn;
-    ImageView add_location;
-    ImageView save_btn;
-    ImageView release_btn;
-    ActivityResultLauncher<Intent> activityResultLauncher;
-    Bitmap locationImgRaw;
-    String pokemonCaught;
-    private byte[] locationImgCompressed;
+    private ImageView photo_btn;
+    private ImageView add_location;
+    private ImageView save_btn;
+    private ImageView release_btn;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private Bitmap locationImgRaw;
+    private String pokemonCaught;
+//    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
 
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
-    Database db;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private Database db;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private double longitude;
     private double latitude;
 
@@ -73,8 +73,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                     Bundle bundleImage = result.getData().getExtras();
                     locationImgRaw = (Bitmap) bundleImage.get("data");
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    locationImgCompressed = stream.toByteArray();
+//                    locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+//                    locationImgCompressed = stream.toByteArray();
                     // Convert the raw image into a JPEG so it doesn't take storage too much
 
                 }

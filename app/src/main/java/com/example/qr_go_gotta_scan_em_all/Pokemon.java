@@ -5,6 +5,7 @@ import static java.lang.Math.pow;
 import android.graphics.Bitmap;
 import android.util.Pair;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -22,9 +23,8 @@ import java.util.List;
  */
 public class Pokemon implements Serializable {
     // Implement later
-    private Bitmap image;
 
-
+    private byte[] imageByteArray;
     private double locationLat;
 
     private double locationLong;
@@ -38,20 +38,19 @@ public class Pokemon implements Serializable {
      * @param rawName (the Raw value of the QR code)
      */
     public Pokemon(String rawName) {
-        this.image = null;
         this.ID = calculateHash(rawName);
         this.locationLong = 0.0;
         this.locationLat = 0.0;
+        this.imageByteArray = null;
     }
     /**
      * Constructor for creating an empty Pokemon object.
      */
     public Pokemon() {
-        this.image = null;
         this.ID = null;
         this.locationLong = 0.0;
         this.locationLat = 0.0;
-
+        this.imageByteArray = null;
     }
     /**
      * Initializes the Pokemon's ID using a given raw name.
@@ -111,11 +110,10 @@ public class Pokemon implements Serializable {
     }
 
     /**
-     * Returns the image of the Pokemon.
-     * @return The image of the Pokemon.
+     * @return The byte of the Pokemon location image.
      */
-    public Bitmap getImage() {
-        return image;
+    public byte[] getImageByteArray() {
+        return this.imageByteArray;
     }
     /**
      * Returns the location of the Pokemon.
@@ -140,7 +138,7 @@ public class Pokemon implements Serializable {
      * @param image The new image of the Pokemon.
      */
     public void setImage(Bitmap image) {
-        this.image = image;
+        this.imageByteArray = compressImage(image);
     }
 
     /**
@@ -271,6 +269,12 @@ public class Pokemon implements Serializable {
 
         }
         return name;
+    }
+
+    private byte[] compressImage(Bitmap img){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        return stream.toByteArray();
     }
 
 }
