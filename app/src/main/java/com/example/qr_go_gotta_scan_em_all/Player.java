@@ -13,12 +13,7 @@ public class Player implements Serializable {
     private String userName;
     private String userId;
 
-    // example leaderboardStats:
-    // {
-    //      "username": "User1",
-    //      "totalScore": "10000",
-    // }
-    private Map<String, String> leaderboardStats;
+    private Map<String,Integer> leaderboardStats;
 
     private ArrayList<Player> friends;
 
@@ -26,7 +21,7 @@ public class Player implements Serializable {
 
     private String emailAddress;
 
-    public Player(ArrayList<Pokemon> pokemonArray, String userName, String userId, Map<String, String> leaderboardStats, ArrayList<Player> friends, String emailAddress) {
+    public Player(ArrayList<Pokemon> pokemonArray, String userName, String userId, Map<String, Integer> leaderboardStats, ArrayList<Player> friends, String emailAddress) {
         this.pokemonArray = pokemonArray;
         this.userName = userName;
         this.userId = userId;
@@ -81,9 +76,5 @@ public class Player implements Serializable {
 
     public void addPokemonToArray(Pokemon pokemon){
         this.pokemonArray.add(pokemon);
-    }
-
-    public Map<String, String> getLeaderboardStats() {
-        return leaderboardStats;
     }
 }

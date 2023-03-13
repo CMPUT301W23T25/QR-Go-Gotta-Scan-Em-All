@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
-                        goToLeaderboard();
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -187,15 +186,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Replace whatever is in the fragment_container view with this fragment
         transaction.replace(R.id.container, new OverviewFragment(player), null);
-        transaction.commit();
-    }
-
-    private void goToLeaderboard() {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setReorderingAllowed(true);
-
-        // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new LeaderboardFragment(), null);
         transaction.commit();
     }
 
