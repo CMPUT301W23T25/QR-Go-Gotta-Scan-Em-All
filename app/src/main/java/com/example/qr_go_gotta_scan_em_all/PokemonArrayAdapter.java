@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.BreakIterator;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         TextView pokemonNameTextView = view.findViewById(R.id.pokemon_name);
 //        TextView hashTextView = view.findViewById(R.id.visual_reper);
         TextView scoreView = view.findViewById(R.id.score);
+        TextView locationView = view.findViewById(R.id.location);
 
 
         // Name
@@ -78,6 +80,12 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
         pokemonNameTextView.setText("Name: "+name);
         scoreView.setText("Score: " + Double.toString(pokemon.getScore()));
+
+        if (pokemon.getLocation() != null){
+            locationView.setText("Location: " + "(" + Double.toString(pokemon.getLocation().first) +"," + Double.toString(pokemon.getLocation().second) +")");
+        } else{
+            locationView.setText("Location: Not added");
+        }
 
         return view;
     }
