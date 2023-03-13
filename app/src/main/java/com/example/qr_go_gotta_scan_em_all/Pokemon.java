@@ -3,20 +3,19 @@ package com.example.qr_go_gotta_scan_em_all;
 import static java.lang.Math.pow;
 
 import android.graphics.Bitmap;
-import android.util.Pair;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Pokemon implements Serializable {
-    private String name;
-
     // Implement later
     private Bitmap image;
 
@@ -37,7 +36,8 @@ public class Pokemon implements Serializable {
     }
 
     public String getName() {
-        return name;
+
+        return generateName();
     }
 
 
@@ -145,6 +145,33 @@ public class Pokemon implements Serializable {
 
         }
         return score;
+    }
+
+    private String hexToBinary(String hex) {
+        BigInteger i = new BigInteger(hex, 16);
+        String bin = i.toString(2);
+        return bin;
+    }
+
+    private String generateName(){
+        String binary = hexToBinary(this.ID);
+        List<List<String>> nameList = new ArrayList<List<String>>();
+        nameList.add(Arrays.asList("cool","hot"));
+        nameList.add(Arrays.asList("Fro","Glo"));
+        nameList.add(Arrays.asList("Mo","Lo"));
+        nameList.add(Arrays.asList("Spectral","Sonic"));
+        nameList.add(Arrays.asList("Crab","Shark"));
+
+        String name = "";
+        for (int i = 0; i < nameList.size(); i++){
+            String temp = "";
+            char c = binary.charAt(i);
+            temp+=c;
+            int index = Integer.parseInt(temp);
+            name += nameList.get(i).get(index);
+
+        }
+        return name;
     }
 
 }
