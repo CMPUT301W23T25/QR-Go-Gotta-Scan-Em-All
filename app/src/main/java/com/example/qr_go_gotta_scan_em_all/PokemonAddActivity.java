@@ -8,17 +8,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -39,8 +29,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 public class PokemonAddActivity extends AppCompatActivity {
 
@@ -56,11 +44,8 @@ public class PokemonAddActivity extends AppCompatActivity {
     boolean locationAdded = false;
 
     boolean photoAdded = false;
-    private boolean locationPermissionGranted;
+
     Database db;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    private Double longitude;
-    private Double lattitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +55,17 @@ public class PokemonAddActivity extends AppCompatActivity {
         release_btn = findViewById(R.id.release_pokemon_button);
         photo_btn = findViewById(R.id.add_photo_button);
         save_btn = findViewById(R.id.capture_pokemon_button);
-        add_location = findViewById(R.id.add_location_button);
+        add_location =findViewById(R.id.add_location_button);
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
-        title.setText("It's " + pokemonCaught);
+        title.setText("It's "+pokemonCaught);
 
         //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null){
                     Bundle bundleImage = result.getData().getExtras();
                     locationImgRaw = (Bitmap) bundleImage.get("data");
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -129,7 +114,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                 Pokemon pokemon = new Pokemon(pokemonCaught);
                 System.out.println("POKEMON NULL TEST");
                 System.out.println(pokemon);
-                if (photoAdded) {
+                if (photoAdded){
                     // NOTE: Null is temporary
 
                     pokemon.setImage(locationImgRaw);
@@ -138,13 +123,13 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pokemon.setLocation(new Pair<Double,Double>(lattitude,longitude));
                 }
 
-                intent.putExtra("pokemon", pokemon);
+                intent.putExtra("pokemon",pokemon);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
                 // Also add the Image in the Images collection, assign the Pokemon field to the ID of the pokemon, the
                 // player field to the id of the player, and the visual field to the bytearray of the image.
                 // The key of the image besides the ID will be the player ID and the Pokemon ID.
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK,intent);
 
                 finish();
             }
@@ -169,13 +154,13 @@ public class PokemonAddActivity extends AppCompatActivity {
         }
     }*/
 
-    private void addPokemon(Pokemon p) {
+    private void addPokemon(Pokemon p){
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
         String ID = p.getID();
         HashMap<String, Object> pokeMap = new HashMap<>();
-        /*        pokeMap.put("ID",p.getID());*/
-
+/*        pokeMap.put("ID",p.getID());*/
+        
 
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPlayerCol().document(ID);
@@ -197,35 +182,5 @@ public class PokemonAddActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(PokemonAddActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-    //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
-    @SuppressLint("MissingPermission")
-    private void AddLocation() {fusedLocationProviderClient.getLastLocation().
-            addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        lattitude = addresses.get(0).getLatitude();
-                        longitude = addresses.get(0).getLongitude();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
 
-    }
 }
