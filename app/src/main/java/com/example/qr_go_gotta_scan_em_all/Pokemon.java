@@ -5,6 +5,7 @@ import static java.lang.Math.pow;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -15,8 +16,6 @@ import java.util.List;
 
 
 public class Pokemon implements Serializable {
-    private String name;
-
     // Implement later
     private Bitmap image;
 
@@ -38,10 +37,7 @@ public class Pokemon implements Serializable {
 
     public String getName() {
 
-
-
-
-        return name;
+        return generateName();
     }
 
 
@@ -152,9 +148,8 @@ public class Pokemon implements Serializable {
     }
 
     private String hexToBinary(String hex) {
-        // https://stackoverflow.com/questions/8640803/convert-hex-string-to-binary-string
-        int i = Integer.parseInt(hex, 16);
-        String bin = Integer.toBinaryString(i);
+        BigInteger i = new BigInteger(hex, 16);
+        String bin = i.toString(2);
         return bin;
     }
 
@@ -167,11 +162,16 @@ public class Pokemon implements Serializable {
         nameList.add(Arrays.asList("Spectral","Sonic"));
         nameList.add(Arrays.asList("Crab","Shark"));
 
-        for (int i = 0; i < binary.length(); i++){
-            int c = (int)binary.charAt(i);
+        String name = "";
+        for (int i = 0; i < nameList.size(); i++){
+            String temp = "";
+            char c = binary.charAt(i);
+            temp+=c;
+            int index = Integer.parseInt(temp);
+            name += nameList.get(i).get(index);
 
         }
-
+        return name;
     }
 
 }
