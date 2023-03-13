@@ -33,6 +33,14 @@ public class MapsActivityTest {
     }
 
     /**
+     * Tests activity switched
+     */
+    @Test
+    public void checkActivitySwitched() {
+        solo.assertCurrentActivity("Wrong Activity", MapsActivity.class);
+    }
+
+    /**
      * Closes the activity after each test
      * @throws Exception
      */
