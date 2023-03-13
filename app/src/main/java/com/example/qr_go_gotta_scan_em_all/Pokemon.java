@@ -3,6 +3,7 @@ package com.example.qr_go_gotta_scan_em_all;
 import static java.lang.Math.pow;
 
 import android.graphics.Bitmap;
+import android.util.Pair;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -14,12 +15,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
 
+ A class representing a Pokemon object.
+ Contains information about the Pokemon's image, location, and ID.
+ */
 public class Pokemon implements Serializable {
     // Implement later
     private Bitmap image;
 
-    private String location;
+    private Pair<Double,Double> location;
 
     private String ID;
 
@@ -33,44 +38,69 @@ public class Pokemon implements Serializable {
         this.image = null;
         this.location = null;
         this.ID = calculateHash(rawName);
+        this.location = null;
     }
-
+    /**
+     * Constructor for creating an empty Pokemon object.
+     */
     public Pokemon() {
         this.image = null;
         this.location = null;
         this.ID = null;
+        this.location = null;
     }
-
+    /**
+     * Initializes the Pokemon's ID using a given raw name.
+     * @param rawName The raw name to be hashed to generate the ID.
+     */
     public void initHash(String rawName){
         this.ID = calculateHash(rawName);
     }
-
+    /**
+     * Returns the generated name of the Pokemon based on its ID.
+     * @return The name of the Pokemon.
+     */
     public String getName() {
 
         return generateName();
     }
 
-
+    /**
+     * Returns the ID of the Pokemon.
+     * @return The ID of the Pokemon.
+     */
     public String getID() {
         return ID;
     }
-
+    /**
+     * Sets the ID of the Pokemon to a given value.
+     * @param ID The new ID of the Pokemon.
+     */
     public void setID(String ID) {
         this.ID = ID;
     }
 
-
+    /**
+     * Returns the visual representation of the Pokemon.
+     * @return The visual representation of the Pokemon.
+     */
     public String visualReper(){
         String visual = "";
 
         return visual;
     }
-
+    /**
+     * Returns the image of the Pokemon.
+     * @return The image of the Pokemon.
+     */
     public Bitmap getImage() {
         return image;
     }
-
-    public String getLocation() {
+    /**
+     * Returns the location of the Pokemon.
+     * @return The location of the Pokemon.
+     */
+    public Pair<Double,Double> getLocation() {
         return location;
     }
 
@@ -84,14 +114,27 @@ public class Pokemon implements Serializable {
     public double getScore(){
         return calculateScore();
     }
+    /**
+     * Sets the image of the Pokemon to a given value.
+     * @param image The new image of the Pokemon.
+     */
     public void setImage(Bitmap image) {
         this.image = image;
     }
 
-    public void setLocation(String location) {
+    /**
+     * Sets the location of the Pokemon to a given value.
+     * @param location The new location of the Pokemon.
+     */
+    public void setLocation(Pair<Double,Double> location) {
         this.location = location;
     }
 
+    /**
+     * Calculates the SHA-256 hash of a given name.
+     * @param name The name to be hashed.
+     * @return The SHA-256 hash of the name.
+     */
     private String calculateHash(String name){
         // https://stackoverflow.com/questions/5531455/how-to-hash-some-string-with-sha-256-in-java
         MessageDigest digest = null;
@@ -104,6 +147,11 @@ public class Pokemon implements Serializable {
         return bytesToHex(hash);
     }
 
+    /**
+     * Converts a byte array to a hexadecimal string.
+     * @param bytes The byte array to be converted.
+     * @return The hexadecimal string representation of the byte array.
+     */
     private static String bytesToHex(byte[] bytes) {
         // Source https://stackoverflow.com/questions/2817752/java-code-to-convert-byte-to-hexadecimal
         StringBuilder hexString = new StringBuilder();
@@ -117,6 +165,12 @@ public class Pokemon implements Serializable {
         return hexString.toString();
     }
 
+    /**
+
+     Calculates a score for a given ID based on the consecutive characters in the ID.
+
+     @return A double value representing the calculated score.
+     */
     private double calculateScore(){
 
         System.out.println(ID);
@@ -157,12 +211,24 @@ public class Pokemon implements Serializable {
         return score;
     }
 
+    /**
+
+     Converts a hexadecimal string to a binary string.
+     @param hex The hexadecimal string to be converted.
+     @return A binary string representing the input hexadecimal string.
+     */
     private String hexToBinary(String hex) {
         BigInteger i = new BigInteger(hex, 16);
         String bin = i.toString(2);
         return bin;
     }
 
+    /**
+
+     Generates a name based on the binary representation of the ID.
+
+     @return A string representing the generated name.
+     */
     private String generateName(){
         String binary = hexToBinary(this.ID);
         List<List<String>> nameList = new ArrayList<List<String>>();
