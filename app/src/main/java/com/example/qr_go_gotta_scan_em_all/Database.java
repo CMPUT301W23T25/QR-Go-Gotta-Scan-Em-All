@@ -34,17 +34,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+
+ A class representing a database for managing player and pokemon data using Firebase
+ */
 public class Database {
-    FirebaseFirestore fireStore;
-    DatabaseReference dbRef;
-    DatabaseReference playersRef;
-    DatabaseReference pokemonRef;
+    private FirebaseFirestore fireStore;
+    private DatabaseReference dbRef;
+    private DatabaseReference playersRef;
+    private DatabaseReference pokemonRef;
 
-    CollectionReference playerCol;
+    private CollectionReference playerCol;
 
-    CollectionReference pokemonCol;
+    private CollectionReference pokemonCol;
     /**
-     * Initialize the Database
+     * Creates a new instance of the Database class with the specified context
+     *
+     * @param context the context of the activity using the database
      */
     public Database(Context context){
         // Start the database for this Activity
@@ -57,58 +63,50 @@ public class Database {
         this.pokemonCol = fireStore.collection("pokemon");
     }
 
-    public Player loadData(String ID){
-        // gets the specific player from the database and puts it into Player object
-        // returns the player object
-        Player p = new Player();
-
-        // load player data from database
-        return p;
-    }
-
-    public void savePlayerData(Player player){
-        // save the player data to server
-        // get ID of player
-        String ID = player.getUserId();
-        // get the IDs of the QR codes that the player has in the Database
-
-        // put all those IDs into a String arraylist
-
-    }
-
-    public void addPokemon(Pokemon pokemon){
-        // Add a pokemon to the database
-
-        // generate a random ID
-        String ID = UUID.randomUUID().toString();
-
-    }
-
-    public void getPokemon(String ID){
-        // Add a pokemon to the database
-    }
-    
-
+    /**
+     * Returns the instance of the Firebase Cloud Firestore database used by this instance of the database.
+     * @return The instance of the Firebase Cloud Firestore database used by this instance of the database.
+     */
     public FirebaseFirestore getFireStore() {
         return fireStore;
     }
 
+    /**
+     * Returns the instance of the Firebase Realtime Database used by this instance of the database.
+     * @return The instance of the Firebase Realtime Database used by this instance of the database.
+     */
     public DatabaseReference getDbRef() {
         return dbRef;
     }
 
+    /**
+     * Returns the reference to the "players" node in the Firebase Realtime Database used by this instance of the database.
+     * @return The reference to the "players" node in the Firebase Realtime Database used by this instance of the database.
+     */
     public DatabaseReference getPlayersRef() {
         return playersRef;
     }
 
+    /**
+     * Returns the reference to the "pokemon" node in the Firebase Realtime Database used by this instance of the database.
+     * @return The reference to the "pokemon" node in the Firebase Realtime Database used by this instance of the database.
+     */
     public DatabaseReference getPokemonRef() {
         return pokemonRef;
     }
 
+    /**
+     * Returns the instance of the Firebase Cloud Firestore collection containing the player data used by this instance of the database.
+     * @return The instance of the Firebase Cloud Firestore collection containing the player data used by this instance of the database.
+     */
     public CollectionReference getPlayerCol() {
         return playerCol;
     }
 
+    /**
+     * Returns the instance of the Firebase Cloud Firestore collection containing the pokemon data used by this instance of the database.
+     * @return The instance of the Firebase Cloud Firestore collection containing the pokemon data used by this instance of the database.
+     */
     public CollectionReference getPokemonCol() {
         return pokemonCol;
     }

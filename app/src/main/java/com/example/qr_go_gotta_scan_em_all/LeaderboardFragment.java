@@ -30,6 +30,14 @@ public class LeaderboardFragment extends Fragment {
     public LeaderboardFragment() {
     }
 
+    /**
+
+     Inflates the layout for the fragment and initializes the ListView.
+     @param inflater The LayoutInflater to inflate the layout.
+     @param container The ViewGroup that the fragment is contained in.
+     @param savedInstanceState The Bundle containing any saved state information.
+     @return The View for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,6 +46,14 @@ public class LeaderboardFragment extends Fragment {
         return view;
     }
 
+    /**
+
+     Called after the view has been created. Populates the ListView with data from the database.
+
+     @param view The View returned by onCreateView.
+
+     @param savedInstanceState The Bundle containing any saved state information.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
