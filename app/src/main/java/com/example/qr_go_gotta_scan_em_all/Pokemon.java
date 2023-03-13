@@ -3,6 +3,7 @@ package com.example.qr_go_gotta_scan_em_all;
 import static java.lang.Math.pow;
 
 import android.graphics.Bitmap;
+import android.util.Pair;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -23,9 +24,9 @@ public class Pokemon implements Serializable {
     // Implement later
     private Bitmap image;
 
-    private String location;
-
     private String ID;
+
+    private Pair<Double,Double> location;
 
 
 
@@ -35,7 +36,7 @@ public class Pokemon implements Serializable {
      */
     public Pokemon(String rawName) {
         this.image = null;
-        this.location = null;
+        this.location = new Pair<>(0.0,0.0);
         this.ID = calculateHash(rawName);
     }
     /**
@@ -43,7 +44,7 @@ public class Pokemon implements Serializable {
      */
     public Pokemon() {
         this.image = null;
-        this.location = null;
+        this.location = new Pair<>(0.0,0.0);
         this.ID = null;
     }
     /**
@@ -97,7 +98,7 @@ public class Pokemon implements Serializable {
      * Returns the location of the Pokemon.
      * @return The location of the Pokemon.
      */
-    public String getLocation() {
+    public Pair<Double, Double> getLocation() {
         return location;
     }
 
@@ -123,7 +124,7 @@ public class Pokemon implements Serializable {
      * Sets the location of the Pokemon to a given value.
      * @param location The new location of the Pokemon.
      */
-    public void setLocation(String location) {
+    public void setLocation(Pair<Double,Double> location) {
         this.location = location;
     }
 
