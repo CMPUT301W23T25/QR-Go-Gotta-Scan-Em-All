@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,9 +92,9 @@ public class PokemonAddActivity extends AppCompatActivity {
                 //add this pokemon to class
                 locationPermissionGranted = checkLocationPermission();
                 if (locationPermissionGranted) {
-                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
                     AddLocation();
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
+                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
                     locationAdded = true;
                 } else {
                     locationAdded = false;
@@ -120,7 +119,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pokemon.setImage(locationImgRaw);
                 }
                 if (locationAdded) {
-                    pokemon.setLocation(new Pair<Double,Double>(lattitude,longitude));
+                    pokemon.setLocation(null);
                 }
 
                 intent.putExtra("pokemon",pokemon);
