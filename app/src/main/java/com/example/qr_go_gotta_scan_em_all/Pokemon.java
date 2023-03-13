@@ -14,7 +14,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
 
+ A class representing a Pokemon object.
+ Contains information about the Pokemon's image, location, and ID.
+ */
 public class Pokemon implements Serializable {
     // Implement later
     private Bitmap image;
@@ -34,42 +38,65 @@ public class Pokemon implements Serializable {
         this.location = null;
         this.ID = calculateHash(rawName);
     }
-
+    /**
+     * Constructor for creating an empty Pokemon object.
+     */
     public Pokemon() {
         this.image = null;
         this.location = null;
         this.ID = null;
     }
-
+    /**
+     * Initializes the Pokemon's ID using a given raw name.
+     * @param rawName The raw name to be hashed to generate the ID.
+     */
     public void initHash(String rawName){
         this.ID = calculateHash(rawName);
     }
-
+    /**
+     * Returns the generated name of the Pokemon based on its ID.
+     * @return The name of the Pokemon.
+     */
     public String getName() {
 
         return generateName();
     }
 
-
+    /**
+     * Returns the ID of the Pokemon.
+     * @return The ID of the Pokemon.
+     */
     public String getID() {
         return ID;
     }
-
+    /**
+     * Sets the ID of the Pokemon to a given value.
+     * @param ID The new ID of the Pokemon.
+     */
     public void setID(String ID) {
         this.ID = ID;
     }
 
-
+    /**
+     * Returns the visual representation of the Pokemon.
+     * @return The visual representation of the Pokemon.
+     */
     public String visualReper(){
         String visual = "";
 
         return visual;
     }
-
+    /**
+     * Returns the image of the Pokemon.
+     * @return The image of the Pokemon.
+     */
     public Bitmap getImage() {
         return image;
     }
-
+    /**
+     * Returns the location of the Pokemon.
+     * @return The location of the Pokemon.
+     */
     public String getLocation() {
         return location;
     }
@@ -84,14 +111,27 @@ public class Pokemon implements Serializable {
     public double getScore(){
         return calculateScore();
     }
+    /**
+     * Sets the image of the Pokemon to a given value.
+     * @param image The new image of the Pokemon.
+     */
     public void setImage(Bitmap image) {
         this.image = image;
     }
 
+    /**
+     * Sets the location of the Pokemon to a given value.
+     * @param location The new location of the Pokemon.
+     */
     public void setLocation(String location) {
         this.location = location;
     }
 
+    /**
+     * Calculates the SHA-256 hash of a given name.
+     * @param name The name to be hashed.
+     * @return The SHA-256 hash of the name.
+     */
     private String calculateHash(String name){
         // https://stackoverflow.com/questions/5531455/how-to-hash-some-string-with-sha-256-in-java
         MessageDigest digest = null;
@@ -104,6 +144,11 @@ public class Pokemon implements Serializable {
         return bytesToHex(hash);
     }
 
+    /**
+     * Converts a byte array to a hexadecimal string.
+     * @param bytes The byte array to be converted.
+     * @return The hexadecimal string representation of the byte array.
+     */
     private static String bytesToHex(byte[] bytes) {
         // Source https://stackoverflow.com/questions/2817752/java-code-to-convert-byte-to-hexadecimal
         StringBuilder hexString = new StringBuilder();
