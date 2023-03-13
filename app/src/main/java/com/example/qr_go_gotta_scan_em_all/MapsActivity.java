@@ -13,6 +13,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -89,8 +90,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
         mMap.setOnMyLocationClickListener(MapsActivity.this);
-        mMap.setMyLocationEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
         postMapReady();
     }
     private double[] getCurrentLocation() {
@@ -140,6 +142,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onMyLocationButtonClick() {
         return false;
     }
+
     private void postMapReady(){
         double[] userCoordinates = getCurrentLocation();
 //        LatLng userLocation = new LatLng(userCoordinates[0],userCoordinates[1]);
