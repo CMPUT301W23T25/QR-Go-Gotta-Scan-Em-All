@@ -15,9 +15,24 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ *
+ * The MapsActivity class displays a Google Map and allows the user to interact
+ * with it.
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private ImageView back_btn;
     private GoogleMap mMap;
+    /**
+     *
+     * Called when the activity is starting. Sets up the activity's layout and
+     * initializes the map fragment.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down, then this Bundle
+     *                           contains the data it most recently supplied in
+     *                           onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

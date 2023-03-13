@@ -1,11 +1,14 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -68,7 +71,11 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         TextView scoreView = view.findViewById(R.id.score);
         TextView locationView = view.findViewById(R.id.location);
 
-
+        if (pokemon.getImageByteArray() != null){
+            Bitmap bmp = BitmapFactory.decodeByteArray(pokemon.getImageByteArray(), 0, pokemon.getImageByteArray().length);
+            ImageView image = view.findViewById(R.id.photo_location);
+            image.setImageBitmap(bmp);
+        }
 
         // Name
         String name = pokemon.getName();

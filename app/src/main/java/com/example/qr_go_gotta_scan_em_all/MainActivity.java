@@ -44,8 +44,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
- MainActivity serves as the main activity of the app. It is responsible for controlling the overall behavior of the app, such as switching between fragments and handling events.
+ *
+ * {@link MainActivity} is the main activity for the Pokemon app. It handles the
+ * navigation bar, pokeball, and launching
+ * other activities to scan QR codes, add new Pokemon, view the player's Pokemon
+ * and leaderboards, and view the map.
+ * The activity contains two ActivityResultLaunchers, one for scanning QR codes
+ * and one for adding new Pokemon. It also
+ * initializes the database and retrieves the player object from the previous
+ * activity.
+ * The handleNavBar method listens for clicks on the navigation bar and launches
+ * the appropriate fragment or activity
+ * based on the clicked item. The checkIfPokemonAdded method checks if a new
+ * Pokemon was added and adds it to the player's
+ * array of Pokemon if it was.
+ * This class is part of the Pokemon app, which is a mobile game that allows
+ * users to catch Pokemon by scanning QR codes,
+ * view their collection of Pokemon, view leaderboards, and view a map of their
+ * location and nearby Pokemon.
  */
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
@@ -306,8 +322,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public String getMyData() {
-        return qrResult;
-    }
+//    public String getMyData() {
+//        return qrResult;
+//    }
 }
 

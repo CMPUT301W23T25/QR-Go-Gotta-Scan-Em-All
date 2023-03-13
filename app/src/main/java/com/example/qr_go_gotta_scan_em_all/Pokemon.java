@@ -31,6 +31,8 @@ public class Pokemon implements Serializable {
 
     private String ID;
 
+//    private Bitmap img;
+
 
 
     /** Constructor for making a new Pokemon when a QR code is scanned
@@ -42,6 +44,7 @@ public class Pokemon implements Serializable {
         this.locationLong = 0.0;
         this.locationLat = 0.0;
         this.imageByteArray = null;
+//        this.img = null;
     }
     /**
      * Constructor for creating an empty Pokemon object.
@@ -51,6 +54,7 @@ public class Pokemon implements Serializable {
         this.locationLong = 0.0;
         this.locationLat = 0.0;
         this.imageByteArray = null;
+//        this.img = null;
     }
     /**
      * Initializes the Pokemon's ID using a given raw name.
@@ -139,6 +143,7 @@ public class Pokemon implements Serializable {
      */
     public void setImage(Bitmap image) {
         this.imageByteArray = compressImage(image);
+
     }
 
     /**
@@ -276,5 +281,13 @@ public class Pokemon implements Serializable {
         img.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         return stream.toByteArray();
     }
+
+//    public void setImg(Bitmap img){
+//        this.img = img;
+//    }
+//
+//    public Bitmap getImg(){
+//        return img;
+//    }
 
 }
