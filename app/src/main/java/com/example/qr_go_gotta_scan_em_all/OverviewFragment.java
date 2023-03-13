@@ -38,15 +38,14 @@ public class OverviewFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment OverviewFragment.
+
+     Use this factory method to create a new instance of
+     this fragment using the provided parameters.
+     @param player A {@link Player} object representing the current user
+     @return A new instance of fragment OverviewFragment.
      */
-    // TODO: Rename and change types and number of parameters
-
-
     public OverviewFragment (Player player){
         this.player =player;
 
@@ -59,7 +58,14 @@ public class OverviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+    /**
 
+     Inflates the layout for this fragment.
+     @param inflater The LayoutInflater object that can be used to inflate views in the fragment
+     @param container The parent view that the fragment UI should be attached to
+     @param savedInstanceState This fragment's previously saved state, if any
+     @return The inflated View object for the fragment's UI, or null
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,7 +75,20 @@ public class OverviewFragment extends Fragment {
 
 
     }
+    /**
 
+     Called immediately after onCreateView() has returned a non-null View,
+
+     and allows the fragment to perform further initialization of that View.
+
+     Sets the text of the username field to the current user's username, and
+
+     populates the list view with the user's Pokémon.
+
+     @param view The View object returned by onCreateView()
+
+     @param savedInstanceState This fragment's previously saved state, if any
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameVal = view.findViewById(R.id.usernameView_show);
