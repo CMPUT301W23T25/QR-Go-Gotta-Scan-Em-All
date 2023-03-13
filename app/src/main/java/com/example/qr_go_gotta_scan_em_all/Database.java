@@ -57,50 +57,6 @@ public class Database {
         this.pokemonCol = fireStore.collection("pokemon");
     }
 
-    public void addPlayer(Player player) {
-        // Add the player to the database
-        // NOTE: A player object that has an ID and username must be passed into the database
-        String ID = player.getUserId();
-        HashMap<String, Object> playerMap = new HashMap<>();
-        playerMap.put("username",player.getUserName());
-        // order of hash map: {ID of Pokemon in Database:(The image, the Latitude and longitude)}
-        playerMap.put("pokemon_owned",new ArrayList<Map<String, Pair<Object,Object>>>());
-
-        // make sure the specific ID of the player is used
-        DocumentReference docRef = playerCol.document(ID);
-
-        // Set the data of the document with the playerMap
-        docRef.set(playerMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Player data added successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding player data", e);
-                        throw new RuntimeException("Failed to add player data to Firestore");
-                    }
-                });
-
-/*        // Code with exception
-        // Set the data of the document with the playerMap
-        docRef.set(playerMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Player data added successfully");
-
-                        // Throw an exception if the task fails
-                        if (!docRef.get().isSuccessful()) {
-                            throw new RuntimeException("Failed to add player data to Firestore");
-                        }
-                    }
-                });*/
-    }
-
     public Player loadData(String ID){
         // gets the specific player from the database and puts it into Player object
         // returns the player object

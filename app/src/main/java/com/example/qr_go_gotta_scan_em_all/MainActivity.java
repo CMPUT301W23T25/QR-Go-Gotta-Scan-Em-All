@@ -2,7 +2,12 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,24 +17,31 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Camera;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.ScopeUtil;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.Permission;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
@@ -37,18 +49,44 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton pokeBall;
     private String qrResult;
 
-    Player player;
+    private Player player;
 
-    Intent switchLoginIntent;
-    FragmentManager fragmentManager;
-    LoginInfo login;
+    private Intent switchLoginIntent;
+    private FragmentManager fragmentManager;
+    private Database db;
+    private boolean cameraPermissionGranted = false;
+    private boolean locationPermissionGranted = false;
 
-    Database db;
-    private boolean cameraPermissionGranted =false;
-    private boolean locationPermissionGranted=false;
 
-    private boolean isRegistered = false;
-    
+
+
+    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            String pokemonCaught;
+            if (result != null && result.getResultCode() == RESULT_OK) {
+                pokemonCaught = result.getData().getStringExtra("PokemonCaught");
+                Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
+                switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                startPokemonAdd.launch(switchToPokemonAdd);
+                }
+            }
+
+    });
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            Pokemon pokemonAdded;
+            if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
+                player.addPokemonToArray(pokemonAdded);
+                goToOverview();
+
+            }
+        }
+
+    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,29 +95,32 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize the database
         db = new Database(this);
+        player = (Player) getIntent().getSerializableExtra("player");
 
-
-        // handle the login (i.e if the user is not registered)
-        if (checkNotRegistered()){
-            // Go to the login activity
-            switchToLoginActivity();
-            // Get the user
-
-
-        } else{
-            login = new LoginInfo(this);
-            player = new Player(login.getUserName(), login.getUserId());
-            System.out.println(login.getUserName());
-            btmNavView = findViewById(R.id.btmNavView);
-            pokeBall = findViewById(R.id.poke_ball);
-            fragmentManager = getSupportFragmentManager();
-            goToOverview();
-            handleNavBar();
-            handlePokeBall();
+        if (player == null) {
+            System.out.println("BAD PLAYER");
         }
+
+        btmNavView = findViewById(R.id.btmNavView);
+        pokeBall = findViewById(R.id.poke_ball);
+        fragmentManager = getSupportFragmentManager();
+        goToOverview();
+        handleNavBar();
+        handlePokeBall();
+
+        player.addPokemonToArray(new Pokemon("test1"));
+
+
     }
 
-    private void handleNavBar(){
+    @Override
+    public void onResume(){
+        super.onResume();
+
+
+    }
+
+    private void handleNavBar() {
 
         btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -98,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
+                        goToLeaderboard();
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -116,7 +158,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void handlePokeBall(){
+    private void checkIfPokemonAdded(){
+        System.out.println(getIntent());
+        Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
+        System.out.println(pkRaw);
+        if (pkRaw != null){
+            Pokemon pk = (Pokemon)pkRaw;
+            player.addPokemonToArray(pk);
+            System.out.println("NICEEEEE");
+        }
+
+    }
+
+    private void handlePokeBall() {
         pokeBall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,78 +182,92 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void switchToLoginActivity() {
 
-        startActivity(switchLoginIntent);
-        finish();
-    }
-
-    private void goToOverview(){
+    private void goToOverview() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, OverviewFragment.class, null);
+        transaction.replace(R.id.container, new OverviewFragment(player), null);
         transaction.commit();
     }
 
-    private void goToPerson(){
+    private void goToLeaderboard() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new profilePageFragment(player), null);
+        transaction.replace(R.id.container, new LeaderboardFragment(), null);
         transaction.commit();
     }
 
-    private void goToQrScanner(){
+    private void goToPerson() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
 
-        if(cameraPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, QrScanner.class);
-            startActivity(switchScannerIntent);
-            //add other things
-            }
-        else{
+        // Replace whatever is in the fragment_container view with this fragment
+        transaction.replace(R.id.container, new ProfilePageFragment(player), null);
+        transaction.commit();
+    }
+
+    private void goToQrScanner() {
+
+        if (cameraPermissionGranted) {
+            Intent switchScannerIntent = new Intent(MainActivity.this, QrScannerActivity.class);
+            startQrScanner.launch(switchScannerIntent);
+        } else {
             Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
         }
     }
-    private void goToMap(){
 
-        if(locationPermissionGranted){
-            Intent switchScannerIntent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(switchScannerIntent);
+    private void goToMap() {
+
+        if (locationPermissionGranted) {
+            Intent switchMapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(switchMapsIntent);
             //add other things
-        }
-        else{
+        } else {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean checkCameraPermission(){
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA},1);
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+    private boolean checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 return true;
-            } else{return false;}
-        } else {return true;}
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
-    private boolean checkLocationPermission(){
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+
+    private boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},2);
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 return true;
-            } else{return false;}
-        } else {return true;}
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
+/*
     private boolean checkNotRegistered(){
         // Implement based on if it is decided to use the text file, or the phone ID
         isUserRegisteredQuery();
         return isRegistered;
     }
+*/
 
+/*
     private void isUserRegisteredQuery(){
-        db.getPlayerCol().document(new LoginInfo(this).getUserId())
+        db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -224,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+*/
 
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
@@ -235,3 +304,4 @@ public class MainActivity extends AppCompatActivity {
         return qrResult;
     }
 }
+
