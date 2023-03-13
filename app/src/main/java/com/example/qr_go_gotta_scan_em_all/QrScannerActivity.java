@@ -28,12 +28,10 @@ public class QrScannerActivity extends AppCompatActivity {
         CodeScannerView scannerView = findViewById(R.id.qr_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         back_btn = findViewById(R.id.qr_scanner_back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener() {
+        back_btn.setOnClickListener(new View.OnClickListener() { 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("PokemonCaught","back");
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });

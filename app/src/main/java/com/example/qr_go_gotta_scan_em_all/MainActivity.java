@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,10 +38,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+
+ MainActivity serves as the main activity of the app. It is responsible for controlling the overall behavior of the app, such as switching between fragments and handling events.
+ */
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
@@ -56,21 +62,35 @@ public class MainActivity extends AppCompatActivity {
     private boolean locationPermissionGranted = false;
 
 
+
+    /**
+     * ActivityResultLauncher used for starting the QR scanner
+     */
     ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             String pokemonCaught;
             if (result != null && result.getResultCode() == RESULT_OK) {
                 pokemonCaught = result.getData().getStringExtra("PokemonCaught");
-                Toast.makeText(MainActivity.this, pokemonCaught, Toast.LENGTH_SHORT).show();
-                if (pokemonCaught != null) {
-                    Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
-                    switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
-                    startActivity(switchToPokemonAdd);
+                Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
+                switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                startPokemonAdd.launch(switchToPokemonAdd);
                 }
             }
 
+    });
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            Pokemon pokemonAdded;
+            if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
+                player.addPokemonToArray(pokemonAdded);
+                goToOverview();
+
+            }
         }
+
     });
 
     @Override
@@ -94,6 +114,16 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
+        player.addPokemonToArray(new Pokemon("test1"));
+
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+
     }
 
     private void handleNavBar() {
@@ -115,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.leaderboard:
                         // Do something for menu item 2
+                        goToLeaderboard();
                         break;
                     case R.id.map:
                         // Do something for menu item 3
@@ -131,6 +162,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void checkIfPokemonAdded(){
+        System.out.println(getIntent());
+        Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
+        System.out.println(pkRaw);
+        if (pkRaw != null){
+            Pokemon pk = (Pokemon)pkRaw;
+            player.addPokemonToArray(pk);
+            System.out.println("NICEEEEE");
+        }
+
     }
 
     private void handlePokeBall() {
@@ -152,6 +195,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Replace whatever is in the fragment_container view with this fragment
         transaction.replace(R.id.container, new OverviewFragment(player), null);
+        transaction.commit();
+    }
+
+    private void goToLeaderboard() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+
+        // Replace whatever is in the fragment_container view with this fragment
+        transaction.replace(R.id.container, new LeaderboardFragment(), null);
         transaction.commit();
     }
 
