@@ -89,10 +89,27 @@ public class Pokemon implements Serializable {
      * @return The visual representation of the Pokemon.
      */
     public String visualReper(){
-        String visual = "";
+        String binary = hexToBinary(this.ID);
+        List<List<String>> nameList = new ArrayList<List<String>>();
+        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
+        nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
+        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
+        nameList.add(Arrays.asList("| ,`` ,|","|      |"));
+        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
+        nameList.add(Arrays.asList("|______|","\\______/"));
 
-        return visual;
+        String name = "";
+        for (int i = 0; i < nameList.size(); i++){
+            String temp = "";
+            char c = binary.charAt(i);
+            temp+=c ;
+            int index = Integer.parseInt(temp);
+            name += nameList.get(i).get(index) +"\n";
+
+        }
+        return name;
     }
+
     /**
      * Returns the image of the Pokemon.
      * @return The image of the Pokemon.

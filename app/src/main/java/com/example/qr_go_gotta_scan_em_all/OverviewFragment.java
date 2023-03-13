@@ -115,11 +115,11 @@ public class OverviewFragment extends Fragment {
                 totalScoreNum +=  pScore;
                 if (pScore > maxScore){
                     maxScore = pScore;
-                    highestScoringQRName = player.getUserName();
+                    highestScoringQRName = player.getPokemonArray().get(i).getName();
                 }
                 if (pScore < minScore){
                     minScore = pScore;
-                    lowestScoringQRName = player.getUserName();
+                    lowestScoringQRName = player.getPokemonArray().get(i).getName();
                 }
             }
 
