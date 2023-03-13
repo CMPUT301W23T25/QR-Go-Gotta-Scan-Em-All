@@ -29,22 +29,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+
+ The {@link: LoginActivity} class is responsible for handling the user login process and creating a user session.
+
+ It contains methods to check if a username is already taken, add a new player to the database, and switch to the main activity or network failure activity.
+
+ The class also contains variables such as TextView, String, Intent, ImageView, Database, Intent, and Player, which are used to store and manipulate user data.
+ */
 public class LoginActivity extends AppCompatActivity {
+
     // Declare method to switch to LoginActivity
     private TextView userText;
     private String userName;
     private Intent intent;
     private ImageView loginButton;
-
     private Database db;
-
     private Intent networkFailed;
-
     private Player player;
-
     boolean isRegistered;
 
 
+    /**
+
+     Called when the activity is starting.
+     Initializes the UI elements and database object and checks if the user is already registered or not.
+     If the user is not registered, sets a click listener on the login button to create a new user session.
+     If the user is already registered, switches to MainActivity with the user data.
+     If there is a network failure, switches to ConnectionErrorActivity.
+     @param savedInstanceState Bundle
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +86,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+    /**
 
+     Checks if the entered username is already taken.
+     If the username is not taken, creates a new Player object and adds it to the database.
+     If the username is taken, shows a Toast message to inform the user.
+     If there is a network failure, switches to ConnectionErrorActivity.
+     */
 
     // Create user session function
     private void createUserSession(){
@@ -111,18 +131,29 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+    /**
+     Switches to MainActivity with the user data.
+     */
 
     private void switchToMainActivity() {
         startActivity(intent);
         finish();
     }
 
+    /**
+     Switches to ConnectionErrorActivity if there is a network failure.
+     */
+
     private void switchToNetworkFail() {
         startActivity(networkFailed);
         finish();
     }
+    /**
+     Adds a new player to the database.
+     Creates a HashMap with the player data and sets the data of the document with the playerMap.
+     If there is a network failure, switches to ConnectionErrorActivity.
 
-
+     */
     private void addPlayer(Player p){
         // Add the player to the database
         // NOTE: A player object that has an ID and username must be passed into the database
@@ -153,6 +184,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    /**
+
+     This method retrieves the player data from the database based on their login information,
+     creates a Player object, and sets the "isRegistered" flag to true if the player is found in
+     the database. It also switches to the main activity and passes the player object as an extra
+     to the intent.
+     */
 
     private void getPlayerData() {
         Map<String,Object> playerMap = new HashMap<>();
@@ -181,7 +219,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     This method checks if a given username already exists in the database.
+     @param userName The username to check for in the database
+     @return true if the username is already taken, false otherwise
+     */
     private boolean isUserNameTaken(String userName){
         boolean[] userTaken = new boolean[1];
         db.getPlayerCol().whereEqualTo("user_name",userName).addSnapshotListener(new EventListener<QuerySnapshot>() {

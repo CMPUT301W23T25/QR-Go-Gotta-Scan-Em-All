@@ -40,7 +40,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+/**
 
+ {@link PokemonAddActivity} allows the user to add a new Pokemon to their collection.
+
+ The user can capture a photo, add geolocation and save the captured Pokemon.
+
+ If the user does not add a photo or location, the respective fields will be null in the resulting Pokemon object.
+ */
 public class PokemonAddActivity extends AppCompatActivity {
 
     ImageView photo_btn;
@@ -60,6 +67,17 @@ public class PokemonAddActivity extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
     private Double longitude;
     private Double lattitude;
+
+    /**
+
+     Sets up the layout and initializes the UI elements.
+
+     Sets up the click listeners for the buttons.
+
+     Sets up the activity result launcher for the camera intent.
+
+     @param savedInstanceState The saved state of the activity.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,34 +183,12 @@ public class PokemonAddActivity extends AppCompatActivity {
         }
     }*/
 
-    private void addPokemon(Pokemon p) {
-        // Add the player to the database
-        // NOTE: A player object that has an ID and username must be passed into the database
-        String ID = p.getID();
-        HashMap<String, Object> pokeMap = new HashMap<>();
-        /*        pokeMap.put("ID",p.getID());*/
-
-
-        // make sure the specific ID of the player is used
-        DocumentReference docRef = db.getPlayerCol().document(ID);
-
-        // Set the data of the document with the playerMap
-        docRef.set(pokeMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Player data added successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding player data", e);
-
-                    }
-                });
-    }
-
+    /**
+    location permissions, getting the current device location, and handling the user's response to the location permission request.
+    The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
+    a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
+    granted, and false otherwise.
+     */
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
@@ -207,6 +203,11 @@ public class PokemonAddActivity extends AppCompatActivity {
         }
     }
     //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
+
+    /**
+     *The AddLocation() method gets the current device location using
+     * the FusedLocationProviderClient. If the app has been granted
+     */
     private void AddLocation(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -242,12 +243,27 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The askPermission() method requests location permission
+     * from the user using the requestPermissions() method.
+     */
     private void askPermission() {
 
         ActivityCompat.requestPermissions(PokemonAddActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
 
 
     }
+
+    /**
+     * The onRequestPermissionsResult() method is called when the user
+     * responds to the location permission request. I
+     * @param requestCode The request code passed in int
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {

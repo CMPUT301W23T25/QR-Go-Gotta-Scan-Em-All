@@ -29,6 +29,14 @@ public class LeaderboardFragment extends Fragment {
      */
     public LeaderboardFragment() {
     }
+    /**
+
+     Creates the view hierarchy associated with the fragment.
+     @param inflater - the LayoutInflater object that can be used to inflate any views in the fragment
+     @param container - the parent view that the fragment UI should be attached to
+     @param savedInstanceState - saved state information about the fragment, can be null
+     @return - the inflated View object for the fragment UI
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +45,18 @@ public class LeaderboardFragment extends Fragment {
         leaderboard_list_view = view.findViewById(R.id.leaderboard_list_view);
         return view;
     }
+    /**
+
+     Called after the fragment's view has been created and makes sure that the ListView adapter is set with the
+
+     appropriate data. In this case, the data is a mock list of Players, but should be replaced with actual data from
+
+     the database.
+
+     @param view - the view hierarchy returned by onCreateView
+
+     @param savedInstanceState - saved state information about the fragment, can be null
+     */
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

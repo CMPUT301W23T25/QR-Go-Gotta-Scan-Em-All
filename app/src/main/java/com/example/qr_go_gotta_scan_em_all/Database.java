@@ -33,7 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+        /**
+        * A simple {@link Database} class to create firebase database and creates objects
+        * like the players info and the pokemon info to be stored in the database
+        */
 public class Database {
     FirebaseFirestore fireStore;
     DatabaseReference dbRef;
@@ -43,8 +46,13 @@ public class Database {
     CollectionReference playerCol;
 
     CollectionReference pokemonCol;
+
+
     /**
-     * Initialize the Database
+     * Constructor for the Database class.
+     * Initializes Firebase and sets up database references.
+     *
+     * @param context The context of the current activity.
      */
     public Database(Context context){
         // Start the database for this Activity
@@ -57,6 +65,12 @@ public class Database {
         this.pokemonCol = fireStore.collection("pokemon");
     }
 
+    /**
+     * Load a specific player's data from the database and return it as a Player object.
+     *
+     * @param ID The ID of the player to load.
+     * @return A Player object containing the loaded data.
+     */
     public Player loadData(String ID){
         // gets the specific player from the database and puts it into Player object
         // returns the player object
@@ -66,6 +80,11 @@ public class Database {
         return p;
     }
 
+    /**
+     * Save a player's data to the database.
+     *
+     * @param player The Player object containing the data to save.
+     */
     public void savePlayerData(Player player){
         // save the player data to server
         // get ID of player
@@ -76,6 +95,11 @@ public class Database {
 
     }
 
+    /**
+     * Add a new pokemon to the database.
+     *
+     * @param pokemon The Pokemon object to add to the database.
+     */
     public void addPokemon(Pokemon pokemon){
         // Add a pokemon to the database
 
@@ -83,11 +107,19 @@ public class Database {
         String ID = UUID.randomUUID().toString();
 
     }
-
+    /**
+     * Load a specific pokemon's data from the database and return it as a Pokemon object.
+     *
+     * @param ID The ID of the pokemon to load.
+     * @return A Pokemon object containing the loaded data.
+     */
     public void getPokemon(String ID){
         // Add a pokemon to the database
     }
-    
+
+    /**
+     * Some getters and setters to get and set information on the firebase database
+     */
 
     public FirebaseFirestore getFireStore() {
         return fireStore;
