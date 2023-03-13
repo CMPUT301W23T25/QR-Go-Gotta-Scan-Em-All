@@ -40,7 +40,7 @@ public class PokemonAddActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Bitmap locationImgRaw;
     private String pokemonCaught;
-    private byte[] locationImgCompressed;
+//    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
 
