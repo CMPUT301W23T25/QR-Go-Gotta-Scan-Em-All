@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * {@link MainActivity} is the main activity for the Pokemon app. It handles the
  * navigation bar, pokeball, and launching
  * other activities to scan QR codes, add new Pokemon, view the player's Pokemon

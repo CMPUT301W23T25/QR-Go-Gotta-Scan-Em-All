@@ -12,13 +12,14 @@
         android:text="Name"
         android:textSize="20sp" />
 
-<!--    <TextView
+    <TextView
         android:id="@+id/visual_reper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="-&#45;&#45;"
-        android:textSize="20sp" />-->
+        android:text="---"
+        android:textSize="20sp"
+        android:maxLines="8"/>
 
     <TextView
         android:id="@+id/score"
@@ -34,7 +35,20 @@
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:text="---"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:id="@+id/photo_location"
+        android:layout_width="241dp"
+        android:layout_height="244dp"
+        android:maxWidth="480dp"
+        android:maxHeight="480dp"
+        android:minWidth="480dp"
+        android:minHeight="480dp"
+        android:padding="200dp" />
+
+
 
 
 </LinearLayout>

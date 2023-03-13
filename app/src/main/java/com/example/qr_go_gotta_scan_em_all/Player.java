@@ -143,4 +143,22 @@ public class Player implements Serializable {
     public Map<String, String> getLeaderboardStats() {
         return leaderboardStats;
     }
+
+    /**
+
+     Adds a Pokemon object to the player's array of Pokemon.
+     @param pos the position of the pokemon object to delete
+     */
+    public void removePokemon(int pos){
+        this.pokemonArray.remove(pos);
+    }
+
+    /**
+
+     Gets a Pokemon object to the player's array of Pokemon.
+     @param pos the position of the pokemon object to get
+     */
+    public Pokemon getPokemon(int pos){
+        return this.pokemonArray.get(pos);
+    }
 }

@@ -42,6 +42,11 @@ import java.util.List;
 import java.util.Locale;
 /**
 
+<<<<<<< HEAD
+=======
+/**
+
+>>>>>>> main
  {@link PokemonAddActivity} allows the user to add a new Pokemon to their collection.
 
  The user can capture a photo, add geolocation and save the captured Pokemon.
@@ -50,19 +55,20 @@ import java.util.Locale;
  */
 public class PokemonAddActivity extends AppCompatActivity {
 
-    ImageView photo_btn;
-    ImageView add_location;
-    ImageView save_btn;
-    ImageView release_btn;
-    ActivityResultLauncher<Intent> activityResultLauncher;
-    Bitmap locationImgRaw;
-    String pokemonCaught;
-    private byte[] locationImgCompressed;
+    private ImageView photo_btn;
+    private ImageView add_location;
+    private ImageView save_btn;
+    private ImageView release_btn;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private Bitmap locationImgRaw;
+    private String pokemonCaught;
+//    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
 
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
+<<<<<<< HEAD
     Database db;
     FusedLocationProviderClient fusedLocationProviderClient;
     private Double longitude;
@@ -78,7 +84,23 @@ public class PokemonAddActivity extends AppCompatActivity {
 
      @param savedInstanceState The saved state of the activity.
      */
+=======
+    private Database db;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private double longitude;
+    private double latitude;
+>>>>>>> main
 
+    /**
+
+     Sets up the layout and initializes the UI elements.
+
+     Sets up the click listeners for the buttons.
+
+     Sets up the activity result launcher for the camera intent.
+
+     @param savedInstanceState The saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +123,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                     Bundle bundleImage = result.getData().getExtras();
                     locationImgRaw = (Bitmap) bundleImage.get("data");
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    locationImgCompressed = stream.toByteArray();
+//                    locationImgRaw.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+//                    locationImgCompressed = stream.toByteArray();
                     // Convert the raw image into a JPEG so it doesn't take storage too much
 
                 }
@@ -173,6 +195,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
 /*    private FileOutputStream bmpToJpeg(Bitmap bmp){
         try {
             FileOutputStream out = new FileOutputStream(filename);
@@ -188,6 +211,13 @@ public class PokemonAddActivity extends AppCompatActivity {
     The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
     a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
     granted, and false otherwise.
+=======
+    /**
+     location permissions, getting the current device location, and handling the user's response to the location permission request.
+     The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
+     a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
+     granted, and false otherwise.
+>>>>>>> main
      */
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -202,6 +232,11 @@ public class PokemonAddActivity extends AppCompatActivity {
             return true;
         }
     }
+
+    /**
+     *The AddLocation() method gets the current device location using
+     * the FusedLocationProviderClient. If the app has been granted
+     */
     //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
 
     /**

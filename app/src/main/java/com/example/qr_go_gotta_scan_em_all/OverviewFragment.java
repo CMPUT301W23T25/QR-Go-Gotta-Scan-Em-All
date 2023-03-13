@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,6 +28,12 @@ public class OverviewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private PokemonArrayAdapter pokemonArrayAdapter;
+    TextView usernameVal;
+    TextView totalScore;
+    TextView itemsScanned;
+    TextView highestScore;
+    TextView lowestScore;
+    ListView lW;
 
     private Player player;
     public OverviewFragment() {
@@ -90,44 +97,66 @@ public class OverviewFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        TextView usernameVal = view.findViewById(R.id.usernameView_show);
-        TextView totalScore = view.findViewById(R.id.toal_score_view);
-        TextView itemsScanned = view.findViewById(R.id.item_scanned);
-        TextView highestScore = view.findViewById(R.id.highest_score_qr);
-        TextView lowestScore = view.findViewById(R.id.lowest_score_qr);
-        ListView lW = view.findViewById(R.id.list_view);
+        usernameVal = view.findViewById(R.id.usernameView_show);
+        totalScore = view.findViewById(R.id.toal_score_view);
+        itemsScanned = view.findViewById(R.id.item_scanned);
+        highestScore = view.findViewById(R.id.highest_score_qr);
+        lowestScore = view.findViewById(R.id.lowest_score_qr);
+        lW = view.findViewById(R.id.list_view);
         double totalScoreNum = 0.0;
         double minScore = Double.POSITIVE_INFINITY;
         double maxScore = 0.0;
         String lowestScoringQRName = "";
         String highestScoringQRName = "";
+
+
         try{
             System.out.println(player.getUserName());
             usernameVal.setText(player.getUserName());
+
             for (int i = 0; i < player.getPokemonArray().size(); i++){
                 double pScore = player.getPokemonArray().get(i).getScore();
                 totalScoreNum +=  pScore;
                 if (pScore > maxScore){
                     maxScore = pScore;
-                    highestScoringQRName = player.getUserName();
+                    highestScoringQRName = player.getPokemonArray().get(i).getName();
                 }
                 if (pScore < minScore){
                     minScore = pScore;
-                    lowestScoringQRName = player.getUserName();
+                    lowestScoringQRName = player.getPokemonArray().get(i).getName();
                 }
             }
 
             totalScore.setText("Total Score: " + Double.toString(totalScoreNum));
-            highestScore.setText("Total Score: " + highestScoringQRName);
-            lowestScore.setText("Highest Scoring QR: " + lowestScoringQRName);
-            itemsScanned.setText("Lowest Scoring QR: " + Integer.toString(player.getPokemonArray().size()));
+            highestScore.setText("Highest Scoring: " + highestScoringQRName);
+            lowestScore.setText("Lowest Scoring: " + lowestScoringQRName);
+            itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
             pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
+
+            lW.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+/*                new DeleteVisit().show(getSupportFragmentManager(),"Delete Visit");
+                return true;*/
+                    // add delete confirmaton
+                    deleteFromPlayerList(position);
+                    return true;
+                }
+            });
             lW.setAdapter(pokemonArrayAdapter);
             pokemonArrayAdapter.notifyDataSetChanged();
         }catch (NullPointerException e){
             System.out.println("loading db");
         }
 
+
+
         // or  (ImageView) view.findViewById(R.id.foo);
+    }
+
+    private void deleteFromPlayerList(int pos){
+        pokemonArrayAdapter.remove(player.getPokemon(pos));
+        player.removePokemon(pos);
+        pokemonArrayAdapter.notifyDataSetChanged();
     }
 }

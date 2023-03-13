@@ -5,6 +5,7 @@ import static java.lang.Math.pow;
 import android.graphics.Bitmap;
 import android.util.Pair;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -22,14 +23,15 @@ import java.util.List;
  */
 public class Pokemon implements Serializable {
     // Implement later
-    private Bitmap image;
 
-
+    private byte[] imageByteArray;
     private double locationLat;
 
     private double locationLong;
 
     private String ID;
+
+//    private Bitmap img;
 
 
 
@@ -38,20 +40,21 @@ public class Pokemon implements Serializable {
      * @param rawName (the Raw value of the QR code)
      */
     public Pokemon(String rawName) {
-        this.image = null;
         this.ID = calculateHash(rawName);
         this.locationLong = 0.0;
         this.locationLat = 0.0;
+        this.imageByteArray = null;
+//        this.img = null;
     }
     /**
      * Constructor for creating an empty Pokemon object.
      */
     public Pokemon() {
-        this.image = null;
         this.ID = null;
         this.locationLong = 0.0;
         this.locationLat = 0.0;
-
+        this.imageByteArray = null;
+//        this.img = null;
     }
     /**
      * Initializes the Pokemon's ID using a given raw name.
@@ -89,16 +92,32 @@ public class Pokemon implements Serializable {
      * @return The visual representation of the Pokemon.
      */
     public String visualReper(){
-        String visual = "";
+        String binary = hexToBinary(this.ID);
+        List<List<String>> nameList = new ArrayList<List<String>>();
+        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
+        nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
+        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
+        nameList.add(Arrays.asList("| ,`` ,|","|      |"));
+        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
+        nameList.add(Arrays.asList("|______|","\\______/"));
 
-        return visual;
+        String name = "";
+        for (int i = 0; i < nameList.size(); i++){
+            String temp = "";
+            char c = binary.charAt(i);
+            temp+=c ;
+            int index = Integer.parseInt(temp);
+            name += nameList.get(i).get(index) +"\n";
+
+        }
+        return name;
     }
+
     /**
-     * Returns the image of the Pokemon.
-     * @return The image of the Pokemon.
+     * @return The byte of the Pokemon location image.
      */
-    public Bitmap getImage() {
-        return image;
+    public byte[] getImageByteArray() {
+        return this.imageByteArray;
     }
     /**
      * Returns the location of the Pokemon.
@@ -123,7 +142,8 @@ public class Pokemon implements Serializable {
      * @param image The new image of the Pokemon.
      */
     public void setImage(Bitmap image) {
-        this.image = image;
+        this.imageByteArray = compressImage(image);
+
     }
 
     /**
@@ -255,5 +275,19 @@ public class Pokemon implements Serializable {
         }
         return name;
     }
+
+    private byte[] compressImage(Bitmap img){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        return stream.toByteArray();
+    }
+
+//    public void setImg(Bitmap img){
+//        this.img = img;
+//    }
+//
+//    public Bitmap getImg(){
+//        return img;
+//    }
 
 }
