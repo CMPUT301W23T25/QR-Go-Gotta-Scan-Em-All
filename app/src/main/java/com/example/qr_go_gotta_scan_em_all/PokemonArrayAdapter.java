@@ -64,9 +64,10 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         // get all the components from the GasStation object that we want on the listview
 
         TextView pokemonNameTextView = view.findViewById(R.id.pokemon_name);
-//        TextView hashTextView = view.findViewById(R.id.visual_reper);
+        TextView hashTextView = view.findViewById(R.id.visual_reper);
         TextView scoreView = view.findViewById(R.id.score);
         TextView locationView = view.findViewById(R.id.location);
+
 
 
         // Name
@@ -81,6 +82,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
 
         pokemonNameTextView.setText("Name: "+name);
         scoreView.setText("Score: " + Double.toString(pokemon.getScore()));
+        hashTextView.setText("Visual:\n " + visualReper);
 
         if (pokemon.getLocation() != null){
             locationView.setText("Location: " + "(" + Double.toString(pokemon.getLocation().first) +"," + Double.toString(pokemon.getLocation().second) +")");
