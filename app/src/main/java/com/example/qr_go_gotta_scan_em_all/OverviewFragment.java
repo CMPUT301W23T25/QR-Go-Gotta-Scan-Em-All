@@ -124,9 +124,9 @@ public class OverviewFragment extends Fragment {
             }
 
             totalScore.setText("Total Score: " + Double.toString(totalScoreNum));
-            highestScore.setText("Total Score: " + highestScoringQRName);
-            lowestScore.setText("Highest Scoring QR: " + lowestScoringQRName);
-            itemsScanned.setText("Lowest Scoring QR: " + Integer.toString(player.getPokemonArray().size()));
+            highestScore.setText("Highest Scoring: " + highestScoringQRName);
+            lowestScore.setText("Lowest Scoring: " + lowestScoringQRName);
+            itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
             pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
 
             lW.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
