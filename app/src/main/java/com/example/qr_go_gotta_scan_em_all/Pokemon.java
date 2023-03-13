@@ -165,6 +165,12 @@ public class Pokemon implements Serializable {
         return hexString.toString();
     }
 
+    /**
+
+     Calculates a score for a given ID based on the consecutive characters in the ID.
+
+     @return A double value representing the calculated score.
+     */
     private double calculateScore(){
 
         System.out.println(ID);
@@ -205,12 +211,24 @@ public class Pokemon implements Serializable {
         return score;
     }
 
+    /**
+
+     Converts a hexadecimal string to a binary string.
+     @param hex The hexadecimal string to be converted.
+     @return A binary string representing the input hexadecimal string.
+     */
     private String hexToBinary(String hex) {
         BigInteger i = new BigInteger(hex, 16);
         String bin = i.toString(2);
         return bin;
     }
 
+    /**
+
+     Generates a name based on the binary representation of the ID.
+
+     @return A string representing the generated name.
+     */
     private String generateName(){
         String binary = hexToBinary(this.ID);
         List<List<String>> nameList = new ArrayList<List<String>>();
