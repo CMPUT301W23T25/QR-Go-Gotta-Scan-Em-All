@@ -31,11 +31,16 @@ import java.util.Map;
 
 /**
 
+<<<<<<< HEAD
  The {@link: LoginActivity} class is responsible for handling the user login process and creating a user session.
 
  It contains methods to check if a username is already taken, add a new player to the database, and switch to the main activity or network failure activity.
 
  The class also contains variables such as TextView, String, Intent, ImageView, Database, Intent, and Player, which are used to store and manipulate user data.
+=======
+ The LoginActivity class represents the login screen of the app where the user can create a new session or continue an existing one.
+ The user can login by entering a username that will be saved in the database.
+>>>>>>> main
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /**
+<<<<<<< HEAD
 
      Called when the activity is starting.
      Initializes the UI elements and database object and checks if the user is already registered or not.
@@ -94,7 +100,11 @@ public class LoginActivity extends AppCompatActivity {
      If there is a network failure, switches to ConnectionErrorActivity.
      */
 
-    // Create user session function
+
+    /**
+     * Creates a new session for the user. The user enters their username and a new Player object is created and added to the database.
+     * If the username is already taken, the user is informed and no new session is created.
+     */
     private void createUserSession(){
         userName = userText.getText().toString();
         PlayerIDGenerator playerIDGenerator;
@@ -131,17 +141,20 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-    /**
-     Switches to MainActivity with the user data.
-     */
 
+    /**
+
+     Starts MainActivity and finishes the current activity.
+     */
     private void switchToMainActivity() {
         startActivity(intent);
         finish();
     }
 
     /**
+
      Switches to ConnectionErrorActivity if there is a network failure.
+
      */
 
     private void switchToNetworkFail() {
@@ -153,6 +166,13 @@ public class LoginActivity extends AppCompatActivity {
      Creates a HashMap with the player data and sets the data of the document with the playerMap.
      If there is a network failure, switches to ConnectionErrorActivity.
 
+<<<<<<< HEAD
+=======
+    /**
+
+     Adds a player to the database with the given player object.
+     @param p The Player object to be added to the database.
+>>>>>>> main
      */
     private void addPlayer(Player p){
         // Add the player to the database
@@ -185,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
     /**
+
 
      This method retrieves the player data from the database based on their login information,
      creates a Player object, and sets the "isRegistered" flag to true if the player is found in
@@ -219,10 +240,19 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
     /**
      This method checks if a given username already exists in the database.
      @param userName The username to check for in the database
      @return true if the username is already taken, false otherwise
+=======
+
+    /**
+
+     Checks whether a given username is already taken by another player in the database.
+     @param userName The username to check.
+     @return True if the username is already taken, false otherwise.
+>>>>>>> main
      */
     private boolean isUserNameTaken(String userName){
         boolean[] userTaken = new boolean[1];

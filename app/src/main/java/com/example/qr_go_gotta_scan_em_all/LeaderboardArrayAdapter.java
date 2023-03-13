@@ -14,11 +14,22 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Map;
 
-
 /**
- * An ArrayAdapter {@link LeaderboardArrayAdapter} for displaying a list of Players on a leaderboard.
+ * 
+ * An ArrayAdapter that is used to display the leaderboard of players in a
+ * ListView.
+ * Each item in the ListView corresponds to a Player object and contains the
+ * player's
+ * username and total score.
  */
 public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
+    /**
+     * Constructor for the LeaderboardArrayAdapter class.
+     * 
+     * @param context The context in which the adapter is used.
+     * @param objects The ArrayList of Player objects to be displayed in the
+     *                ListView.
+     */
     /**
      * Constructor for the LeaderboardArrayAdapter class.
      *
@@ -32,17 +43,26 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
     /**
      * Get the View for the list item at the specified position in the list.
      *
-     * @param position The position of the item in the list.
+     * @param position    The position of the item in the list.
      * @param convertView The old view to reuse, if possible.
-     * @param parent The parent view group that the list item view will be attached to.
+     * @param parent      The parent view group that the list item view will be
+     *                    attached to.
      * @return The new view for the list item at the specified position.
+     */
+    /**
+     * Gets the View for each item in the ListView.
+     * 
+     * @param position    The position of the item in the ListView.
+     * @param convertView The old view to reuse, if possible.
+     * @param parent      The parent view group of the item.
+     * @return The View for the item at the specified position in the ListView.
      */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
-        if(convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_leaderboard_list, parent,false);
+        if (convertView == null) {
+            view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_leaderboard_list, parent, false);
         } else {
             view = convertView;
         }

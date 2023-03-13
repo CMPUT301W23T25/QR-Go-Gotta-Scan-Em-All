@@ -44,16 +44,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
-    {@link MainActivity} is the main activity for the Pokemon app. It handles the navigation bar, pokeball, and launching
-     other activities to scan QR codes, add new Pokemon, view the player's Pokemon and leaderboards, and view the map.
-     The activity contains two ActivityResultLaunchers, one for scanning QR codes and one for adding new Pokemon. It also
-     initializes the database and retrieves the player object from the previous activity.
-     The handleNavBar method listens for clicks on the navigation bar and launches the appropriate fragment or activity
-     based on the clicked item. The checkIfPokemonAdded method checks if a new Pokemon was added and adds it to the player's
-     array of Pokemon if it was.
-     This class is part of the Pokemon app, which is a mobile game that allows users to catch Pokemon by scanning QR codes,
-     view their collection of Pokemon, view leaderboards, and view a map of their location and nearby Pokemon.
+ * 
+ * {@link MainActivity} is the main activity for the Pokemon app. It handles the
+ * navigation bar, pokeball, and launching
+ * other activities to scan QR codes, add new Pokemon, view the player's Pokemon
+ * and leaderboards, and view the map.
+ * The activity contains two ActivityResultLaunchers, one for scanning QR codes
+ * and one for adding new Pokemon. It also
+ * initializes the database and retrieves the player object from the previous
+ * activity.
+ * The handleNavBar method listens for clicks on the navigation bar and launches
+ * the appropriate fragment or activity
+ * based on the clicked item. The checkIfPokemonAdded method checks if a new
+ * Pokemon was added and adds it to the player's
+ * array of Pokemon if it was.
+ * This class is part of the Pokemon app, which is a mobile game that allows
+ * users to catch Pokemon by scanning QR codes,
+ * view their collection of Pokemon, view leaderboards, and view a map of their
+ * location and nearby Pokemon.
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -70,35 +78,37 @@ public class MainActivity extends AppCompatActivity {
     private boolean cameraPermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
-
-
-
-    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            String pokemonCaught;
-            if (result != null && result.getResultCode() == RESULT_OK) {
-                pokemonCaught = result.getData().getStringExtra("PokemonCaught");
-                Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
-                switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
-                startPokemonAdd.launch(switchToPokemonAdd);
+    /**
+     * ActivityResultLauncher used for starting the QR scanner
+     */
+    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    String pokemonCaught;
+                    if (result != null && result.getResultCode() == RESULT_OK) {
+                        pokemonCaught = result.getData().getStringExtra("PokemonCaught");
+                        Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
+                        switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                        startPokemonAdd.launch(switchToPokemonAdd);
+                    }
                 }
-            }
 
-    });
-    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            Pokemon pokemonAdded;
-            if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
-                player.addPokemonToArray(pokemonAdded);
-                goToOverview();
+            });
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Pokemon pokemonAdded;
+                    if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                        pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
+                        player.addPokemonToArray(pokemonAdded);
+                        goToOverview();
 
-            }
-        }
+                    }
+                }
 
-    });
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,13 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
         player.addPokemonToArray(new Pokemon("test1"));
 
-
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-
 
     }
 
@@ -171,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkIfPokemonAdded(){
+    private void checkIfPokemonAdded() {
         System.out.println(getIntent());
         Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
         System.out.println(pkRaw);
-        if (pkRaw != null){
-            Pokemon pk = (Pokemon)pkRaw;
+        if (pkRaw != null) {
+            Pokemon pk = (Pokemon) pkRaw;
             player.addPokemonToArray(pk);
             System.out.println("NICEEEEE");
         }
@@ -184,9 +192,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-
-     Handles the onClickListener for the poke ball ImageView, and starts the QR scanner activity
-     if camera permission has been granted.
+     * 
+     * Handles the onClickListener for the poke ball ImageView, and starts the QR
+     * scanner activity
+     * if camera permission has been granted.
      */
 
     private void handlePokeBall() {
@@ -202,10 +211,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-
-     Replaces the fragment container view with the OverviewFragment, which displays the player's
-
-     Pokemon collection and allows the player to select and view their Pokemon's details.
+     * 
+     * Replaces the fragment container view with the OverviewFragment, which
+     * displays the player's
+     * 
+     * Pokemon collection and allows the player to select and view their Pokemon's
+     * details.
      */
 
     private void goToOverview() {
@@ -216,11 +227,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, new OverviewFragment(player), null);
         transaction.commit();
     }
+
     /**
-
-     Replaces the fragment container view with the LeaderboardFragment, which displays the top
-
-     players in the game.
+     * 
+     * Replaces the fragment container view with the LeaderboardFragment, which
+     * displays the top
+     * 
+     * players in the game.
      */
     private void goToLeaderboard() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -230,11 +243,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, new LeaderboardFragment(), null);
         transaction.commit();
     }
+
     /**
-
-     Replaces the fragment container view with the ProfilePageFragment, which displays the player's
-
-     profile information and allows the player to edit their profile.
+     * 
+     * Replaces the fragment container view with the ProfilePageFragment, which
+     * displays the player's
+     * 
+     * profile information and allows the player to edit their profile.
      */
     private void goToPerson() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -254,10 +269,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
         }
     }
-    /**
 
-     This method is used to switch to the MapsActivity if the location permission is granted, or display a toast message
-     prompting the user to grant location permission if it's not already granted.
+    /**
+     * 
+     * This method is used to switch to the MapsActivity if the location permission
+     * is granted, or display a toast message
+     * prompting the user to grant location permission if it's not already granted.
      */
 
     private void goToMap() {
@@ -265,22 +282,26 @@ public class MainActivity extends AppCompatActivity {
         if (locationPermissionGranted) {
             Intent switchMapsIntent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(switchMapsIntent);
-            //add other things
+            // add other things
         } else {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
         }
     }
-    /**
 
-     This method checks if the camera permission is granted, and if not, requests it from the user.
-     It returns true if the permission is granted, and false otherwise.
-     @return true if the camera permission is granted, and false otherwise.
+    /**
+     * 
+     * This method checks if the camera permission is granted, and if not, requests
+     * it from the user.
+     * It returns true if the permission is granted, and false otherwise.
+     * 
+     * @return true if the camera permission is granted, and false otherwise.
      */
 
     private boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] { Manifest.permission.CAMERA }, 1);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 return false;
@@ -289,18 +310,25 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-    /**
 
-     This method checks if the location permission is granted, and if not, requests it from the user.
-     It displays a toast message prompting the user to grant location permission if it's not already granted.
-     It returns true if the permission is granted, and false otherwise.
-     @return true if the location permission is granted, and false otherwise.
+    /**
+     * 
+     * This method checks if the location permission is granted, and if not,
+     * requests it from the user.
+     * It displays a toast message prompting the user to grant location permission
+     * if it's not already granted.
+     * It returns true if the permission is granted, and false otherwise.
+     * 
+     * @return true if the location permission is granted, and false otherwise.
      */
     private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 2);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 return false;
@@ -309,48 +337,51 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-/*
-    private boolean checkNotRegistered(){
-        // Implement based on if it is decided to use the text file, or the phone ID
-        isUserRegisteredQuery();
-        return isRegistered;
-    }
-*/
+    /*
+     * private boolean checkNotRegistered(){
+     * // Implement based on if it is decided to use the text file, or the phone ID
+     * isUserRegisteredQuery();
+     * return isRegistered;
+     * }
+     */
 
-/*
-    private void isUserRegisteredQuery(){
-        db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Document exists
-                                isRegistered = true;
-                                System.out.println("registed alrady");
-                            } else {
-                                // Document doesn't exist
-                                isRegistered = false;
-                                System.out.println("registed not");
-                            }
-                        } else {
-                            // Error getting document
-                            Log.d(TAG, "get failed with ", task.getException());
-                            // go to network not found activity
-                            switchToNetworkFail();
-                        }
-                    }
-                });
-    }
-
-
-    /**
-
-    Switches the activity to ConnectionErrorActivity to indicate a network failure.
-    The current activity will be finished to prevent returning to it on back button press.
-    */
+    /*
+     * private void isUserRegisteredQuery(){
+     * db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
+     * .get()
+     * .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+     * 
+     * @Override
+     * public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+     * if (task.isSuccessful()) {
+     * DocumentSnapshot document = task.getResult();
+     * if (document.exists()) {
+     * // Document exists
+     * isRegistered = true;
+     * System.out.println("registed alrady");
+     * } else {
+     * // Document doesn't exist
+     * isRegistered = false;
+     * System.out.println("registed not");
+     * }
+     * } else {
+     * // Error getting document
+     * Log.d(TAG, "get failed with ", task.getException());
+     * // go to network not found activity
+     * switchToNetworkFail();
+     * }
+     * }
+     * });
+     * }
+     * 
+     * 
+     * /**
+     * 
+     * Switches the activity to ConnectionErrorActivity to indicate a network
+     * failure.
+     * The current activity will be finished to prevent returning to it on back
+     * button press.
+     */
 
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
@@ -358,12 +389,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-
-     Returns the data stored in the qrResult variable.
-     @return A String representing the data stored in qrResult variable.
+     * 
+     * Returns the data stored in the qrResult variable.
+     * 
+     * @return A String representing the data stored in qrResult variable.
      */
     public String getMyData() {
         return qrResult;
     }
 }
-

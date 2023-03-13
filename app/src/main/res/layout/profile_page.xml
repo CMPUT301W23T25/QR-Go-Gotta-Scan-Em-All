@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/high_score_view"
+        app:layout_constraintStart_toEndOf="@+id/highest_score_qr"
         app:layout_constraintTop_toTopOf="@+id/border"
         app:layout_constraintVertical_bias="0.692" />
 
@@ -126,7 +126,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/high_score_view"
+        android:id="@+id/highest_score_qr"
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"

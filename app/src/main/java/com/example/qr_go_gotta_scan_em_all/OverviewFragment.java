@@ -4,16 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +29,6 @@ public class OverviewFragment extends Fragment {
     private PokemonArrayAdapter pokemonArrayAdapter;
 
     private Player player;
-    private ListView lW;
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -96,11 +91,36 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameVal = view.findViewById(R.id.usernameView_show);
-        lW = view.findViewById(R.id.list_view);
-
+        TextView totalScore = view.findViewById(R.id.toal_score_view);
+        TextView itemsScanned = view.findViewById(R.id.item_scanned);
+        TextView highestScore = view.findViewById(R.id.highest_score_qr);
+        TextView lowestScore = view.findViewById(R.id.lowest_score_qr);
+        ListView lW = view.findViewById(R.id.list_view);
+        double totalScoreNum = 0.0;
+        double minScore = Double.POSITIVE_INFINITY;
+        double maxScore = 0.0;
+        String lowestScoringQRName = "";
+        String highestScoringQRName = "";
         try{
             System.out.println(player.getUserName());
             usernameVal.setText(player.getUserName());
+            for (int i = 0; i < player.getPokemonArray().size(); i++){
+                double pScore = player.getPokemonArray().get(i).getScore();
+                totalScoreNum +=  pScore;
+                if (pScore > maxScore){
+                    maxScore = pScore;
+                    highestScoringQRName = player.getUserName();
+                }
+                if (pScore < minScore){
+                    minScore = pScore;
+                    lowestScoringQRName = player.getUserName();
+                }
+            }
+
+            totalScore.setText("Total Score: " + Double.toString(totalScoreNum));
+            highestScore.setText("Total Score: " + highestScoringQRName);
+            lowestScore.setText("Highest Scoring QR: " + lowestScoringQRName);
+            itemsScanned.setText("Lowest Scoring QR: " + Integer.toString(player.getPokemonArray().size()));
             pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
             lW.setAdapter(pokemonArrayAdapter);
             pokemonArrayAdapter.notifyDataSetChanged();

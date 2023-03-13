@@ -12,39 +12,43 @@ import java.util.UUID;
 
  The ID can be generated using a UUID or the Android device's unique ID.
  */
+/**
+ * 
+ * A class for generating unique player IDs.
+ */
 public class PlayerIDGenerator implements Serializable {
-    // The AppUser has a userName and userId
-    /**
-     The player ID generated using UUID.
+     // The AppUser has a userName and userId
+     /**
+     
      */
 
-    private String userId;
-    /**
+     private String userId;
 
-     Creates a new PlayerIDGenerator instance and generates a unique ID using UUID.
-     */
-    public PlayerIDGenerator() {
-        this.userId = UUID.randomUUID().toString();
-    }
+     /**
+      * 
+      * public PlayerIDGenerator() {
+      * this.userId = UUID.randomUUID().toString();
+      * }
+      * 
+      * /**
+      * 
+      * Constructor for generating a player ID based on the device's Android ID.
+      * 
+      * @param context The context used to get the Android ID.
+      */
+     public PlayerIDGenerator(Context context) {
+          this.userId = Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
 
-    /**
+     }
 
-     Creates a new PlayerIDGenerator instance and generates a unique ID using the Android device's ID.
-     @param context The context of the calling activity.
-     */
-
-    public PlayerIDGenerator(Context context) {
-        this.userId = Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-
-    }
-
-    /**
-
-     Returns the player ID.
-     @return The player ID.
-     */
-    public String getUserId() {
-        return userId;
-    }
+     /**
+      * 
+      * Returns the generated player ID.
+      * 
+      * @return A string representing the player ID.
+      */
+     public String getUserId() {
+          return userId;
+     }
 }
