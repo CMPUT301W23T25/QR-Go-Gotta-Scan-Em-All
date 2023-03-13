@@ -38,5 +38,11 @@
         android:textSize="20sp"
         />
 
+    <ImageView
+        android:id="@+id/photo_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="200dp" />
+
 
 </LinearLayout>
