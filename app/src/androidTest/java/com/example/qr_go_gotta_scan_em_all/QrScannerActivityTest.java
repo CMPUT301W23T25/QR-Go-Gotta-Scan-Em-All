@@ -35,6 +35,14 @@ public class QrScannerActivityTest {
     }
 
     /**
+     * Tests activity switched
+     */
+    @Test
+    public void checkActivitySwitched() {
+        solo.assertCurrentActivity("Wrong Activity", QrScannerActivity.class);
+    }
+
+    /**
      * Check back button functionality
      */
     @Test
