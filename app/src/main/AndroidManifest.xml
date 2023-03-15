@@ -38,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDX9aitjQbQ0yOm6aGwg8XRiTxFAUvYfLE" />
+            android:value="API-KEY" />
 
         <activity
             android:name=".PokemonAddActivity"
