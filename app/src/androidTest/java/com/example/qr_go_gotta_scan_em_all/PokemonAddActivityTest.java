@@ -37,6 +37,14 @@ public class PokemonAddActivityTest {
     }
 
     /**
+     * Tests activity switched
+     */
+    @Test
+    public void checkActivitySwitched() {
+        solo.assertCurrentActivity("Wrong Activity", PokemonAddActivity.class);
+    }
+
+    /**
      * Test the save button
      */
     @Test

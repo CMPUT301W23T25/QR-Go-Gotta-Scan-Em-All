@@ -40,9 +40,15 @@
 
     <ImageView
         android:id="@+id/photo_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="241dp"
+        android:layout_height="244dp"
+        android:maxWidth="480dp"
+        android:maxHeight="480dp"
+        android:minWidth="480dp"
+        android:minHeight="480dp"
         android:padding="200dp" />
+
+
 
 
 </LinearLayout>

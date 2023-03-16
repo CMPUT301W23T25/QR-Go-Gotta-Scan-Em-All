@@ -14,13 +14,22 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+/**
+
+ An activity for scanning QR codes and catching Pokemons.
+ */
 //referenced from https://github.com/yuriy-budiyev/code-scanner
 public class QrScannerActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private ImageView back_btn;
 
 
+    /**
 
+     Called when the activity is starting. Initializes the UI components and sets up the QR code scanner.
+
+     @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +70,22 @@ public class QrScannerActivity extends AppCompatActivity {
         Toast.makeText(this, "Scanning for Pokemon", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+
+     Called after onStart() and before onPostResume(), when the activity is about to become visible.
+     Starts the QR code scanner preview.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
+    /**
+
+     Called as part of the activity lifecycle when an activity is going into the background,
+     but has not (yet) been killed. Releases the resources used by the QR code scanner.
+     */
     @Override
     protected void onPause() {
         mCodeScanner.releaseResources();
