@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -147,24 +148,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         double[] userCoordinates = getCurrentLocation();
 //        LatLng userLocation = new LatLng(userCoordinates[0],userCoordinates[1]);
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-        for(int i = 0; i < generateRandNum(1,5); i++){
-            double makerLat = userCoordinates[0] - generateRandNum(-1,1);
-            double makerLon = userCoordinates[1] - generateRandNum(-1,1);
-            //referenced from - https://developers.google.com/maps/documentation/android-sdk/marker#maps_android_markers_add_a_marker-java
-            LatLng pokeMarker = new LatLng(makerLat, makerLon);
-//            Bitmap resized = Bitmap.createScaledBitmap(R.drawable.pokeball_closed,4,4,true);
-            Marker pokeMark = mMap.addMarker(new MarkerOptions()
-                    .position(pokeMarker)
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pokeball_closed))
-                    .title("Pokemon"));
-            pokeMark.setTag(0);
         }
 
-    }
-    private int generateRandNum(int min, int max){
-        //referenced from- https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range
-        int numPokemon = new Random().nextInt((max - min) + 1) + min;
-        return numPokemon;
+    private void putMarker(double lat, double lan){
+        LatLng markLocation = new LatLng(lat,lan);
+        mMap.addMarker(new MarkerOptions()
+                .position(markLocation)
+//                .icon(BitmapDescriptor(BitmapDescriptorFactory.))
+                .title("pokemon"));
+
     }
 
 }
