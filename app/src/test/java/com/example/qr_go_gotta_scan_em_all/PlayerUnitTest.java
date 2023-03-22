@@ -1,54 +1,84 @@
 package com.example.qr_go_gotta_scan_em_all;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.*;
+
 public class PlayerUnitTest {
 
     @Test
-    public void testSetName() {
-        Player player = new Player();
-        player.setUserName("Ash Ketchum");
-        assertEquals("Ash Ketchum", player.getUserName());
+    public void testGetUserName() {
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
+        assertEquals(userName, player.getUserName());
+    }
+
+    @Test
+    public void testGetUserId() {
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
+        assertEquals(userId, player.getUserId());
     }
 
     @Test
     public void testAddPokemon() {
-        Player player = new Player();
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
         Pokemon pokemon = new Pokemon("Pikachu");
-        player.addPokemonToArray(pokemon);
-        assertEquals(1, player.getPokemonArray().size());
-        assertTrue(player.getPokemonArray().contains(pokemon));
+        player.addPokemon(pokemon);
+        assertEquals(pokemon, player.getPokemonArray().get(0));
     }
 
     @Test
     public void testRemovePokemon() {
-        Player player = new Player();
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
         Pokemon pokemon = new Pokemon("Pikachu");
-        player.addPokemonToArray(pokemon);
-        player.removePokemon(0);
-        assertEquals(0, player.getPokemonArray().size());
-        assertFalse(player.getPokemonArray().contains(pokemon));
+        player.addPokemon(pokemon);
+        player.removePokemon(pokemon);
+        assertTrue(player.getPokemonArray().isEmpty());
     }
 
     @Test
-    public void testGetScore() {
-        Player player = new Player();
-        Pokemon pokemon1 = new Pokemon("Charmander");
-        Pokemon pokemon2 = new Pokemon("Squirtle");
-        Pokemon pokemon3 = new Pokemon("Bulbasaur");
-        player.addPokemonToArray(pokemon1);
-        player.addPokemonToArray(pokemon2);
-        player.addPokemonToArray(pokemon3);
-        double expectedScore = pokemon1.getScore() + pokemon2.getScore() + pokemon3.getScore();
-        System.out.println();
+    public void testGetLeaderboardStats() {
+        String userName = "TestUser";
+        String userId = "12345";
+        Map<String, Object> leaderboardStats = new HashMap<>();
+        leaderboardStats.put("userName", userName);
+        leaderboardStats.put("highScore", 100.0);
+        Player player = new Player(new ArrayList<>(), userName, userId, leaderboardStats, new ArrayList<>(), "");
+        assertEquals(leaderboardStats, player.getLeaderboardStats());
     }
 
+    @Test
+    public void testRemovePokemonAtIndex() {
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
+        Pokemon pokemon1 = new Pokemon("Pikachu");
+        Pokemon pokemon2 = new Pokemon("Bulbasaur");
+        player.addPokemon(pokemon1);
+        player.addPokemon(pokemon2);
+        player.removePokemonAtIndex(0);
+        assertEquals(pokemon2, player.getPokemonArray().get(0));
+    }
+
+    @Test
+    public void testGetPokemonAtIndex() {
+        String userName = "TestUser";
+        String userId = "12345";
+        Player player = new Player(userName, userId);
+        Pokemon pokemon1 = new Pokemon("Pikachu");
+        Pokemon pokemon2 = new Pokemon("Bulbasaur");
+        player.addPokemon(pokemon1);
+        player.addPokemon(pokemon2);
+        assertEquals(pokemon2, player.getPokemonAtIndex(1));
+    }
 }
