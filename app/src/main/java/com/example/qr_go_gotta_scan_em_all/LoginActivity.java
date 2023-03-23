@@ -47,8 +47,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Player player;
 
-    boolean isRegistered;
-    boolean isUserTaken;
+    private boolean isRegistered;
+    private boolean isUserTaken;
 
     PlayerFactory playerFactory;
 
@@ -97,12 +97,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Firstly check the the database if the userName is taken or not.
-        isUserNameTaken(userName);
+//        isUserNameTaken(userName);
 
         // - if it is taken then inform the user
         // - otherwise create login the user and add the entry to the database
 
-        if (isUserTaken){
+        if (true){
             // Next create a AppUser class
             // NOTE: For now there isn't any distinction between player and owner.
 
