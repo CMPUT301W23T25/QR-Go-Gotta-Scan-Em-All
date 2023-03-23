@@ -14,7 +14,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField ("String", "AUTH_CODE", getApiKey())
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,7 +40,12 @@ android {
         }
     }
 }
-
+String getApiKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['APOD_API_KEY']
+}
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
