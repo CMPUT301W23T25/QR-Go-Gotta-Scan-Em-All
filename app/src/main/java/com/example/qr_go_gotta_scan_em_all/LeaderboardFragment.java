@@ -60,19 +60,19 @@ public class LeaderboardFragment extends Fragment {
 
         // TODO: Replace with data from Database
         ArrayList<Player> data = new ArrayList<>();
-        Map<String, Object> mockPlayer1 = new HashMap<String, Object>() {{
+        Map<String, String> mockPlayer1 = new HashMap<String, String>() {{
             put("username", "User1");
-            put("totalScore", 1000.0);
+            put("totalScore", "10000");
         }};
-        Map<String, Object> mockPlayer2 = new HashMap<String, Object>() {{
+        Map<String, String> mockPlayer2 = new HashMap<String, String>() {{
             put("username", "User2");
-            put("totalScore", 9000.0);
+            put("totalScore", "9000");
         }};
-//        data.add(new Player(null, "User1", null, mockPlayer1, null, null));
-//        data.add(new Player(null, "User2", null, mockPlayer2, null, null));
+        data.add(new Player(null, "User1", null, mockPlayer1, null, null));
+        data.add(new Player(null, "User2", null, mockPlayer2, null, null));
 
 
-//        adapter = new LeaderboardArrayAdapter(getContext(), data);
-//        leaderboard_list_view.setAdapter(adapter);
+        adapter = new LeaderboardArrayAdapter(getContext(), data);
+        leaderboard_list_view.setAdapter(adapter);
     }
 }

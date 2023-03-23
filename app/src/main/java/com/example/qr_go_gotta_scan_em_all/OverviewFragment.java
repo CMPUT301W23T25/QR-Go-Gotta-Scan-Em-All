@@ -151,8 +151,8 @@ public class OverviewFragment extends Fragment {
     }
 
     private void deleteFromPlayerList(int pos){
-        pokemonArrayAdapter.remove(player.getPokemonAtIndex(pos));
-        player.removePokemonAtIndex(pos);
+        pokemonArrayAdapter.remove(player.getPokemon(pos));
+        player.removePokemon(pos);
         pokemonArrayAdapter.notifyDataSetChanged();
     }
 }
