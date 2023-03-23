@@ -2,6 +2,9 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import androidx.core.util.Pair;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,42 +15,13 @@ import java.util.Map;
  A class representing a player in the game.
  */
 public class Player implements Serializable {
-
-    private ArrayList<Pokemon> pokemonArray;
     private String userName;
     private String userId;
-    // leaderboardStats schema
-    // {
-    //      "userName": userName,
-    //      "highScore": highScore,
-    // }
-    private Map<String, Object> leaderboardStats;
-
+    private ArrayList<Pokemon> pokemonArray;
+    private Pokemon bestPokemon;
     private ArrayList<Player> friends;
-
-/*    private ArrayList<Map<Pokemon,Pair<Object,Object>>>pokemonImageLoc;*/
-
     private String emailAddress;
-
-    /**
-     * Constructs a Player object with the given parameters.
-     *
-     * @param pokemonArray      an array list of the player's Pokemon
-     * @param userName          the username of the player
-     * @param userId            the unique ID of the player
-     * @param leaderboardStats  a map of the player's leaderboard stats
-     * @param friends           an array list of the player's friends
-     * @param emailAddress     the email address of the player
-     */
-
-    public Player(ArrayList<Pokemon> pokemonArray, String userName, String userId, Map<String, Object> leaderboardStats, ArrayList<Player> friends, String emailAddress) {
-        this.pokemonArray = pokemonArray;
-        this.userName = userName;
-        this.userId = userId;
-        this.leaderboardStats = leaderboardStats;
-        this.friends = friends;
-        this.emailAddress = emailAddress;
-    }
+/*    private ArrayList<Map<Pokemon,Pair<Object,Object>>>pokemonImageLoc;*/
 
     /**
      * Constructs a Player object with the given username and unique ID.
@@ -55,17 +29,12 @@ public class Player implements Serializable {
      * @param userName  the username of the player
      * @param userId    the unique ID of the player
      */
-
     public Player(String userName, String userId) {
-
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = userName;
         this.pokemonArray = new ArrayList<Pokemon>();
-        this.leaderboardStats = new HashMap<String, Object>() {{
-           put("userName", userName);
-           put("highScore", 0.0);
-        }};
+        this.bestPokemon = null;
         this.friends = new ArrayList<Player>();
 /*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
     }
@@ -94,7 +63,7 @@ public class Player implements Serializable {
      * @return an array list of the player's Pokemon
      */
     public ArrayList<Pokemon> getPokemonArray(){
-        return new ArrayList<>(this.pokemonArray);
+        return this.pokemonArray;
     }
 
     /**
@@ -112,6 +81,11 @@ public class Player implements Serializable {
      */
     public void addPokemon(Pokemon pokemon) {
         this.pokemonArray.add(pokemon);
+
+        // update bestPokemon if required
+        if (bestPokemon == null || (bestPokemon.getScore() < pokemon.getScore())) {
+            bestPokemon = pokemon;
+        }
     }
 
     /**
@@ -120,22 +94,30 @@ public class Player implements Serializable {
      */
     public void removePokemon(Pokemon pokemon) {
         this.pokemonArray.remove(pokemon);
+
+        // update bestPokemon if required
+        if (bestPokemon == pokemon) {
+            Pokemon newBest = null;
+
+            // find the new best pokemon
+            for (Pokemon p : pokemonArray) {
+                if (newBest == null || p.getScore() > newBest.getScore()) {
+                    newBest = p;
+                }
+            }
+
+            // update bestPokemon
+            bestPokemon = newBest;
+        }
     }
 
     /**
-     Returns a Map object containing the leaderboard statistics of the player.
-     @return the leaderboard statistics of the player as a Map object
-     */
-    public Map<String, Object> getLeaderboardStats() {
-        return leaderboardStats;
-    }
-
-    /**
-     Removes a Pokemon object from the player's array of Pokemon.
+     Removes a Pokemon object from the player's array of Pokemon at a specific index.
      @param pos the position of the pokemon object to delete
      */
     public void removePokemonAtIndex(int pos) {
-        this.pokemonArray.remove(pos);
+        Pokemon pokemon = pokemonArray.get(pos);
+        this.removePokemon(pokemon);
     }
 
     /**
@@ -144,5 +126,14 @@ public class Player implements Serializable {
      */
     public Pokemon getPokemonAtIndex(int pos) {
         return this.pokemonArray.get(pos);
+    }
+
+    /**
+     * Returns the player's best Pokemon.
+     *
+     * @return the player's best Pokemon
+     */
+    public Pokemon getBestPokemon() {
+        return bestPokemon;
     }
 }

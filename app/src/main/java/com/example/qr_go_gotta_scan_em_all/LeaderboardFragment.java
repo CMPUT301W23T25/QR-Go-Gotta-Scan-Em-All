@@ -68,11 +68,11 @@ public class LeaderboardFragment extends Fragment {
             put("username", "User2");
             put("totalScore", 9000.0);
         }};
-        data.add(new Player(null, "User1", null, mockPlayer1, null, null));
-        data.add(new Player(null, "User2", null, mockPlayer2, null, null));
+//        data.add(new Player(null, "User1", null, mockPlayer1, null, null));
+//        data.add(new Player(null, "User2", null, mockPlayer2, null, null));
 
 
-        adapter = new LeaderboardArrayAdapter(getContext(), data);
-        leaderboard_list_view.setAdapter(adapter);
+//        adapter = new LeaderboardArrayAdapter(getContext(), data);
+//        leaderboard_list_view.setAdapter(adapter);
     }
 }
