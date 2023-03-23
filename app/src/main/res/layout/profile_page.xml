@@ -98,17 +98,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.452" />
 
-    <SearchView
-        android:layout_width="213dp"
-        android:layout_height="51dp"
-        android:theme="@style/ThemeOverlay.Material3.DynamicColors.Dark"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/border"
-        app:layout_constraintVertical_bias="0.38" />
-
     <TextView
         android:id="@+id/username_view"
         android:layout_width="112dp"
@@ -148,7 +137,6 @@
         android:layout_width="112dp"
         android:layout_height="39dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
         android:layout_marginEnd="283dp"
         android:fontFamily="sans-serif-medium"
         android:text="High Score:"
@@ -156,10 +144,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.151" />
+        app:layout_constraintTop_toBottomOf="@+id/highest_score_qr"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/email_view"
@@ -174,10 +162,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/highest_score_qr"
-        app:layout_constraintVertical_bias="0.678" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/create_button"
