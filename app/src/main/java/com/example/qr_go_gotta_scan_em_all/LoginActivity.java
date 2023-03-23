@@ -47,7 +47,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private Player player;
 
-    boolean isRegistered;
+    private boolean isRegistered;
+    private boolean isUserTaken;
+
+    PlayerFactory playerFactory;
+
+
 
 
     /**
@@ -65,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         db = new Database(this);
 
         getPlayerData();
-
+        playerFactory = new PlayerFactory(this);
         if(!isRegistered){
 
             loginButton.setOnClickListener(new View.OnClickListener() {
@@ -89,16 +94,15 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void createUserSession(){
         userName = userText.getText().toString();
-        PlayerFactory playerFactory;
 
 
         // Firstly check the the database if the userName is taken or not.
-        boolean isTaken = isUserNameTaken(userName);
+//        isUserNameTaken(userName);
 
         // - if it is taken then inform the user
         // - otherwise create login the user and add the entry to the database
 
-        if (!isTaken){
+        if (true){
             // Next create a AppUser class
             // NOTE: For now there isn't any distinction between player and owner.
 
@@ -106,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             - Either use the PhoneID or generate a randomID through randomUUID
             - If PhoneID is used, check the database to find the phoneID of the user
             */
-            playerFactory = new PlayerFactory(this);
+
 
             player = playerFactory.generatePlayer();
             player.setUserName(userName);
@@ -183,7 +187,6 @@ public class LoginActivity extends AppCompatActivity {
      Retrieves player data from the database and sets the player object and registration status accordingly.
      */
     private void getPlayerData() {
-        Map<String,Object> playerMap = new HashMap<>();
         PlayerFactory login = new PlayerFactory(this);
 
         db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -215,10 +218,8 @@ public class LoginActivity extends AppCompatActivity {
 
      Checks whether a given username is already taken by another player in the database.
      @param userName The username to check.
-     @return True if the username is already taken, false otherwise.
      */
-    private boolean isUserNameTaken(String userName){
-        boolean[] userTaken = new boolean[1];
+    private void isUserNameTaken(String userName){
         db.getPlayerCol().whereEqualTo("user_name",userName).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -231,15 +232,15 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (queryDocumentSnapshots.isEmpty()) {
                     // Document doesn't exist
-                    userTaken[0] = false;
+                    isUserTaken = false;
                 } else {
                     // Document exists
-                    userTaken[0] = true;
+                    isUserTaken = true;
                 }
             }
         });
 
-        return userTaken[0];
+
     }
 
 }
