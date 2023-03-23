@@ -27,8 +27,7 @@ public class PlayerFactory implements Serializable {
     }
 
     public Player generatePlayer(){
-        Player player = new Player();
-        player.setUserId(userId);
+        Player player = new Player(userId);
         return player;
     }
 

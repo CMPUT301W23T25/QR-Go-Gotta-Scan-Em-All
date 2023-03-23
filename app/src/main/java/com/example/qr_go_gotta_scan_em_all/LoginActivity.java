@@ -50,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
     boolean isRegistered;
     boolean isUserTaken;
 
+    PlayerFactory playerFactory;
+
+
 
 
     /**
@@ -67,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         db = new Database(this);
 
         getPlayerData();
-
+        playerFactory = new PlayerFactory(this);
         if(!isRegistered){
 
             loginButton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void createUserSession(){
         userName = userText.getText().toString();
-        PlayerFactory playerFactory;
 
 
         // Firstly check the the database if the userName is taken or not.
@@ -108,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
             - Either use the PhoneID or generate a randomID through randomUUID
             - If PhoneID is used, check the database to find the phoneID of the user
             */
-            playerFactory = new PlayerFactory(this);
+
 
             player = playerFactory.generatePlayer();
             player.setUserName(userName);
