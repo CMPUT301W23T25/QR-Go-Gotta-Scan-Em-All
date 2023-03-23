@@ -184,7 +184,6 @@ public class LoginActivity extends AppCompatActivity {
      Retrieves player data from the database and sets the player object and registration status accordingly.
      */
     private void getPlayerData() {
-        Map<String,Object> playerMap = new HashMap<>();
         PlayerFactory login = new PlayerFactory(this);
 
         db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
