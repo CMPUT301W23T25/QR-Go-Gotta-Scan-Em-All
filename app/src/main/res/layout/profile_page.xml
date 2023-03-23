@@ -64,7 +64,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -75,10 +75,10 @@
         android:layout_height="147dp"
         app:layout_constraintBottom_toBottomOf="@+id/border"
         app:layout_constraintEnd_toEndOf="@+id/border"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/border"
-        app:layout_constraintVertical_bias="0.432"
+        app:layout_constraintVertical_bias="0.359"
         app:srcCompat="@drawable/pokeball_closed"
         tools:ignore="UnknownIdInLayout" />
 
@@ -96,18 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.452" />
-
-    <SearchView
-        android:layout_width="213dp"
-        android:layout_height="51dp"
-        android:theme="@style/ThemeOverlay.Material3.DynamicColors.Dark"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/border"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.728" />
 
     <TextView
         android:id="@+id/username_view"
@@ -204,4 +193,17 @@
         app:layout_constraintStart_toEndOf="@+id/username_view"
         app:layout_constraintTop_toBottomOf="@+id/border"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/search_button"
+        android:layout_width="30dp"
+        android:layout_height="27dp"
+        app:layout_constraintBottom_toBottomOf="@+id/border"
+        app:layout_constraintEnd_toEndOf="@+id/border"
+        app:layout_constraintHorizontal_bias="0.042"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/border"
+        app:layout_constraintVertical_bias="0.049"
+        app:srcCompat="@drawable/search_icon"
+        tools:ignore="UnknownIdInLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
