@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void createUserSession(){
         userName = userText.getText().toString();
-        PlayerIDGenerator playerIDGenerator;
+        PlayerFactory playerFactory;
 
 
         // Firstly check the the database if the userName is taken or not.
@@ -106,9 +106,10 @@ public class LoginActivity extends AppCompatActivity {
             - Either use the PhoneID or generate a randomID through randomUUID
             - If PhoneID is used, check the database to find the phoneID of the user
             */
-            playerIDGenerator = new PlayerIDGenerator(this);
+            playerFactory = new PlayerFactory(this);
 
-            player = new Player(userName,playerIDGenerator.getUserId());
+            player = playerFactory.generatePlayer();
+            player.setUserName(userName);
 
             // add the player to DB
             addPlayer(player);
@@ -183,7 +184,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void getPlayerData() {
         Map<String,Object> playerMap = new HashMap<>();
-        PlayerIDGenerator login = new PlayerIDGenerator(this);
+        PlayerFactory login = new PlayerFactory(this);
+
         db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
