@@ -197,7 +197,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                                     latitude = addresses.get(0).getLatitude();
                                     longitude = addresses.get(0).getLongitude();
                                     cityName = addresses.get(0).getLocality();
-                                    countryName= addresses.get(0).getCountryName();
+                                    countryName = addresses.get(0).getCountryName();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
