@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             Pokemon pokemonAdded;
             if (result.getData() != null && result.getResultCode() == RESULT_OK) {
                 pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
-                player.addPokemonToArray(pokemonAdded);
+                player.addPokemon(pokemonAdded);
                 goToOverview();
 
             }
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
-        player.addPokemonToArray(new Pokemon("test1"));
+        player.addPokemon(new Pokemon("test1"));
 
 
     }
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(pkRaw);
         if (pkRaw != null){
             Pokemon pk = (Pokemon)pkRaw;
-            player.addPokemonToArray(pk);
+            player.addPokemon(pk);
             System.out.println("NICEEEEE");
         }
 
