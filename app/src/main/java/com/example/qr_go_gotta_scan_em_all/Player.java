@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-
  A class representing a player in the game.
  */
 public class Player implements Serializable {
@@ -19,10 +18,9 @@ public class Player implements Serializable {
     private String userId;
     private ArrayList<Pokemon> pokemonArray;
     private Pokemon bestPokemon;
+    private Double totalScore;
     private ArrayList<Player> friends;
     private String emailAddress;
-    private Map<String, String> leaderboardStats;
-    /*    private ArrayList<Map<Pokemon,Pair<Object,Object>>>pokemonImageLoc;*/
 
     /**
      * Constructs a Player object with the given username and unique ID.
@@ -36,33 +34,9 @@ public class Player implements Serializable {
         this.userName = userName;
         this.pokemonArray = new ArrayList<Pokemon>();
         this.bestPokemon = null;
-        this.leaderboardStats = null;
+        this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
-        /*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
     }
-
-
-    /**
-     * Constructs a Player object with the given parameters.
-     *
-     * @param pokemonArray      an array list of the player's Pokemon
-     * @param userName          the username of the player
-     * @param userId            the unique ID of the player
-     * @param leaderboardStats  a map of the player's leaderboard stats
-     * @param friends           an array list of the player's friends
-     * @param emailAddress     the email address of the player
-     */
-
-    public Player(ArrayList<Pokemon> pokemonArray, String userName, String userId, Map<String, String> leaderboardStats, ArrayList<Player> friends, String emailAddress) {
-        this.pokemonArray = pokemonArray;
-        this.userName = userName;
-        this.userId = userId;
-        this.leaderboardStats = leaderboardStats;
-        this.bestPokemon = null;
-        this.friends = friends;
-        this.emailAddress = emailAddress;
-    }
-
 
     /**
      * Constructs a Player object with ID.
@@ -75,11 +49,9 @@ public class Player implements Serializable {
         this.userName = null;
         this.pokemonArray = new ArrayList<Pokemon>();
         this.bestPokemon = null;
-        this.leaderboardStats = null;
+        this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
-        /*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
     }
-
 
     /**
      * Returns the username of the player.
@@ -91,12 +63,39 @@ public class Player implements Serializable {
     }
 
     /**
+     * Sets the player's username to the given username.
+     *
+     * @param userName the new username of the player
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
      * Returns the unique ID of the player.
      *
      * @return the unique ID of the player
      */
     public String getUserId() {
         return userId;
+    }
+
+    /**
+     * Gets the player's email address.
+     *
+     * @return the player's email address
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    /**
+     * Sets the player's email address.
+     *
+     * @param emailAddress the player's email address
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     /**
@@ -118,6 +117,33 @@ public class Player implements Serializable {
     }
 
     /**
+     * Gets the player's total score.
+     *
+     * @return the player's total score
+     */
+    public Double getTotalScore() {
+        return totalScore;
+    }
+
+    /**
+     * Gets a Pokemon object to the player's array of Pokemon.
+     *
+     * @param pos the position of the pokemon object to get
+     */
+    public Pokemon getPokemonAtIndex(int pos) {
+        return this.pokemonArray.get(pos);
+    }
+
+    /**
+     * Returns the player's best Pokemon.
+     *
+     * @return the player's best Pokemon
+     */
+    public Pokemon getBestPokemon() {
+        return bestPokemon;
+    }
+
+    /**
      Adds a Pokemon object to the player's array of Pokemon.
      @param pokemon the Pokemon object to add to the array
      */
@@ -128,6 +154,9 @@ public class Player implements Serializable {
         if (bestPokemon == null || (bestPokemon.getScore() < pokemon.getScore())) {
             bestPokemon = pokemon;
         }
+
+        // update total score
+        this.updateTotalScore();
     }
 
     /**
@@ -151,6 +180,9 @@ public class Player implements Serializable {
             // update bestPokemon
             bestPokemon = newBest;
         }
+
+        // update total score
+        this.updateTotalScore();
     }
 
     /**
@@ -162,28 +194,14 @@ public class Player implements Serializable {
         this.removePokemon(pokemon);
     }
 
-    /**
-     Gets a Pokemon object to the player's array of Pokemon.
-     @param pos the position of the pokemon object to get
-     */
-    public Pokemon getPokemonAtIndex(int pos) {
-        return this.pokemonArray.get(pos);
-    }
+    private void updateTotalScore() {
+        Double sum = 0.0;
 
-    /**
-     * Returns the player's best Pokemon.
-     *
-     * @return the player's best Pokemon
-     */
-    public Pokemon getBestPokemon() {
-        return bestPokemon;
-    }
+        // iterate through pokemons
+        for (Pokemon p: pokemonArray) {
+            sum += p.getScore();
+        }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Map<String, String> getLeaderboardStats() {
-        return leaderboardStats;
+        this.totalScore = sum;
     }
 }
