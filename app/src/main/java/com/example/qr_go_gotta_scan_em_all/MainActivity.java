@@ -1,13 +1,10 @@
 package com.example.qr_go_gotta_scan_em_all;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,30 +15,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.common.util.ScopeUtil;
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -101,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             Pokemon pokemonAdded;
             if (result.getData() != null && result.getResultCode() == RESULT_OK) {
                 pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
-                player.addPokemonToArray(pokemonAdded);
+                player.addPokemon(pokemonAdded);
                 goToOverview();
 
             }
@@ -130,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
-        player.addPokemonToArray(new Pokemon("test1"));
+        player.addPokemon(new Pokemon("test1"));
 
 
     }
@@ -186,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(pkRaw);
         if (pkRaw != null){
             Pokemon pk = (Pokemon)pkRaw;
-            player.addPokemonToArray(pk);
+            player.addPokemon(pk);
             System.out.println("NICEEEEE");
         }
 
