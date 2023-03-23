@@ -10,28 +10,26 @@ import java.util.UUID;
 
  A class for generating unique player IDs.
  */
-public class PlayerIDGenerator implements Serializable {
+public class PlayerFactory implements Serializable {
     // The AppUser has a userName and userId
-
-    private String userId;
-    /**
-
-     Constructor for generating a random UUID-based player ID.
-     */
-    public PlayerIDGenerator() {
-        this.userId = UUID.randomUUID().toString();
-    }
-
+    String userId;
 
     /**
 
-     Constructor for generating a player ID based on the device's Android ID.
+     Constructor for generating a Player based on the device's Android ID.
      @param context The context used to get the Android ID.
+     @return A Player with the generated ID based on the Android ID
      */
-    public PlayerIDGenerator(Context context) {
+    public PlayerFactory(Context context) {
+
         this.userId = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+    }
 
+    public Player generatePlayer(){
+        Player player = new Player();
+        player.setUserId(userId);
+        return player;
     }
 
     /**
