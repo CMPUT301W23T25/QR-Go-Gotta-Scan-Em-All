@@ -68,6 +68,16 @@ public class Player implements Serializable {
 /*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
     }
 
+    public Player(String userId) {
+        // The login contains the unique ID of the player
+        this.userId = userId;
+        this.userName = null;
+        this.pokemonArray = new ArrayList<Pokemon>();
+        this.bestPokemon = null;
+        this.friends = new ArrayList<Player>();
+        /*        this.pokemonImageLoc = new ArrayList<Map<Pokemon,Pair<Object,Object>>>();*/
+    }
+
     /**
      * Constructs an empty Player object.
      */
@@ -161,4 +171,18 @@ public class Player implements Serializable {
     public Pokemon getPokemon(int pos){
         return this.pokemonArray.get(pos);
     }
+
+    /**
+     * Returns the player's best Pokemon.
+     *
+     * @return the player's best Pokemon
+     */
+    public Pokemon getBestPokemon() {
+        return bestPokemon;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 }
