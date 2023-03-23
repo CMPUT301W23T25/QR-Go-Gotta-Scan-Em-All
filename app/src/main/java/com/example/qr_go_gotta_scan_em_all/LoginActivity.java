@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     boolean isUserTaken;
 
 
+
     /**
      * Called when the activity is starting. This is where most initialization of the activity should go.
      * @param savedInstanceState the Bundle containing the activity's previously saved state
