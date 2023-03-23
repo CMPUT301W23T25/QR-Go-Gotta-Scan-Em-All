@@ -41,23 +41,20 @@ import java.util.Locale;
  */
 public class PokemonAddActivity extends AppCompatActivity {
 
-    private ImageView photo_btn;
-    private ImageView add_location;
-    private ImageView save_btn;
-    private ImageView release_btn;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Bitmap locationImgRaw;
     private String pokemonCaught;
 //    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
-
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
     private Database db;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private double longitude;
     private double latitude;
+    private String cityName;
+    private String countryName;
 
     /**
 
@@ -74,10 +71,10 @@ public class PokemonAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_add);
         db = new Database(this);
-        release_btn = findViewById(R.id.release_pokemon_button);
-        photo_btn = findViewById(R.id.add_photo_button);
-        save_btn = findViewById(R.id.capture_pokemon_button);
-        add_location = findViewById(R.id.add_location_button);
+        ImageView release_btn = findViewById(R.id.release_pokemon_button);
+        ImageView photo_btn = findViewById(R.id.add_photo_button);
+        ImageView save_btn = findViewById(R.id.capture_pokemon_button);
+        ImageView add_location = findViewById(R.id.add_location_button);
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
@@ -199,6 +196,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                                     latitude = addresses.get(0).getLatitude();
                                     longitude = addresses.get(0).getLongitude();
+                                    cityName = addresses.get(0).getLocality();
+                                    countryName= addresses.get(0).getCountryName();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
