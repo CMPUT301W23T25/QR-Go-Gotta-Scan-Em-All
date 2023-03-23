@@ -48,14 +48,14 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
 
         // Get current Player
         Player player = getItem(position);
-        Map<String, String> leaderboardStats = player.getLeaderboardStats();
+//        Map<String, Object> leaderboardStats = player.getLeaderboardStats();
 
         // Bind player data to views in the layout
         TextView usernameView = view.findViewById(R.id.leaderboard_username);
         TextView totalScoreView = view.findViewById(R.id.leaderboard_score);
 
-        usernameView.setText(leaderboardStats.get("username"));
-        totalScoreView.setText(leaderboardStats.get("totalScore"));
+//        usernameView.setText((String) leaderboardStats.get("username"));
+//        totalScoreView.setText(String.valueOf((Double) leaderboardStats.get("totalScore")));
 
         return view;
     }
