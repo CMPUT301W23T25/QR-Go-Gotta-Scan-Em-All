@@ -24,10 +24,6 @@ import java.util.List;
 public class Pokemon implements Serializable {
     // Implement later
 
-    private byte[] imageByteArray;
-    private double locationLat;
-
-    private double locationLong;
 
     private String ID;
 
@@ -41,9 +37,6 @@ public class Pokemon implements Serializable {
      */
     public Pokemon(String rawName) {
         this.ID = calculateHash(rawName);
-        this.locationLong = 0.0;
-        this.locationLat = 0.0;
-        this.imageByteArray = null;
 //        this.img = null;
     }
     /**
@@ -51,9 +44,6 @@ public class Pokemon implements Serializable {
      */
     public Pokemon() {
         this.ID = null;
-        this.locationLong = 0.0;
-        this.locationLat = 0.0;
-        this.imageByteArray = null;
 //        this.img = null;
     }
     /**
