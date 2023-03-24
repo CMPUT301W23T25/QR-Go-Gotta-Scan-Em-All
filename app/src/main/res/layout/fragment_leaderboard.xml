@@ -70,7 +70,9 @@
     <ListView
         android:id="@+id/leaderboard_list_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="56sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
