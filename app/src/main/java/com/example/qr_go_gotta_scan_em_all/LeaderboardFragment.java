@@ -6,10 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +28,7 @@ public class LeaderboardFragment extends Fragment {
 
     private ListView leaderboard_list_view;
     private LeaderboardArrayAdapter adapter;
+    private Database db;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,11 +65,39 @@ public class LeaderboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO: Replace with data from Database
+        // Initialize the database and the adapter
+        db = new Database(getContext());
         ArrayList<Player> data = new ArrayList<>();
-
-
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboard_list_view.setAdapter(adapter);
+
+        // Get all the player collection from the database
+        db.getPlayerCol()
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // For each player in the database, add it to the data array
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userName = (String) document.get("username");
+                                String userId = document.getId();
+
+                                // Create player object
+                                Player player = new Player(userName, userId);
+
+                                // TODO: Add player-owned QR codes to player object
+
+                                // Add player to data array
+                                data.add(player);
+                            }
+                            // Notify the adapter that the data has changed
+                            adapter.notifyDataSetChanged();
+                            Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
+                        } else {
+                            Log.d("LEADERBOARD_FRAGMENT", "Cached get failed: ", task.getException());
+                        }
+                    }
+                });
     }
 }
