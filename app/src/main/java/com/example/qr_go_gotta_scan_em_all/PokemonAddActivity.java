@@ -131,15 +131,19 @@ public class PokemonAddActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 Pokemon pokemon = new Pokemon(pokemonCaught);
+                PokemonInformation pI= new PokemonInformation(pokemon);
+                // #TODO
+                // SAFWAN implements image compression function here, then pass in the image into the setImageByteArray
+                // of that PI object.
                 if (photoAdded) {
                     // NOTE: Null is temporary
-                    pokemon.setImage(locationImgRaw);
+                    pI.setImageByteArray(null);
                 }
                 if (locationAdded) {
-                    pokemon.setLocation(latitude, longitude);
+                    pI.setLocation(latitude, longitude);
                 }
 
-                intent.putExtra("pokemon", pokemon);
+                intent.putExtra("pI", pI);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
                 // Also add the Image in the Images collection, assign the Pokemon field to the ID of the pokemon, the
