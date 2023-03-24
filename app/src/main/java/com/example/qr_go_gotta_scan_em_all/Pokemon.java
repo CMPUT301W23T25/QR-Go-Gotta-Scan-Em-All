@@ -103,19 +103,8 @@ public class Pokemon implements Serializable {
         return name;
     }
 
-    /**
-     * @return The byte of the Pokemon location image.
-     */
-    public byte[] getImageByteArray() {
-        return this.imageByteArray;
-    }
-    /**
-     * Returns the location of the Pokemon.
-     * @return The location of the Pokemon.
-     */
-    public Pair<Double,Double> getLocation() {
-        return new Pair<Double,Double>(this.locationLat,this.locationLong);
-    }
+
+
 
     /** Simple Scoring function that calculates the score based on the number of characters.
      *  The score changes based on the hexadecimal representation of the SHA-256 encrypted string
@@ -127,24 +116,8 @@ public class Pokemon implements Serializable {
     public double getScore(){
         return calculateScore();
     }
-    /**
-     * Sets the image of the Pokemon to a given value.
-     * @param image The new image of the Pokemon.
-     */
-    public void setImage(Bitmap image) {
-        this.imageByteArray = compressImage(image);
 
-    }
 
-    /**
-     * Sets the location of the Pokemon to a given value.
-     * @param lat double of latitude
-     *  @param lon double of longitude
-     */
-    public void setLocation(double lat, double lon) {
-        this.locationLong = lat;
-        this.locationLat = lon;
-    }
 
     /**
      * Calculates the SHA-256 hash of a given name.

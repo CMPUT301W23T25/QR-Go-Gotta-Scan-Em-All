@@ -16,7 +16,7 @@ import java.util.Map;
 public class Player implements Serializable {
     private String userName;
     private String userId;
-    private ArrayList<Pokemon> pokemonArray;
+    private ArrayList<PokemonInformation> pokemonArray;
     private Pokemon bestPokemon;
     private Double totalScore;
     private ArrayList<Player> friends;
@@ -32,7 +32,7 @@ public class Player implements Serializable {
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = userName;
-        this.pokemonArray = new ArrayList<Pokemon>();
+        this.pokemonArray = new ArrayList<PokemonInformation>();
         this.bestPokemon = null;
         this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
@@ -47,7 +47,7 @@ public class Player implements Serializable {
         // The login contains the unique ID of the player
         this.userId = userId;
         this.userName = null;
-        this.pokemonArray = new ArrayList<Pokemon>();
+        this.pokemonArray = new ArrayList<PokemonInformation>();
         this.bestPokemon = null;
         this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
@@ -103,7 +103,7 @@ public class Player implements Serializable {
      *
      * @return an array list of the player's Pokemon
      */
-    public ArrayList<Pokemon> getPokemonArray(){
+    public ArrayList<PokemonInformation> getPokemonArray(){
         return this.pokemonArray;
     }
 
@@ -112,7 +112,7 @@ public class Player implements Serializable {
      *
      * @param pokemonArray  the new array list of the player's Pokemon
      */
-    public void setPokemonArray(ArrayList<Pokemon> pokemonArray) {
+    public void setPokemonArray(ArrayList<PokemonInformation> pokemonArray) {
         this.pokemonArray = pokemonArray;
     }
 
@@ -130,7 +130,7 @@ public class Player implements Serializable {
      *
      * @param pos the position of the pokemon object to get
      */
-    public Pokemon getPokemonAtIndex(int pos) {
+    public PokemonInformation getPokemonAtIndex(int pos) {
         return this.pokemonArray.get(pos);
     }
 
@@ -145,14 +145,14 @@ public class Player implements Serializable {
 
     /**
      Adds a Pokemon object to the player's array of Pokemon.
-     @param pokemon the Pokemon object to add to the array
+     @param pI the PokemonInformation object to add to the array
      */
-    public void addPokemon(Pokemon pokemon) {
-        this.pokemonArray.add(pokemon);
+    public void addPokemon(PokemonInformation pI) {
+        this.pokemonArray.add(pI);
 
         // update bestPokemon if required
-        if (bestPokemon == null || (bestPokemon.getScore() < pokemon.getScore())) {
-            bestPokemon = pokemon;
+        if (bestPokemon == null || (bestPokemon.getScore() < pI.getPokemon().getScore())) {
+            bestPokemon = pI.getPokemon();
         }
 
         // update total score
@@ -163,17 +163,17 @@ public class Player implements Serializable {
      Removes a Pokemon object from the player's array of Pokemon.
      @param pokemon the Pokemon object to remove from the array
      */
-    public void removePokemon(Pokemon pokemon) {
+    public void removePokemon(PokemonInformation pokemon) {
         this.pokemonArray.remove(pokemon);
 
         // update bestPokemon if required
-        if (bestPokemon == pokemon) {
+        if (bestPokemon == pokemon.getPokemon()) {
             Pokemon newBest = null;
 
             // find the new best pokemon
-            for (Pokemon p : pokemonArray) {
-                if (newBest == null || p.getScore() > newBest.getScore()) {
-                    newBest = p;
+            for (PokemonInformation pI : pokemonArray) {
+                if (newBest == null || pI.getPokemon().getScore() > newBest.getScore()) {
+                    newBest = pI.getPokemon();
                 }
             }
 
@@ -190,16 +190,16 @@ public class Player implements Serializable {
      @param pos the position of the pokemon object to delete
      */
     public void removePokemonAtIndex(int pos) {
-        Pokemon pokemon = pokemonArray.get(pos);
-        this.removePokemon(pokemon);
+        PokemonInformation pI = pokemonArray.get(pos);
+        this.removePokemon(pI);
     }
 
     private void updateTotalScore() {
         Double sum = 0.0;
 
         // iterate through pokemons
-        for (Pokemon p: pokemonArray) {
-            sum += p.getScore();
+        for (PokemonInformation pI: pokemonArray) {
+            sum += pI.getPokemon().getScore();
         }
 
         this.totalScore = sum;

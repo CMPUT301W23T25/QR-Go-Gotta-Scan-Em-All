@@ -1,13 +1,26 @@
 package com.example.qr_go_gotta_scan_em_all;
 
-public class PokemonInformation {
+import android.util.Pair;
+
+import java.io.Serializable;
+
+public class PokemonInformation implements Serializable {
     private byte[] imageByteArray;
     private double locationLat;
     private double locationLong;
+
     private String cityName;
     private Pokemon pokemon;
 
-    public PokemonInformation(byte[] imageByteArray, double locationLat, double locationLong, String cityName, Pokemon pokemon) {
+    public PokemonInformation(Pokemon pokemon) {
+        this.pokemon = pokemon;
+        this.imageByteArray = null;
+        this.locationLat = Double.POSITIVE_INFINITY;
+        this.locationLong = Double.POSITIVE_INFINITY;
+        this.cityName = null;
+    }
+
+    public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName) {
         this.imageByteArray = imageByteArray;
         this.locationLat = locationLat;
         this.locationLong = locationLong;
@@ -22,10 +35,17 @@ public class PokemonInformation {
         return imageByteArray;
     }
 
+    /**
+     * Returns the LocationLat of the Pokemon.
+     * @return The LocationLat of the Pokemon.
+     */
     public double getLocationLat() {
         return locationLat;
     }
-
+    /**
+     * Returns the LocationLong of the Pokemon.
+     * @return The LocationLong of the Pokemon.
+     */
     public double getLocationLong() {
         return locationLong;
     }
@@ -37,17 +57,22 @@ public class PokemonInformation {
     public Pokemon getPokemon() {
         return pokemon;
     }
-
+    /**
+     * Sets the image of the Pokemon to a given value.
+     * @param imageByteArray The new image of the Pokemon.
+     */
     public void setImageByteArray(byte[] imageByteArray) {
         this.imageByteArray = imageByteArray;
     }
 
-    public void setLocationLat(double locationLat) {
-        this.locationLat = locationLat;
-    }
-
-    public void setLocationLong(double locationLong) {
-        this.locationLong = locationLong;
+    /**
+     * Sets the location of the Pokemon to a given value.
+     * @param lat double of latitude
+     *  @param lon double of longitude
+     */
+    public void setLocation(double lat, double lon) {
+        this.locationLong = lat;
+        this.locationLat = lon;
     }
 
     public void setCityName(String cityName) {
@@ -56,5 +81,12 @@ public class PokemonInformation {
 
     public void setPokemon(Pokemon pokemon) {
         this.pokemon = pokemon;
+    }
+
+    public Pair<Double,Double> getPairedLocation(){
+        if (Double.compare(locationLat, Double.POSITIVE_INFINITY) != 0 && Double.compare(locationLong, Double.POSITIVE_INFINITY) != 0){
+            return new Pair<Double,Double>(locationLat,locationLong);
+        }
+        return null;
     }
 }

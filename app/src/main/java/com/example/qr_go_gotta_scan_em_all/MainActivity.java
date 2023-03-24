@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            Pokemon pokemonAdded;
+            PokemonInformation pokemonAdded;
             if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
+                pokemonAdded = (PokemonInformation) result.getData().getSerializableExtra("pI");
                 player.addPokemon(pokemonAdded);
                 goToOverview();
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
-        player.addPokemon(new Pokemon("test1"));
+        player.addPokemon(new PokemonInformation(new Pokemon("test11")));
 
 
     }
@@ -180,17 +180,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkIfPokemonAdded(){
-        System.out.println(getIntent());
-        Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
-        System.out.println(pkRaw);
-        if (pkRaw != null){
-            Pokemon pk = (Pokemon)pkRaw;
-            player.addPokemon(pk);
-            System.out.println("NICEEEEE");
-        }
 
-    }
 
     private void handlePokeBall() {
         pokeBall.setOnClickListener(new View.OnClickListener() {
