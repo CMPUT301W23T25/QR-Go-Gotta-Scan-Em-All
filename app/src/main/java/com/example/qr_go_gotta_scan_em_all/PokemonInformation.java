@@ -107,4 +107,16 @@ public class PokemonInformation implements Serializable {
     public String getCountryName() {
         return countryName;
     }
+
+    public void setLocationLat(double locationLat) {
+        this.locationLat = locationLat;
+    }
+
+    public void setLocationLong(double locationLong) {
+        this.locationLong = locationLong;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
 }
