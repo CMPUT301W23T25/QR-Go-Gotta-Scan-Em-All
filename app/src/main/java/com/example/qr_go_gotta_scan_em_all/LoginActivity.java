@@ -30,8 +30,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -208,10 +210,11 @@ public class LoginActivity extends AppCompatActivity {
         // database
         String ID = p.getUserId();
         HashMap<String, Object> playerMap = new HashMap<>();
-        playerMap.put("username", p.getUserName());
-        playerMap.put("pokemon_owned", new ArrayList<String>());
-        playerMap.put("leaderboard_stats", new HashMap<String, String>());
-        playerMap.put("friends", new ArrayList<String>());
+        playerMap.put("username",p.getUserName());
+        playerMap.put("pokemon_owned",new ArrayList<Map<String, Object>>());
+        playerMap.put("leaderboard_stats",new HashMap<String,String>());
+        playerMap.put("friends",new ArrayList<String>());
+
 
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPlayerCol().document(ID);
@@ -248,18 +251,23 @@ public class LoginActivity extends AppCompatActivity {
     private void getPlayerData() {
         PlayerFactory login = new PlayerFactory(this);
 
-        db.getPlayerCol().document(login.getUserId()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                player = new Player((String) document.get("username"), document.getId());
-                                isRegistered = true;
-                                System.out.println("registered");
-                                intent.putExtra("player", player);
-                                switchToMainActivity();
+        db.getPlayerCol().document(login.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        player = new Player((String)document.get("username"), document.getId());
+                        List<Map<String, Object>> myArray = (List<Map<String, Object>>) document.get("pokemon_owned");
+                        player.setPokemonArray(convertRawDataToPInfo(myArray));
+                        //
+                        isRegistered = true;
+                        System.out.println("registered");
+                        intent.putExtra("player",player);
+
+                        // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
+
+                        switchToMainActivity();
 
                             } else {
                                 System.out.println("tre");
@@ -306,4 +314,31 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+//    private Player getRegisteredPlayerData(){
+//        // The player ID is extracted from Player object
+//        Player p = playerFactory.generatePlayer();
+//        String pID = p.getUserId();
+//
+//        // Make a query to get the registered player
+//
+//
+//    }
+
+
+    private ArrayList<PokemonInformation> convertRawDataToPInfo(List<Map<String,Object>> a){
+        // Make a new array
+
+        ArrayList<PokemonInformation> pIList = new ArrayList<PokemonInformation>();
+        for (Map<String,Object> m:a){
+//            PokemonInformation pI = new PokemonInformation();
+            PokemonInformation pI = new PokemonInformation(new Pokemon((String)m.get("ID")),((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
+            (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"));
+            pIList.add(pI);
+            System.out.println(m.get("ID"));
+            System.out.println((double)m.get("lat"));
+        }
+
+        return pIList;
+
+    }
 }

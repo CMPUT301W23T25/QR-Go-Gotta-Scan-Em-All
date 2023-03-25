@@ -16,6 +16,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -43,11 +44,6 @@ import java.util.Locale;
 
 /**
 
-<<<<<<< HEAD
-=======
-/**
-
->>>>>>> main
  {@link PokemonAddActivity} allows the user to add a new Pokemon to their collection.
 
  The user can capture a photo, add geolocation and save the captured Pokemon.
@@ -143,7 +139,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                 if (locationPermissionGranted) {
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
-                    AddLocation();
+                    addLocation();
                     locationAdded = true;
                 } else {
                     locationAdded = false;
@@ -166,12 +162,12 @@ public class PokemonAddActivity extends AppCompatActivity {
                 // of that PI object.
                 if (photoAdded) {
                     // NOTE: Null is temporary
-                    pI.setImageByteArray(null);
+                    pI.setImageByteArray(getIMGBytes(locationImgRaw));
                 }
                 if (locationAdded) {
                     pI.setLocation(lattitude, longitude);
                 }
-
+                addPokemonToDB(pI);
                 intent.putExtra("pI", pI);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
@@ -205,17 +201,10 @@ public class PokemonAddActivity extends AppCompatActivity {
     }*/
 
     /**
-    location permissions, getting the current device location, and handling the user's response to the location permission request.
-    The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
-    a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
-    granted, and false otherwise.
-=======
-    /**
      location permissions, getting the current device location, and handling the user's response to the location permission request.
      The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
      a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
      granted, and false otherwise.
->>>>>>> main
      */
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -241,7 +230,7 @@ public class PokemonAddActivity extends AppCompatActivity {
      *The AddLocation() method gets the current device location using
      * the FusedLocationProviderClient. If the app has been granted
      */
-    private void AddLocation(){
+    private void addLocation(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation()
@@ -269,7 +258,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
         }else {
 
-            askPermission();
+            addLocation();
 
 
         }
@@ -277,41 +266,90 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * The askPermission() method requests location permission
-     * from the user using the requestPermissions() method.
-     */
-    private void askPermission() {
+    private byte[] getIMGBytes(Bitmap img){
+        // Compresses the BMP
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 50, out);
+        byte[] bytes = out.toByteArray();
+        // This needs to be converted back to ByteArrayOutputStream to be displayed.
+        return bytes;
+    }
 
-        ActivityCompat.requestPermissions(PokemonAddActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
+    private void addPokemonToDB(PokemonInformation pI){
+        // First make a query to store the pokemon into the collection of pokemon
+        addToPokemonCol(pI);
+    }
+
+    private void addToPokemonCol(PokemonInformation p){
+        String ID = p.getPokemon().getID();
+        HashMap<String, Object> pMap = new HashMap<>();
 
 
+
+        // make sure the specific ID of the player is used
+        DocumentReference docRef = db.getPokemonCol().document(ID);
+
+        // Set the data of the document with the playerMap
+        docRef.set(pMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Player data added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding player data", e);
+                        switchToNetworkFail();
+                    }
+                });
     }
 
     /**
-     * The onRequestPermissionsResult() method is called when the user
-     * responds to the location permission request. I
-     * @param requestCode The request code passed in int
-     * @param permissions The requested permissions. Never null.
-     * @param grantResults The grant results for the corresponding permissions
-     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
-     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
-     *
+
+     Starts the NetworkFailActivity and finishes the current activity.
      */
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
-
-        if (requestCode == 100){
-
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                AddLocation();
-            }else {
-
-                Toast.makeText(PokemonAddActivity.this,"Please provide the required permission",Toast.LENGTH_SHORT).show();
-
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    private void switchToNetworkFail() {
+        startActivity(new Intent(PokemonAddActivity.this, ConnectionErrorActivity.class));
+        finish();
     }
 }
+//     /**
+//      * The askPermission() method requests location permission
+//      * from the user using the requestPermissions() method.
+//      */
+//     private void askPermission() {
+
+//         ActivityCompat.requestPermissions(PokemonAddActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
+
+
+//     }
+
+//     /**
+//      * The onRequestPermissionsResult() method is called when the user
+//      * responds to the location permission request. I
+//      * @param requestCode The request code passed in int
+//      * @param permissions The requested permissions. Never null.
+//      * @param grantResults The grant results for the corresponding permissions
+//      *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+//      *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+//      *
+//      */
+
+//     @Override
+//     public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+
+//         if (requestCode == 100){
+
+//             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                 AddLocation();
+//             }else {
+
+//                 Toast.makeText(PokemonAddActivity.this,"Please provide the required permission",Toast.LENGTH_SHORT).show();
+
+//             }
+//         }
+//         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//     }
+// }

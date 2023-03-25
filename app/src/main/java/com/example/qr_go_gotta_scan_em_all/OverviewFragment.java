@@ -1,16 +1,35 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +53,8 @@ public class OverviewFragment extends Fragment {
     TextView highestScore;
     TextView lowestScore;
     ListView lW;
+
+    Database db;
 
     private Player player;
     public OverviewFragment() {
@@ -97,6 +118,7 @@ public class OverviewFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        db = new Database(getActivity().getApplicationContext());
         usernameVal = view.findViewById(R.id.usernameView_show);
         totalScore = view.findViewById(R.id.toal_score_view);
         itemsScanned = view.findViewById(R.id.item_scanned);
@@ -155,8 +177,45 @@ public class OverviewFragment extends Fragment {
     }
 
     private void deleteFromPlayerList(int pos){
-        pokemonArrayAdapter.remove(player.getPokemonAtIndex(pos));
-        player.removePokemonAtIndex(pos);
+        System.out.println(player.getPokemonArray().size());
+        PokemonInformation pI = player.getPokemonAtIndex(pos);
+        pokemonArrayAdapter.remove(pI);
+        System.out.println(player.getPokemonArray().size());
         pokemonArrayAdapter.notifyDataSetChanged();
+
+        DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
+        // Add the Pokemon to the player's list of owned Pokemon
+        ArrayList<HashMap<String,Object>> a = new ArrayList<HashMap<String,Object>>();
+        for(PokemonInformation p:player.getPokemonArray()){
+            if(p.getPokemon().getID() != pI.getPokemon().getID()){
+                String byteArrayRaw = "";
+                if (pI.getImageByteArray() != null){
+                    byteArrayRaw = new String(pI.getImageByteArray(), StandardCharsets.UTF_8);
+                }
+
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("ID",p.getPokemon().getID());
+                map.put("lat",p.getLocationLat());
+                map.put("long",p.getLocationLong());
+                map.put("image", byteArrayRaw);
+                map.put("city",p.getCityName());
+                a.add(map);
+            }
+        }
+
+        playerRef.update("pokemon_owned", a)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Handle success, if needed
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure, if needed
+                    }
+                });
     }
+
 }
