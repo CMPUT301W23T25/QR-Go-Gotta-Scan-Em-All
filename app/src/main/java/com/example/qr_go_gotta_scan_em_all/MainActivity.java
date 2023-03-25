@@ -28,20 +28,26 @@ import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -101,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
             PokemonInformation pokemonAdded;
             if (result.getData() != null && result.getResultCode() == RESULT_OK) {
                 pokemonAdded = (PokemonInformation) result.getData().getSerializableExtra("pI");
-                player.addPokemon(pokemonAdded);
+
+                // Firstly check if the pokemon exists in the player's array
+                if (!checkPokemonExistsOwnedPlayer(pokemonAdded.getPokemon())){
+                    player.addPokemon(pokemonAdded);
+                    // Now add it to the database
+                    addPokemonToPlayerArray(pokemonAdded);
+
+                }
+
                 goToOverview();
 
             }
@@ -309,6 +323,44 @@ public class MainActivity extends AppCompatActivity {
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
         finish();
+    }
+
+    private boolean checkPokemonExistsOwnedPlayer(Pokemon p){
+        for (PokemonInformation pI: player.getPokemonArray()){
+            if(Objects.equals(pI.getPokemon().getID(), p.getID())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addPokemonToPlayerArray(PokemonInformation pI){
+        // Update the player document with the new Pokemon
+
+        // Firstly make the byte map into a list:
+
+        DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("ID",pI.getPokemon().getID());
+        map.put("lat",pI.getLocationLat());
+        map.put("long",pI.getLocationLong());
+        map.put("image", new String(pI.getImageByteArray(), StandardCharsets.UTF_8));
+        map.put("city",pI.getCityName());
+
+        // Add the Pokemon to the player's list of owned Pokemon
+        playerRef.update("pokemon_owned", FieldValue.arrayUnion(map))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Handle success, if needed
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure, if needed
+                    }
+                });
     }
 
 

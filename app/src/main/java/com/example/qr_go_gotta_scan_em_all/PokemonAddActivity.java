@@ -1,9 +1,12 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,11 +15,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,10 +29,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -137,12 +146,12 @@ public class PokemonAddActivity extends AppCompatActivity {
                 // of that PI object.
                 if (photoAdded) {
                     // NOTE: Null is temporary
-                    pI.setImageByteArray(null);
+                    pI.setImageByteArray(getIMGBytes(locationImgRaw));
                 }
                 if (locationAdded) {
                     pI.setLocation(latitude, longitude);
                 }
-
+                addPokemonToDB(pI);
                 intent.putExtra("pI", pI);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
@@ -211,5 +220,54 @@ public class PokemonAddActivity extends AppCompatActivity {
         } else {
             checkLocationPermission();
         }
+    }
+
+    private byte[] getIMGBytes(Bitmap img){
+        // Compresses the BMP
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 50, out);
+        byte[] bytes = out.toByteArray();
+        // This needs to be converted back to ByteArrayOutputStream to be displayed.
+        return bytes;
+    }
+
+    private void addPokemonToDB(PokemonInformation pI){
+        // First make a query to store the pokemon into the collection of pokemon
+        addToPokemonCol(pI);
+    }
+
+    private void addToPokemonCol(PokemonInformation p){
+        String ID = p.getPokemon().getID();
+        HashMap<String, Object> pMap = new HashMap<>();
+
+
+
+        // make sure the specific ID of the player is used
+        DocumentReference docRef = db.getPokemonCol().document(ID);
+
+        // Set the data of the document with the playerMap
+        docRef.set(pMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Player data added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding player data", e);
+                        switchToNetworkFail();
+                    }
+                });
+    }
+
+    /**
+
+     Starts the NetworkFailActivity and finishes the current activity.
+     */
+    private void switchToNetworkFail() {
+        startActivity(new Intent(PokemonAddActivity.this, ConnectionErrorActivity.class));
+        finish();
     }
 }

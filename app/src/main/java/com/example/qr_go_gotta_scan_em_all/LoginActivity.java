@@ -30,8 +30,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,6 +122,8 @@ public class LoginActivity extends AppCompatActivity {
                     addPlayer(player);
 
                     intent.putExtra("player",player);
+
+                    // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
                     switchToMainActivity();
 
 
@@ -209,9 +213,15 @@ public class LoginActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         player = new Player((String)document.get("username"), document.getId());
+                        List<Map<String, Object>> myArray = (List<Map<String, Object>>) document.get("pokemon_owned");
+                        player.setPokemonArray(convertRawDataToPInfo(myArray));
+                        //
                         isRegistered = true;
                         System.out.println("registered");
                         intent.putExtra("player",player);
+
+                        // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
+
                         switchToMainActivity();
 
                     }else{
@@ -250,6 +260,31 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+//    private Player getRegisteredPlayerData(){
+//        // The player ID is extracted from Player object
+//        Player p = playerFactory.generatePlayer();
+//        String pID = p.getUserId();
+//
+//        // Make a query to get the registered player
+//
+//
+//    }
 
 
+    private ArrayList<PokemonInformation> convertRawDataToPInfo(List<Map<String,Object>> a){
+        // Make a new array
+
+        ArrayList<PokemonInformation> pIList = new ArrayList<PokemonInformation>();
+        for (Map<String,Object> m:a){
+//            PokemonInformation pI = new PokemonInformation();
+            PokemonInformation pI = new PokemonInformation(new Pokemon((String)m.get("ID")),((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
+            (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"));
+            pIList.add(pI);
+            System.out.println(m.get("ID"));
+            System.out.println(m.get("ID"));
+        }
+
+        return pIList;
+
+    }
 }

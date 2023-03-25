@@ -1,7 +1,11 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Pair;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class PokemonInformation implements Serializable {
@@ -88,5 +92,12 @@ public class PokemonInformation implements Serializable {
             return new Pair<Double,Double>(locationLat,locationLong);
         }
         return null;
+    }
+
+    public Bitmap getDecodedImage(){
+        Bitmap bmp = null;
+        // https://stackoverflow.com/questions/7620401/how-to-convert-image-file-data-in-a-byte-array-to-a-bitmap
+        bmp =  BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
+        return bmp;
     }
 }
