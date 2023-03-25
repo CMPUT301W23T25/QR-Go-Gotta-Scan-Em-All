@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         isUserNameTaken(userName, new OnCheckUsernameCallback() {
             @Override
             public void onResult(boolean isTaken) {
-                if (isTaken) {
+                if (!isTaken) {
                     player = playerFactory.generatePlayer();
                     player.setUserName(userName);
 
