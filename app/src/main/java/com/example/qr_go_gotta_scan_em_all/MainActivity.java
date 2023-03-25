@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
         goToOverview();
         handleNavBar();
         handlePokeBall();
-
-          player.addPokemon(new PokemonInformation(new Pokemon("test11")));
+        
+        player.addPokemon(new PokemonInformation(new Pokemon("test11")));
 
     }
 
