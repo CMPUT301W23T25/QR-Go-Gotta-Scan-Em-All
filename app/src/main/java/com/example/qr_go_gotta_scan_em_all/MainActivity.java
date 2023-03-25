@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     player.addPokemon(pokemonAdded);
                     // Now add it to the database
                     addPokemonToPlayerArray(pokemonAdded);
-
                 }
 
                 goToOverview();
@@ -143,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
         goToOverview();
         handleNavBar();
         handlePokeBall();
-
-        player.addPokemon(new PokemonInformation(new Pokemon("test11")));
 
 
     }

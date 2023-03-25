@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         String ID = p.getUserId();
         HashMap<String, Object> playerMap = new HashMap<>();
         playerMap.put("username",p.getUserName());
-        playerMap.put("pokemon_owned",new ArrayList<String>());
+        playerMap.put("pokemon_owned",new ArrayList<Map<String, Object>>());
         playerMap.put("leaderboard_stats",new HashMap<String,String>());
         playerMap.put("friends",new ArrayList<String>());
 
@@ -281,7 +281,7 @@ public class LoginActivity extends AppCompatActivity {
             (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"));
             pIList.add(pI);
             System.out.println(m.get("ID"));
-            System.out.println(m.get("ID"));
+            System.out.println((double)m.get("lat"));
         }
 
         return pIList;
