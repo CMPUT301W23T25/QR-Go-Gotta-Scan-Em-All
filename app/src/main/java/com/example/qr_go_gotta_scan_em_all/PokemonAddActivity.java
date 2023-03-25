@@ -139,7 +139,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                 if (locationPermissionGranted) {
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
-                    AddLocation();
+                    addLocation();
                     locationAdded = true;
                 } else {
                     locationAdded = false;
@@ -230,7 +230,7 @@ public class PokemonAddActivity extends AppCompatActivity {
      *The AddLocation() method gets the current device location using
      * the FusedLocationProviderClient. If the app has been granted
      */
-    private void AddLocation(){
+    private void addLocation(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation()
@@ -258,7 +258,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
         }else {
 
-            askPermission();
+            addLocation();
 
 
         }
