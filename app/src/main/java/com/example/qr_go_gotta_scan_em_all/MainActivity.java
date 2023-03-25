@@ -333,15 +333,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void addPokemonToPlayerArray(PokemonInformation pI){
         // Update the player document with the new Pokemon
-
-        // Firstly make the byte map into a list:
+        String byteArrayRaw = "";
+        if (pI.getImageByteArray() != null){
+            byteArrayRaw = new String(pI.getImageByteArray(), StandardCharsets.UTF_8);
+        }
 
         DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
         HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("ID",pI.getPokemon().getID());
         map.put("lat",pI.getLocationLat());
         map.put("long",pI.getLocationLong());
-        map.put("image", new String(pI.getImageByteArray(), StandardCharsets.UTF_8));
+        map.put("image", byteArrayRaw);
         map.put("city",pI.getCityName());
 
         // Add the Pokemon to the player's list of owned Pokemon

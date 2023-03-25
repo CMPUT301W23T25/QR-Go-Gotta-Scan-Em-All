@@ -72,7 +72,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
         TextView locationView = view.findViewById(R.id.location);
 
         if (pI.getImageByteArray() != null){
-            Bitmap bmp = BitmapFactory.decodeByteArray(pI.getImageByteArray(), 0, pI.getImageByteArray().length);
+            Bitmap bmp = pI.getDecodedImage();
             ImageView image = view.findViewById(R.id.photo_location);
             image.setImageBitmap(bmp);
         }

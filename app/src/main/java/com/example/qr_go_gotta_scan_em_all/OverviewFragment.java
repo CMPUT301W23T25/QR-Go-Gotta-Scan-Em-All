@@ -184,11 +184,16 @@ public class OverviewFragment extends Fragment {
         ArrayList<HashMap<String,Object>> a = new ArrayList<HashMap<String,Object>>();
         for(PokemonInformation p:player.getPokemonArray()){
             if(p.getPokemon().getID() != pI.getPokemon().getID()){
+                String byteArrayRaw = "";
+                if (pI.getImageByteArray() != null){
+                    byteArrayRaw = new String(pI.getImageByteArray(), StandardCharsets.UTF_8);
+                }
+
                 HashMap<String,Object> map = new HashMap<String,Object>();
                 map.put("ID",p.getPokemon().getID());
                 map.put("lat",p.getLocationLat());
                 map.put("long",p.getLocationLong());
-                map.put("image", new String(pI.getImageByteArray(), StandardCharsets.UTF_8));
+                map.put("image", byteArrayRaw);
                 map.put("city",p.getCityName());
                 a.add(map);
             }
