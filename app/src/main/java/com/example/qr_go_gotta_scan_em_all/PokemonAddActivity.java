@@ -166,6 +166,9 @@ public class PokemonAddActivity extends AppCompatActivity {
                 }
                 if (locationAdded) {
                     pI.setLocation(lattitude, longitude);
+                    pI.setCityName(cityName);
+                    pI.setCountryName(countryName);
+
                 }
                 addPokemonToDB(pI);
                 intent.putExtra("pI", pI);

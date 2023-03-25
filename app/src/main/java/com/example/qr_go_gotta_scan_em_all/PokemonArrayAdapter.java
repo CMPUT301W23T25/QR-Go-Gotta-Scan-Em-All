@@ -92,7 +92,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
         hashTextView.setText("Visual:\n " + visualReper);
 
         if (pI.getPairedLocation() != null){
-            locationView.setText("Location: " + "(" + Double.toString(pI.getLocationLat()) +"," + Double.toString(pI.getLocationLong()) +")");
+            locationView.setText("Location: " + pI.getCountryName() + "," +pI.getCityName());
         } else{
             locationView.setText("Location: Not added");
         }
