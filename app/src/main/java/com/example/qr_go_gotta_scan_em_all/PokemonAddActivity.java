@@ -64,11 +64,13 @@ public class PokemonAddActivity extends AppCompatActivity {
     boolean locationAdded = false;
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
-<<<<<<< HEAD
+
     Database db;
     FusedLocationProviderClient fusedLocationProviderClient;
     private Double longitude;
     private Double lattitude;
+    private String cityName;
+    private String countryName;
 
     /**
 
@@ -80,13 +82,8 @@ public class PokemonAddActivity extends AppCompatActivity {
 
      @param savedInstanceState The saved state of the activity.
      */
-=======
-    private Database db;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private double longitude;
-    private double latitude;
-    private String cityName;
-    private String countryName;
+
+
 
     /**
 
@@ -172,7 +169,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pI.setImageByteArray(null);
                 }
                 if (locationAdded) {
-                    pI.setLocation(latitude, longitude);
+                    pI.setLocation(lattitude, longitude);
                 }
 
                 intent.putExtra("pI", pI);
@@ -196,7 +193,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
+
 /*    private FileOutputStream bmpToJpeg(Bitmap bmp){
         try {
             FileOutputStream out = new FileOutputStream(filename);
@@ -255,7 +252,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                                 try {
                                     Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    latitude = addresses.get(0).getLatitude();
+                                    lattitude = addresses.get(0).getLatitude();
                                     longitude = addresses.get(0).getLongitude();
                                     cityName = addresses.get(0).getLocality();
                                     countryName= addresses.get(0).getCountryName();
