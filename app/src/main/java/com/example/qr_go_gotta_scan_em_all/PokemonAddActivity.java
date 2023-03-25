@@ -152,7 +152,7 @@ public class PokemonAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save to db
-                Toast.makeText(PokemonAddActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 Pokemon pokemon = new Pokemon(pokemonCaught);
