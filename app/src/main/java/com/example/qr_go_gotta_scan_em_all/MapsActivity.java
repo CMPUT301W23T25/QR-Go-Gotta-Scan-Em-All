@@ -28,10 +28,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,9 +51,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GoogleMap.OnMyLocationClickListener {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private double currentLatitude;
-    private double currentLongitude;
-    private UiSettings mUiSettings;
+    private boolean locationPermissionGranted = false;
+    private Location lastKnownLocation;
+
+
+
 
     /**
      *
@@ -68,9 +73,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         ImageView back_btn = findViewById(R.id.maps_back_btn);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
-        getCurrentLocation();
+        checkLocationPermission();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -82,61 +88,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         //referenced from - https://developers.google.com/maps/documentation/android-sdk/controls
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Maps Failed to start", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         mMap = googleMap;
-        mUiSettings = mMap.getUiSettings();
-        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
         mMap.setOnMyLocationClickListener(MapsActivity.this);
-        mUiSettings.setMapToolbarEnabled(false);
+        mMap.setMinZoomPreference(16.0f);
+        mMap.setMaxZoomPreference(21.0f);
         mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        postMapReady();
+        UiSettings mUiSettings = mMap.getUiSettings();
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setMapToolbarEnabled(false);
+        mUiSettings.setMyLocationButtonEnabled(true);
+        mUiSettings.setScrollGesturesEnabled(false);
+        zoomOnUser();
     }
-    private double[] getCurrentLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                try {
-                                    Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    currentLatitude = addresses.get(0).getLatitude();
-                                    currentLongitude = addresses.get(0).getLongitude();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
-        } else {
-            checkLocationPermission();
-        }
-
-        return new double[]{currentLatitude, currentLongitude};
-    }
-    private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MapsActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-
     }
 
     @Override
@@ -144,11 +118,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return false;
     }
 
-    private void postMapReady(){
-        double[] userCoordinates = getCurrentLocation();
-//        LatLng userLocation = new LatLng(userCoordinates[0],userCoordinates[1]);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+    private void zoomOnUser() {
+        //referenced from - https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()), 19.0f));
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
         }
+    }
+
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+            } else {
+                locationPermissionGranted = false;
+            }
+        } else {
+            locationPermissionGranted = true;
+        }
+    }
 
     private void putMarker(double lat, double lan){
         LatLng markLocation = new LatLng(lat,lan);
