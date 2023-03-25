@@ -285,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * This method checks if a given username already exists in the database.
      * 
-     * @param userName The username to check for in the database
+     *
      * @return true if the username is already taken, false otherwise
      *         =======
      * 
@@ -332,7 +332,7 @@ public class LoginActivity extends AppCompatActivity {
         for (Map<String,Object> m:a){
 //            PokemonInformation pI = new PokemonInformation();
             PokemonInformation pI = new PokemonInformation(new Pokemon((String)m.get("ID")),((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
-            (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"));
+            (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
             pIList.add(pI);
             System.out.println(m.get("ID"));
             System.out.println((double)m.get("lat"));

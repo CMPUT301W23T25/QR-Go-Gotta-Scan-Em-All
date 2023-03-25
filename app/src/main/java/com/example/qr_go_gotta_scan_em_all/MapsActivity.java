@@ -169,7 +169,7 @@ public class MapsActivity extends AppCompatActivity
         mMap.addMarker(new MarkerOptions()
                 .position(markLocation)
                 // .icon(BitmapDescriptor(BitmapDescriptorFactory.))
-                .title("pokemon"));
+                .title("Pokemon was found here"));
 
     }
 

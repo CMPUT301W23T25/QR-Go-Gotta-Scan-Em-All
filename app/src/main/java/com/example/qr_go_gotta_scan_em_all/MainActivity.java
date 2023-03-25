@@ -110,9 +110,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // Firstly check if the pokemon exists in the player's array
                 if (!checkPokemonExistsOwnedPlayer(pokemonAdded.getPokemon())){
+                    Toast.makeText(MainActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
                     player.addPokemon(pokemonAdded);
                     // Now add it to the database
                     addPokemonToPlayerArray(pokemonAdded);
+                } else{
+                    Toast.makeText(MainActivity.this, "Cannot add duplicate Pokemon", Toast.LENGTH_SHORT).show();
                 }
 
                 goToOverview();
@@ -416,6 +419,7 @@ public class MainActivity extends AppCompatActivity {
         map.put("long",pI.getLocationLong());
         map.put("image", byteArrayRaw);
         map.put("city",pI.getCityName());
+        map.put("country",pI.getCountryName());
 
         // Add the Pokemon to the player's list of owned Pokemon
         playerRef.update("pokemon_owned", FieldValue.arrayUnion(map))

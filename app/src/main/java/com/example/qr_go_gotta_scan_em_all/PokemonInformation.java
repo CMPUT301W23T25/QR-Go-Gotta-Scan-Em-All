@@ -14,6 +14,7 @@ public class PokemonInformation implements Serializable {
     private double locationLong;
 
     private String cityName;
+    private String countryName;
     private Pokemon pokemon;
 
     public PokemonInformation(Pokemon pokemon) {
@@ -22,14 +23,16 @@ public class PokemonInformation implements Serializable {
         this.locationLat = Double.POSITIVE_INFINITY;
         this.locationLong = Double.POSITIVE_INFINITY;
         this.cityName = null;
+        this.countryName = null;
     }
 
-    public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName) {
+    public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName, String countryNam) {
         this.imageByteArray = imageByteArray;
         this.locationLat = locationLat;
         this.locationLong = locationLong;
         this.cityName = cityName;
         this.pokemon = pokemon;
+        this.countryName = countryName;
     }
 
     /**
@@ -99,5 +102,9 @@ public class PokemonInformation implements Serializable {
         // https://stackoverflow.com/questions/7620401/how-to-convert-image-file-data-in-a-byte-array-to-a-bitmap
         bmp =  BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
         return bmp;
+    }
+
+    public String getCountryName() {
+        return countryName;
     }
 }
