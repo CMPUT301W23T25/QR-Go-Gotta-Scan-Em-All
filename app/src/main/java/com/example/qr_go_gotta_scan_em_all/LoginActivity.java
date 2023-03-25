@@ -19,11 +19,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +57,9 @@ public class LoginActivity extends AppCompatActivity {
 
     PlayerFactory playerFactory;
 
-
+    interface OnCheckUsernameCallback {
+        void onResult(boolean isTaken);
+    }
 
 
     /**
@@ -102,7 +109,26 @@ public class LoginActivity extends AppCompatActivity {
         // - if it is taken then inform the user
         // - otherwise create login the user and add the entry to the database
 
-        if (true){
+        isUserNameTaken(userName, new OnCheckUsernameCallback() {
+            @Override
+            public void onResult(boolean isTaken) {
+                if (!isTaken) {
+                    player = playerFactory.generatePlayer();
+                    player.setUserName(userName);
+
+                    // add the player to DB
+                    addPlayer(player);
+
+                    intent.putExtra("player",player);
+                    switchToMainActivity();
+
+
+
+                } else{
+                    Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
             // Next create a AppUser class
             // NOTE: For now there isn't any distinction between player and owner.
 
@@ -112,20 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             */
 
 
-            player = playerFactory.generatePlayer();
-            player.setUserName(userName);
 
-            // add the player to DB
-            addPlayer(player);
-
-            intent.putExtra("player",player);
-            switchToMainActivity();
-
-
-
-        } else{
-            Toast.makeText(this, "Username is already taken", Toast.LENGTH_SHORT).show();
-        }
 
     }
 
@@ -215,32 +228,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-
-     Checks whether a given username is already taken by another player in the database.
-     @param userName The username to check.
+     * Checks if the given username is already taken by another player in the database.
+     * @param username the username to check
+     * @param callback a callback function to be called with the result of the check
      */
-    private void isUserNameTaken(String userName){
-        db.getPlayerCol().whereEqualTo("user_name",userName).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    private void isUserNameTaken(String username, final OnCheckUsernameCallback callback) {
+        db.getPlayerCol().whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    // Error getting documents
-                    Log.w(TAG, "Error getting documents.", e);
-                    switchToNetworkFail();
-                    return;
-                }
-
-                if (queryDocumentSnapshots.isEmpty()) {
-                    // Document doesn't exist
-                    isUserTaken = false;
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    boolean isTaken = false;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        isTaken = true;
+                        break;
+                    }
+                    callback.onResult(isTaken);
                 } else {
-                    // Document exists
-                    isUserTaken = true;
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
-
-
     }
+
+
 
 }
