@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
-        player.addPokemonToArray(new Pokemon("test1"));
+          player.addPokemon(new PokemonInformation(new Pokemon("test11")));
 
     }
 
