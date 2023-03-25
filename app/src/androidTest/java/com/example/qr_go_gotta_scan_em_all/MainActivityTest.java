@@ -43,6 +43,28 @@ public class MainActivityTest {
     }
 
     /**
+     * Test poke ball button
+     */
+    @Test
+    public void checkPokeBallButton() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        // click on poke ball
+        solo.clickOnView(solo.getView(R.id.poke_ball));
+        solo.assertCurrentActivity("Wrong Activity", QrScannerActivity.class);
+    }
+    /**
+     * test goToQrScannerActivity
+     */
+    @Test
+    public void goToQrScannerActivity() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        // click on poke ball
+        solo.clickOnView(solo.getView(R.id.poke_ball));
+        solo.assertCurrentActivity("Wrong Activity", QrScannerActivity.class);
+    }
+
+
+    /**
      * Closes the activity after each test
      * @throws Exception
      */

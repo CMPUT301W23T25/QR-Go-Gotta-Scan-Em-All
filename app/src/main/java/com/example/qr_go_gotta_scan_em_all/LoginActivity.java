@@ -1,9 +1,9 @@
 package com.example.qr_go_gotta_scan_em_all;
+
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,21 +37,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
-
- The LoginActivity class represents the login screen of the app where the user can create a new session or continue an existing one.
- The user can login by entering a username that will be saved in the database.
+ * 
+ * <<<<<<< HEAD
+ * The {@link: LoginActivity} class is responsible for handling the user login
+ * process and creating a user session.
+ * 
+ * It contains methods to check if a username is already taken, add a new player
+ * to the database, and switch to the main activity or network failure activity.
+ * 
+ * The class also contains variables such as TextView, String, Intent,
+ * ImageView, Database, Intent, and Player, which are used to store and
+ * manipulate user data.
+ * =======
+ * The LoginActivity class represents the login screen of the app where the user
+ * can create a new session or continue an existing one.
+ * The user can login by entering a username that will be saved in the database.
+ * >>>>>>> main
  */
 public class LoginActivity extends AppCompatActivity {
+
     // Declare method to switch to LoginActivity
     private TextView userText;
     private String userName;
     private Intent intent;
     private ImageView loginButton;
-
     private Database db;
-
     private Intent networkFailed;
-
     private Player player;
 
     private boolean isRegistered;
@@ -63,11 +74,21 @@ public class LoginActivity extends AppCompatActivity {
         void onResult(boolean isTaken);
     }
 
-
     /**
-     * Called when the activity is starting. This is where most initialization of the activity should go.
-     * @param savedInstanceState the Bundle containing the activity's previously saved state
+     * <<<<<<< HEAD
+     * 
+     * Called when the activity is starting.
+     * Initializes the UI elements and database object and checks if the user is
+     * already registered or not.
+     * If the user is not registered, sets a click listener on the login button to
+     * create a new user session.
+     * If the user is already registered, switches to MainActivity with the user
+     * data.
+     * If there is a network failure, switches to ConnectionErrorActivity.
+     * 
+     * @param savedInstanceState Bundle
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
         getPlayerData();
         playerFactory = new PlayerFactory(this);
-        if(!isRegistered){
+        if (!isRegistered) {
 
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,18 +116,26 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * 
+     * Checks if the entered username is already taken.
+     * If the username is not taken, creates a new Player object and adds it to the
+     * database.
+     * If the username is taken, shows a Toast message to inform the user.
+     * If there is a network failure, switches to ConnectionErrorActivity.
+     */
 
     /**
-     * Creates a new session for the user. The user enters their username and a new Player object is created and added to the database.
-     * If the username is already taken, the user is informed and no new session is created.
+     * Creates a new session for the user. The user enters their username and a new
+     * Player object is created and added to the database.
+     * If the username is already taken, the user is informed and no new session is
+     * created.
      */
-    private void createUserSession(){
+    private void createUserSession() {
         userName = userText.getText().toString();
 
-
         // Firstly check the the database if the userName is taken or not.
-//        isUserNameTaken(userName);
+        // isUserNameTaken(userName);
 
         // - if it is taken then inform the user
         // - otherwise create login the user and add the entry to the database
@@ -121,34 +150,28 @@ public class LoginActivity extends AppCompatActivity {
                     // add the player to DB
                     addPlayer(player);
 
-                    intent.putExtra("player",player);
-
-                    // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
+                    intent.putExtra("player", player);
                     switchToMainActivity();
 
-
-
-                } else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-            // Next create a AppUser class
-            // NOTE: For now there isn't any distinction between player and owner.
+        // Next create a AppUser class
+        // NOTE: For now there isn't any distinction between player and owner.
 
-            /*#TODO
-            - Either use the PhoneID or generate a randomID through randomUUID
-            - If PhoneID is used, check the database to find the phoneID of the user
-            */
-
-
-
+        /*
+         * #TODO
+         * - Either use the PhoneID or generate a randomID through randomUUID
+         * - If PhoneID is used, check the database to find the phoneID of the user
+         */
 
     }
 
     /**
-
-     Starts MainActivity and finishes the current activity.
+     * 
+     * Starts MainActivity and finishes the current activity.
      */
     private void switchToMainActivity() {
         startActivity(intent);
@@ -156,22 +179,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-
-     Starts the NetworkFailActivity and finishes the current activity.
+     * 
+     * Switches to ConnectionErrorActivity if there is a network failure.
+     * 
      */
+
     private void switchToNetworkFail() {
         startActivity(networkFailed);
         finish();
     }
 
     /**
-
-     Adds a player to the database with the given player object.
-     @param p The Player object to be added to the database.
+     * Adds a new player to the database.
+     * Creates a HashMap with the player data and sets the data of the document with
+     * the playerMap.
+     * If there is a network failure, switches to ConnectionErrorActivity.
+     * 
+     * <<<<<<< HEAD
+     * =======
+     * /**
+     * 
+     * Adds a player to the database with the given player object.
+     * 
+     * @param p The Player object to be added to the database.
+     *          >>>>>>> main
      */
-    private void addPlayer(Player p){
+    private void addPlayer(Player p) {
         // Add the player to the database
-        // NOTE: A player object that has an ID and username must be passed into the database
+        // NOTE: A player object that has an ID and username must be passed into the
+        // database
         String ID = p.getUserId();
         HashMap<String, Object> playerMap = new HashMap<>();
         playerMap.put("username",p.getUserName());
@@ -199,10 +235,19 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    /**
 
-     Retrieves player data from the database and sets the player object and registration status accordingly.
+    /**
+     * 
+     * 
+     * This method retrieves the player data from the database based on their login
+     * information,
+     * creates a Player object, and sets the "isRegistered" flag to true if the
+     * player is found in
+     * the database. It also switches to the main activity and passes the player
+     * object as an extra
+     * to the intent.
      */
+
     private void getPlayerData() {
         PlayerFactory login = new PlayerFactory(this);
 
@@ -224,40 +269,49 @@ public class LoginActivity extends AppCompatActivity {
 
                         switchToMainActivity();
 
-                    }else{
-                        System.out.println("tre");
-                        isRegistered = false;
-                    }
+                            } else {
+                                System.out.println("tre");
+                                isRegistered = false;
+                            }
 
-                }else{
-                    switchToNetworkFail();
-                }
-            }
-        });
+                        } else {
+                            switchToNetworkFail();
+                        }
+                    }
+                });
 
     }
 
     /**
-     * Checks if the given username is already taken by another player in the database.
+     * This method checks if a given username already exists in the database.
+     * 
+     * @param userName The username to check for in the database
+     * @return true if the username is already taken, false otherwise
+     *         =======
+     * 
+     *         /**
+     *         Checks if the given username is already taken by another player in
+     *         the database.
      * @param username the username to check
      * @param callback a callback function to be called with the result of the check
      */
     private void isUserNameTaken(String username, final OnCheckUsernameCallback callback) {
-        db.getPlayerCol().whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    boolean isTaken = false;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        isTaken = true;
-                        break;
+        db.getPlayerCol().whereEqualTo("username", username).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean isTaken = false;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                isTaken = true;
+                                break;
+                            }
+                            callback.onResult(isTaken);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
-                    callback.onResult(isTaken);
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
+                });
     }
 
 //    private Player getRegisteredPlayerData(){
