@@ -1,14 +1,18 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +21,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,15 +29,25 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 /**
 
+<<<<<<< HEAD
+=======
+/**
+
+>>>>>>> main
  {@link PokemonAddActivity} allows the user to add a new Pokemon to their collection.
 
  The user can capture a photo, add geolocation and save the captured Pokemon.
@@ -49,12 +64,26 @@ public class PokemonAddActivity extends AppCompatActivity {
     boolean locationAdded = false;
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
-    private Database db;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private double longitude;
-    private double latitude;
+
+    Database db;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    private Double longitude;
+    private Double lattitude;
     private String cityName;
     private String countryName;
+
+    /**
+
+     Sets up the layout and initializes the UI elements.
+
+     Sets up the click listeners for the buttons.
+
+     Sets up the activity result launcher for the camera intent.
+
+     @param savedInstanceState The saved state of the activity.
+     */
+
+
 
     /**
 
@@ -114,8 +143,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                 if (locationPermissionGranted) {
                     Toast.makeText(PokemonAddActivity.this, "Geolocation Added", Toast.LENGTH_SHORT).show();
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(PokemonAddActivity.this);
-                    locationAdded = true;
                     AddLocation();
+                    locationAdded = true;
                 } else {
                     locationAdded = false;
                 }
@@ -140,7 +169,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pI.setImageByteArray(null);
                 }
                 if (locationAdded) {
-                    pI.setLocation(latitude, longitude);
+                    pI.setLocation(lattitude, longitude);
                 }
 
                 intent.putExtra("pI", pI);
@@ -150,6 +179,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                 // player field to the id of the player, and the visual field to the bytearray of the image.
                 // The key of the image besides the ID will be the player ID and the Pokemon ID.
                 setResult(RESULT_OK, intent);
+
                 finish();
             }
         });
@@ -163,11 +193,29 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     }
 
+
+/*    private FileOutputStream bmpToJpeg(Bitmap bmp){
+        try {
+            FileOutputStream out = new FileOutputStream(filename);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); //100-best quality
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    /**
+    location permissions, getting the current device location, and handling the user's response to the location permission request.
+    The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
+    a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
+    granted, and false otherwise.
+=======
     /**
      location permissions, getting the current device location, and handling the user's response to the location permission request.
      The checkLocationPermission() method checks if the app has been granted location permission by the user. If not, it displays
      a Toast message asking the user to grant the permission and requests it from the user. It returns true if the permission is
      granted, and false otherwise.
+>>>>>>> main
      */
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -188,28 +236,82 @@ public class PokemonAddActivity extends AppCompatActivity {
      * the FusedLocationProviderClient. If the app has been granted
      */
     //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
-    private void AddLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+    /**
+     *The AddLocation() method gets the current device location using
+     * the FusedLocationProviderClient. If the app has been granted
+     */
+    private void AddLocation(){
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            if (location != null) {
+                            if (location != null){
                                 try {
                                     Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    latitude = addresses.get(0).getLatitude();
+                                    lattitude = addresses.get(0).getLatitude();
                                     longitude = addresses.get(0).getLongitude();
                                     cityName = addresses.get(0).getLocality();
                                     countryName= addresses.get(0).getCountryName();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+
+
                             }
+
                         }
                     });
-        } else {
-            checkLocationPermission();
+
+
+        }else {
+
+            askPermission();
+
+
         }
+
+
+    }
+
+    /**
+     * The askPermission() method requests location permission
+     * from the user using the requestPermissions() method.
+     */
+    private void askPermission() {
+
+        ActivityCompat.requestPermissions(PokemonAddActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
+
+
+    }
+
+    /**
+     * The onRequestPermissionsResult() method is called when the user
+     * responds to the location permission request. I
+     * @param requestCode The request code passed in int
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+
+        if (requestCode == 100){
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                AddLocation();
+            }else {
+
+                Toast.makeText(PokemonAddActivity.this,"Please provide the required permission",Toast.LENGTH_SHORT).show();
+
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

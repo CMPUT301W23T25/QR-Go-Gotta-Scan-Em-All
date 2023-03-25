@@ -53,6 +53,10 @@ public class OverviewFragment extends Fragment {
 
 
     }
+    /** This is where you should initialize your UI and start any operations that
+     * need to be done when the activity is created.
+     *  @param savedInstanceState This fragment's previously saved state, if any
+    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

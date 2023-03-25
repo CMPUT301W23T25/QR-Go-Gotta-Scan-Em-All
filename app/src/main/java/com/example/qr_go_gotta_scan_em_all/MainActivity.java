@@ -63,6 +63,7 @@ import java.util.Map;
  * view their collection of Pokemon, view leaderboards, and view a map of their
  * location and nearby Pokemon.
  */
+
 public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
@@ -77,37 +78,37 @@ public class MainActivity extends AppCompatActivity {
     private boolean cameraPermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
-
-
     /**
      * ActivityResultLauncher used for starting the QR scanner
      */
-    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            String pokemonCaught;
-            if (result != null && result.getResultCode() == RESULT_OK) {
-                pokemonCaught = result.getData().getStringExtra("PokemonCaught");
-                Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
-                switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
-                startPokemonAdd.launch(switchToPokemonAdd);
+    ActivityResultLauncher<Intent> startQrScanner = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    String pokemonCaught;
+                    if (result != null && result.getResultCode() == RESULT_OK) {
+                        pokemonCaught = result.getData().getStringExtra("PokemonCaught");
+                        Intent switchToPokemonAdd = new Intent(MainActivity.this, PokemonAddActivity.class);
+                        switchToPokemonAdd.putExtra("PokemonCaught", pokemonCaught);
+                        startPokemonAdd.launch(switchToPokemonAdd);
+                    }
                 }
-            }
 
-    });
-    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            PokemonInformation pokemonAdded;
-            if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                pokemonAdded = (PokemonInformation) result.getData().getSerializableExtra("pI");
-                player.addPokemon(pokemonAdded);
-                goToOverview();
+            });
+    ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    PokemonInformation pokemonAdded;
+                    if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+                        pokemonAdded = (PokemonInformation) result.getData().getSerializableExtra("pI");
+                        player.addPokemon(pokemonAdded);
+                        goToOverview();
 
-            }
-        }
+                    }
+                }
 
-    });
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,15 +131,13 @@ public class MainActivity extends AppCompatActivity {
         handleNavBar();
         handlePokeBall();
 
-        player.addPokemon(new PokemonInformation(new Pokemon("test11")));
-
+        player.addPokemonToArray(new Pokemon("test1"));
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-
 
     }
 
@@ -180,7 +179,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 
+     * Handles the onClickListener for the poke ball ImageView, and starts the QR
+     * scanner activity
+     * if camera permission has been granted.
+     */
 
+    /**
+     * 
+     * Handles the onClickListener for the poke ball ImageView, and starts the QR
+     * scanner activity
+     * if camera permission has been granted.
+     */
 
     private void handlePokeBall() {
         pokeBall.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +205,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 
+     * Replaces the fragment container view with the OverviewFragment, which
+     * displays the player's
+     * 
+     * Pokemon collection and allows the player to select and view their Pokemon's
+     * details.
+     */
 
     private void goToOverview() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -204,6 +223,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * 
+     * Replaces the fragment container view with the LeaderboardFragment, which
+     * displays the top
+     * 
+     * players in the game.
+     */
     private void goToLeaderboard() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
@@ -213,6 +239,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * 
+     * Replaces the fragment container view with the ProfilePageFragment, which
+     * displays the player's
+     * 
+     * profile information and allows the player to edit their profile.
+     */
     private void goToPerson() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
@@ -232,21 +265,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 
+     * This method is used to switch to the MapsActivity if the location permission
+     * is granted, or display a toast message
+     * prompting the user to grant location permission if it's not already granted.
+     */
+
     private void goToMap() {
 
         if (locationPermissionGranted) {
             Intent switchMapsIntent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(switchMapsIntent);
-            //add other things
+            // add other things
         } else {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * 
+     * This method checks if the camera permission is granted, and if not, requests
+     * it from the user.
+     * It returns true if the permission is granted, and false otherwise.
+     * 
+     * @return true if the camera permission is granted, and false otherwise.
+     */
 
     private boolean checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] { Manifest.permission.CAMERA }, 1);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 return false;
@@ -256,11 +306,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 
+     * This method checks if the location permission is granted, and if not,
+     * requests it from the user.
+     * It displays a toast message prompting the user to grant location permission
+     * if it's not already granted.
+     * It returns true if the permission is granted, and false otherwise.
+     * 
+     * @return true if the location permission is granted, and false otherwise.
+     */
     private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 2);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 return false;
@@ -269,51 +332,64 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-/*
-    private boolean checkNotRegistered(){
-        // Implement based on if it is decided to use the text file, or the phone ID
-        isUserRegisteredQuery();
-        return isRegistered;
-    }
-*/
+    /*
+     * private boolean checkNotRegistered(){
+     * // Implement based on if it is decided to use the text file, or the phone ID
+     * isUserRegisteredQuery();
+     * return isRegistered;
+     * }
+     */
 
-/*
-    private void isUserRegisteredQuery(){
-        db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Document exists
-                                isRegistered = true;
-                                System.out.println("registed alrady");
-                            } else {
-                                // Document doesn't exist
-                                isRegistered = false;
-                                System.out.println("registed not");
-                            }
-                        } else {
-                            // Error getting document
-                            Log.d(TAG, "get failed with ", task.getException());
-                            // go to network not found activity
-                            switchToNetworkFail();
-                        }
-                    }
-                });
-    }
-*/
+    /*
+     * private void isUserRegisteredQuery(){
+     * db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
+     * .get()
+     * .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+     * 
+     * @Override
+     * public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+     * if (task.isSuccessful()) {
+     * DocumentSnapshot document = task.getResult();
+     * if (document.exists()) {
+     * // Document exists
+     * isRegistered = true;
+     * System.out.println("registed alrady");
+     * } else {
+     * // Document doesn't exist
+     * isRegistered = false;
+     * System.out.println("registed not");
+     * }
+     * } else {
+     * // Error getting document
+     * Log.d(TAG, "get failed with ", task.getException());
+     * // go to network not found activity
+     * switchToNetworkFail();
+     * }
+     * }
+     * });
+     * }
+     * 
+     * 
+     * /**
+     * 
+     * Switches the activity to ConnectionErrorActivity to indicate a network
+     * failure.
+     * The current activity will be finished to prevent returning to it on back
+     * button press.
+     */
 
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
         finish();
     }
 
-
-//    public String getMyData() {
-//        return qrResult;
-//    }
+    /**
+     * 
+     * Returns the data stored in the qrResult variable.
+     * 
+     * @return A String representing the data stored in qrResult variable.
+     */
+    public String getMyData() {
+        return qrResult;
+    }
 }
-

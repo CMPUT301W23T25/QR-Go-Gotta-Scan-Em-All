@@ -43,25 +43,23 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
- *
+ * 
  * The MapsActivity class displays a Google Map and allows the user to interact
  * with it.
  */
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+public class MapsActivity extends AppCompatActivity
+        implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted = false;
     private Location lastKnownLocation;
 
-
-
-
     /**
-     *
+     * 
      * Called when the activity is starting. Sets up the activity's layout and
      * initializes the map fragment.
-     *
+     * 
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down, then this Bundle
      *                           contains the data it most recently supplied in
@@ -87,11 +85,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        //referenced from - https://developers.google.com/maps/documentation/android-sdk/controls
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        // referenced from -
+        // https://developers.google.com/maps/documentation/android-sdk/controls
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Maps Failed to start", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -109,6 +110,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mUiSettings.setScrollGesturesEnabled(false);
         zoomOnUser();
     }
+
     @Override
     public void onMyLocationClick(@NonNull Location location) {
     }
@@ -119,7 +121,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void zoomOnUser() {
-        //referenced from - https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
+        // referenced from -
+        // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
@@ -132,23 +135,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             if (lastKnownLocation != null) {
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), 19.0f));
+                                                lastKnownLocation.getLongitude()),
+                                        19.0f));
                             }
                         }
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
 
-
     private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
+                    2);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionGranted = true;
             } else {
                 locationPermissionGranted = false;
@@ -158,11 +164,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void putMarker(double lat, double lan){
-        LatLng markLocation = new LatLng(lat,lan);
+    private void putMarker(double lat, double lan) {
+        LatLng markLocation = new LatLng(lat, lan);
         mMap.addMarker(new MarkerOptions()
                 .position(markLocation)
-//                .icon(BitmapDescriptor(BitmapDescriptorFactory.))
+                // .icon(BitmapDescriptor(BitmapDescriptorFactory.))
                 .title("pokemon"));
 
     }

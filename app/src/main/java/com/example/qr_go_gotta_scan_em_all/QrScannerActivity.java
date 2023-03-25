@@ -18,17 +18,27 @@ import com.google.zxing.Result;
 
  An activity for scanning QR codes and catching Pokemons.
  */
-//referenced from https://github.com/yuriy-budiyev/code-scanner
+/**
+ * 
+ * An activity for scanning QR codes and catching Pokemons.
+ */
+// referenced from https://github.com/yuriy-budiyev/code-scanner
 public class QrScannerActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private ImageView back_btn;
 
-
     /**
-
-     Called when the activity is starting. Initializes the UI components and sets up the QR code scanner.
-
-     @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     * 
+     * Called when the activity is starting. Initializes the UI components and sets
+     * up the QR code scanner.
+     * 
+     * /**
+     * 
+     * Called when the activity is starting. Initializes the UI components and sets
+     * up the QR code scanner.
+     * 
+     * @param savedInstanceState a Bundle object containing the activity's
+     *                           previously saved state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +47,26 @@ public class QrScannerActivity extends AppCompatActivity {
         CodeScannerView scannerView = findViewById(R.id.qr_scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         back_btn = findViewById(R.id.qr_scanner_back_btn);
-        back_btn.setOnClickListener(new View.OnClickListener() { 
+        // Set up the back button
+        back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
                 finish();
             }
         });
-
+        // Set up the QR code scanner
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull final Result result) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(QrScannerActivity.this,"You caught a pokemon" , Toast.LENGTH_SHORT).show();
-                        //taking the pokemon Caught back to main activity
+                        Toast.makeText(QrScannerActivity.this, "You caught a pokemon", Toast.LENGTH_SHORT).show();
+                        // taking the pokemon Caught back to main activity
                         Intent intent = new Intent();
-                        intent.putExtra("PokemonCaught",result.getText());
-                        setResult(RESULT_OK,intent);
+                        intent.putExtra("PokemonCaught", result.getText());
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });
@@ -71,9 +82,12 @@ public class QrScannerActivity extends AppCompatActivity {
     }
 
     /**
-
-     Called after onStart() and before onPostResume(), when the activity is about to become visible.
-     Starts the QR code scanner preview.
+     * 
+     * /**
+     * 
+     * Called after onStart() and before onPostResume(), when the activity is about
+     * to become visible.
+     * Starts the QR code scanner preview.
      */
     @Override
     protected void onResume() {
@@ -82,9 +96,11 @@ public class QrScannerActivity extends AppCompatActivity {
     }
 
     /**
-
-     Called as part of the activity lifecycle when an activity is going into the background,
-     but has not (yet) been killed. Releases the resources used by the QR code scanner.
+     * 
+     * Called as part of the activity lifecycle when an activity is going into the
+     * background,
+     * but has not (yet) been killed. Releases the resources used by the QR code
+     * scanner.
      */
     @Override
     protected void onPause() {

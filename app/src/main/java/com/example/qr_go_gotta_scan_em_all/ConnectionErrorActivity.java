@@ -4,6 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+        /**
+        * A simple {@link ConnectionErrorActivity} subclass.
+        * Use the {@link AppCompatActivity} factory method to
+        * create an instance of this class.
+        *
+        */
 public class ConnectionErrorActivity extends AppCompatActivity {
 
     @Override
