@@ -46,6 +46,11 @@ public class Pokemon implements Serializable {
         this.ID = null;
 //        this.img = null;
     }
+
+    /**
+     * Constructor for creating a Pokemon object with ID.
+     */
+
     /**
      * Initializes the Pokemon's ID using a given raw name.
      * @param rawName The raw name to be hashed to generate the ID.
@@ -252,5 +257,7 @@ public class Pokemon implements Serializable {
 //    public Bitmap getImg(){
 //        return img;
 //    }
+
+
 
 }

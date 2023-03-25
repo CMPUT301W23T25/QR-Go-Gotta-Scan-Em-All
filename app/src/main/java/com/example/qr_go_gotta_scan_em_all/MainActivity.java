@@ -399,6 +399,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkPokemonExistsOwnedPlayer(Pokemon p){
         for (PokemonInformation pI: player.getPokemonArray()){
             if(Objects.equals(pI.getPokemon().getID(), p.getID())){
+                System.out.println(pI.getPokemon().getID());
                 return true;
             }
         }

@@ -331,7 +331,9 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<PokemonInformation> pIList = new ArrayList<PokemonInformation>();
         for (Map<String,Object> m:a){
 //            PokemonInformation pI = new PokemonInformation();
-            PokemonInformation pI = new PokemonInformation(new Pokemon((String)m.get("ID")),((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
+            Pokemon p= new Pokemon();
+            p.setID((String)m.get("ID"));
+            PokemonInformation pI = new PokemonInformation(p,((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
             (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
             pIList.add(pI);
             System.out.println(m.get("ID"));
