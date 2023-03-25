@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
 /**
 
 <<<<<<< HEAD
@@ -55,17 +56,12 @@ import java.util.Locale;
  */
 public class PokemonAddActivity extends AppCompatActivity {
 
-    private ImageView photo_btn;
-    private ImageView add_location;
-    private ImageView save_btn;
-    private ImageView release_btn;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Bitmap locationImgRaw;
     private String pokemonCaught;
 //    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
-
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
 <<<<<<< HEAD
@@ -89,7 +85,8 @@ public class PokemonAddActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private double longitude;
     private double latitude;
->>>>>>> main
+    private String cityName;
+    private String countryName;
 
     /**
 
@@ -106,10 +103,10 @@ public class PokemonAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_add);
         db = new Database(this);
-        release_btn = findViewById(R.id.release_pokemon_button);
-        photo_btn = findViewById(R.id.add_photo_button);
-        save_btn = findViewById(R.id.capture_pokemon_button);
-        add_location = findViewById(R.id.add_location_button);
+        ImageView release_btn = findViewById(R.id.release_pokemon_button);
+        ImageView photo_btn = findViewById(R.id.add_photo_button);
+        ImageView save_btn = findViewById(R.id.capture_pokemon_button);
+        ImageView add_location = findViewById(R.id.add_location_button);
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
@@ -166,15 +163,19 @@ public class PokemonAddActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("PokemonCaught", pokemonCaught);
                 Pokemon pokemon = new Pokemon(pokemonCaught);
+                PokemonInformation pI= new PokemonInformation(pokemon);
+                // #TODO
+                // SAFWAN implements image compression function here, then pass in the image into the setImageByteArray
+                // of that PI object.
                 if (photoAdded) {
                     // NOTE: Null is temporary
-                    pokemon.setImage(locationImgRaw);
+                    pI.setImageByteArray(null);
                 }
                 if (locationAdded) {
-                    pokemon.setLocation(null);
+                    pI.setLocation(latitude, longitude);
                 }
 
-                intent.putExtra("pokemon", pokemon);
+                intent.putExtra("pI", pI);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
                 // Also add the Image in the Images collection, assign the Pokemon field to the ID of the pokemon, the
@@ -254,9 +255,10 @@ public class PokemonAddActivity extends AppCompatActivity {
                                 try {
                                     Geocoder geocoder = new Geocoder(PokemonAddActivity.this, Locale.getDefault());
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    lattitude= addresses.get(0).getLatitude();
-                                    longitude= addresses.get(0).getLongitude();
-
+                                    latitude = addresses.get(0).getLatitude();
+                                    longitude = addresses.get(0).getLongitude();
+                                    cityName = addresses.get(0).getLocality();
+                                    countryName= addresses.get(0).getCountryName();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

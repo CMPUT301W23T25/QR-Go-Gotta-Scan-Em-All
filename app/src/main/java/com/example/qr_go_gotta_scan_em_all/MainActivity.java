@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Pokemon pokemonAdded;
+                    PokemonInformation pokemonAdded;
                     if (result.getData() != null && result.getResultCode() == RESULT_OK) {
-                        pokemonAdded = (Pokemon) result.getData().getSerializableExtra("pokemon");
-                        player.addPokemonToArray(pokemonAdded);
+                        pokemonAdded = (PokemonInformation) result.getData().getSerializableExtra("pI");
+                        player.addPokemon(pokemonAdded);
                         goToOverview();
 
                     }
@@ -179,17 +179,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkIfPokemonAdded() {
-        System.out.println(getIntent());
-        Serializable pkRaw = getIntent().getSerializableExtra("pokemon");
-        System.out.println(pkRaw);
-        if (pkRaw != null) {
-            Pokemon pk = (Pokemon) pkRaw;
-            player.addPokemonToArray(pk);
-            System.out.println("NICEEEEE");
-        }
-
-    }
+    /**
+     * 
+     * Handles the onClickListener for the poke ball ImageView, and starts the QR
+     * scanner activity
+     * if camera permission has been granted.
+     */
 
     /**
      * 

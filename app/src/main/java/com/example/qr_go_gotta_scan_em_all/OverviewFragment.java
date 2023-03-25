@@ -115,15 +115,15 @@ public class OverviewFragment extends Fragment {
             usernameVal.setText(player.getUserName());
 
             for (int i = 0; i < player.getPokemonArray().size(); i++){
-                double pScore = player.getPokemonArray().get(i).getScore();
+                double pScore = player.getPokemonArray().get(i).getPokemon().getScore();
                 totalScoreNum +=  pScore;
                 if (pScore > maxScore){
                     maxScore = pScore;
-                    highestScoringQRName = player.getPokemonArray().get(i).getName();
+                    highestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
                 }
                 if (pScore < minScore){
                     minScore = pScore;
-                    lowestScoringQRName = player.getPokemonArray().get(i).getName();
+                    lowestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
                 }
             }
 
@@ -155,8 +155,8 @@ public class OverviewFragment extends Fragment {
     }
 
     private void deleteFromPlayerList(int pos){
-        pokemonArrayAdapter.remove(player.getPokemon(pos));
-        player.removePokemon(pos);
+        pokemonArrayAdapter.remove(player.getPokemonAtIndex(pos));
+        player.removePokemonAtIndex(pos);
         pokemonArrayAdapter.notifyDataSetChanged();
     }
 }

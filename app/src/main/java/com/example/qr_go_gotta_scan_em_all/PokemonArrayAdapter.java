@@ -28,14 +28,14 @@ import java.util.Date;
  */
 
 
-public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
+public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
 
     /**
      * Constructor for PokemonArrayAdapter.
      * @param context The context of the activity or fragment where the adapter will be used.
      * @param objects An ArrayList of Pokemon objects to be displayed in the ListView.
      */
-    public PokemonArrayAdapter(@NonNull Context context, @NonNull ArrayList<Pokemon> objects) {
+    public PokemonArrayAdapter(@NonNull Context context, @NonNull ArrayList<PokemonInformation> objects) {
         super(context, 0, objects);
     }
 
@@ -62,7 +62,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
             view = convertView;
         }
         // Get the item from the array adapter that we want to project onto our listview
-        Pokemon pokemon = super.getItem(position);
+        PokemonInformation pI = super.getItem(position);
 
         // get all the components from the GasStation object that we want on the listview
 
@@ -71,15 +71,15 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         TextView scoreView = view.findViewById(R.id.score);
         TextView locationView = view.findViewById(R.id.location);
 
-        if (pokemon.getImageByteArray() != null){
-            Bitmap bmp = BitmapFactory.decodeByteArray(pokemon.getImageByteArray(), 0, pokemon.getImageByteArray().length);
+        if (pI.getImageByteArray() != null){
+            Bitmap bmp = BitmapFactory.decodeByteArray(pI.getImageByteArray(), 0, pI.getImageByteArray().length);
             ImageView image = view.findViewById(R.id.photo_location);
             image.setImageBitmap(bmp);
         }
 
         // Name
-        String name = pokemon.getName();
-        String visualReper = pokemon.visualReper();
+        String name = pI.getPokemon().getName();
+        String visualReper = pI.getPokemon().visualReper();
         // Carbon
 
         // Credits: Android Studio Website
@@ -88,11 +88,11 @@ public class PokemonArrayAdapter extends ArrayAdapter<Pokemon> {
         // Simple date format requires date object
 
         pokemonNameTextView.setText("Name: "+name);
-        scoreView.setText("Score: " + Double.toString(pokemon.getScore()));
+        scoreView.setText("Score: " + Double.toString(pI.getPokemon().getScore()));
         hashTextView.setText("Visual:\n " + visualReper);
 
-        if (pokemon.getLocation() != null){
-            locationView.setText("Location: " + "(" + Double.toString(pokemon.getLocation().first) +"," + Double.toString(pokemon.getLocation().second) +")");
+        if (pI.getPairedLocation() != null){
+            locationView.setText("Location: " + "(" + Double.toString(pI.getLocationLat()) +"," + Double.toString(pI.getLocationLong()) +")");
         } else{
             locationView.setText("Location: Not added");
         }

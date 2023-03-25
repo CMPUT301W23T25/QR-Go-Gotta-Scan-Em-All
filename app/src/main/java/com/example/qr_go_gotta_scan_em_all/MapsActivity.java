@@ -13,6 +13,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,11 +26,15 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,9 +52,8 @@ public class MapsActivity extends AppCompatActivity
         GoogleMap.OnMyLocationClickListener {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private double currentLatitude;
-    private double currentLongitude;
-    private UiSettings mUiSettings;
+    private boolean locationPermissionGranted = false;
+    private Location lastKnownLocation;
 
     /**
      * 
@@ -67,9 +71,10 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
         ImageView back_btn = findViewById(R.id.maps_back_btn);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
-        getCurrentLocation();
+        checkLocationPermission();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -80,68 +85,34 @@ public class MapsActivity extends AppCompatActivity
         });
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // referenced from -
         // https://developers.google.com/maps/documentation/android-sdk/controls
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Maps Failed to start", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         mMap = googleMap;
-        mUiSettings = mMap.getUiSettings();
-        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
         mMap.setOnMyLocationClickListener(MapsActivity.this);
+        mMap.setMinZoomPreference(16.0f);
+        mMap.setMaxZoomPreference(21.0f);
         mMap.setMyLocationEnabled(true);
+        UiSettings mUiSettings = mMap.getUiSettings();
+        mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
-        postMapReady();
-    }
-
-    private double[] getCurrentLocation() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                try {
-                                    Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),
-                                            location.getLongitude(), 1);
-                                    currentLatitude = addresses.get(0).getLatitude();
-                                    currentLongitude = addresses.get(0).getLongitude();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
-        } else {
-            checkLocationPermission();
-        }
-
-        return new double[] { currentLatitude, currentLongitude };
-    }
-
-    private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(MapsActivity.this,
-                    new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION }, 2);
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
+        mUiSettings.setMyLocationButtonEnabled(true);
+        mUiSettings.setScrollGesturesEnabled(false);
+        zoomOnUser();
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-
     }
 
     @Override
@@ -149,32 +120,57 @@ public class MapsActivity extends AppCompatActivity
         return false;
     }
 
-    private void postMapReady() {
-        double[] userCoordinates = getCurrentLocation();
-        // LatLng userLocation = new LatLng(userCoordinates[0],userCoordinates[1]);
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-        for (int i = 0; i < generateRandNum(1, 5); i++) {
-            double makerLat = userCoordinates[0] - generateRandNum(-1, 1);
-            double makerLon = userCoordinates[1] - generateRandNum(-1, 1);
-            // referenced from -
-            // https://developers.google.com/maps/documentation/android-sdk/marker#maps_android_markers_add_a_marker-java
-            LatLng pokeMarker = new LatLng(makerLat, makerLon);
-            // Bitmap resized =
-            // Bitmap.createScaledBitmap(R.drawable.pokeball_closed,4,4,true);
-            Marker pokeMark = mMap.addMarker(new MarkerOptions()
-                    .position(pokeMarker)
-                    // .icon(BitmapDescriptorFactory.fromResource(R.drawable.pokeball_closed))
-                    .title("Pokemon"));
-            pokeMark.setTag(0);
+    private void zoomOnUser() {
+        // referenced from -
+        // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()),
+                                        19.0f));
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage(), e);
         }
-
     }
 
-    private int generateRandNum(int min, int max) {
-        // referenced from-
-        // https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range
-        int numPokemon = new Random().nextInt((max - min) + 1) + min;
-        return numPokemon;
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, "Please grant location permission", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
+                    2);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+            } else {
+                locationPermissionGranted = false;
+            }
+        } else {
+            locationPermissionGranted = true;
+        }
+    }
+
+    private void putMarker(double lat, double lan) {
+        LatLng markLocation = new LatLng(lat, lan);
+        mMap.addMarker(new MarkerOptions()
+                .position(markLocation)
+                // .icon(BitmapDescriptor(BitmapDescriptorFactory.))
+                .title("pokemon"));
+
     }
 
 }
