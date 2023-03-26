@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
 
@@ -277,9 +278,7 @@ public class PokemonAddActivity extends AppCompatActivity {
     private void addToPokemonCol(PokemonInformation p){
         String ID = p.getPokemon().getID();
         HashMap<String, Object> pMap = new HashMap<>();
-
-
-
+        pMap.put("comments",new ArrayList<Map<String,String>>());
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPokemonCol().document(ID);
 

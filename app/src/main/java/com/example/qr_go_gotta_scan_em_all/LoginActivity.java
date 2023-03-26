@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -334,9 +335,15 @@ public class LoginActivity extends AppCompatActivity {
             Pokemon p= new Pokemon();
             p.setID((String)m.get("ID"));
             System.out.println("IMAGE");
-            System.out.println(((String)m.get("image")).getBytes(StandardCharsets.UTF_8).toString());
-            PokemonInformation pI = new PokemonInformation(p,((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
-            (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
+            PokemonInformation pI = null;
+            byte[] imgBytes = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                imgBytes = Base64.getDecoder().decode((String) m.get("image"));
+            }
+
+            pI = new PokemonInformation(p, imgBytes,
+                (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
+
             pIList.add(pI);
             System.out.println(m.get("ID"));
             System.out.println((double)m.get("lat"));

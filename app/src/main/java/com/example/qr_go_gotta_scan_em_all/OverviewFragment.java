@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +69,8 @@ public class OverviewFragment extends Fragment {
     Button closeButton;
 
     private Player player;
+
+    private FragmentManager fragmentManager;
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -134,6 +138,7 @@ public class OverviewFragment extends Fragment {
         itemsScanned = view.findViewById(R.id.item_scanned);
         highestScore = view.findViewById(R.id.highest_score_qr);
         lowestScore = view.findViewById(R.id.lowest_score_qr);
+        fragmentManager = getParentFragmentManager();
 
         lW = view.findViewById(R.id.list_view);
         double totalScoreNum = 0.0;
@@ -233,6 +238,8 @@ public class OverviewFragment extends Fragment {
         commentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // your handler code here
+                // Switch the fragment to the specific QR code's page
+                goToOverview(position);
                 dialog.dismiss();
             }
         });
@@ -292,6 +299,16 @@ public class OverviewFragment extends Fragment {
                         // Handle failure, if needed
                     }
                 });
+    }
+
+    private void goToOverview(int position) {
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+
+        // Replace whatever is in the fragment_container view with this fragment
+        transaction.replace(R.id.container, new QRMoreInfoFragment(player,player.getPokemonArray().get(position).getPokemon()), null);
+        transaction.commit();
     }
 
 }
