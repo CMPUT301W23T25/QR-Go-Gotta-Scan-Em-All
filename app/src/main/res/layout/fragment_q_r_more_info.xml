@@ -14,32 +14,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Visual Representation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.129" />
 
     <TextView
         android:id="@+id/visual_reper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="271dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="4dp"
         android:maxLines="8"
         android:padding="20dp"
         android:text="----"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.045" />
 
     <ListView
         android:id="@+id/comments_list"
         android:layout_width="wrap_content"
         android:layout_height="325dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/visual_reper" />
+        app:layout_constraintTop_toBottomOf="@+id/visual_reper"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/add_comment_btn"
@@ -50,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic"
+        app:layout_constraintTop_toBottomOf="@+id/comments_list"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

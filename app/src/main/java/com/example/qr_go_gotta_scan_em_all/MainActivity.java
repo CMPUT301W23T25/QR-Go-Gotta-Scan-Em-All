@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -44,6 +45,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -418,7 +420,9 @@ public class MainActivity extends AppCompatActivity {
         map.put("ID",pI.getPokemon().getID());
         map.put("lat",pI.getLocationLat());
         map.put("long",pI.getLocationLong());
-        map.put("image", byteArrayRaw);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            map.put("image", Base64.getEncoder().encodeToString(pI.getImageByteArray()) );
+        }
         map.put("city",pI.getCityName());
         map.put("country",pI.getCountryName());
 
