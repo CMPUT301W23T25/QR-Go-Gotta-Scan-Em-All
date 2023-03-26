@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -267,7 +268,7 @@ public class PokemonAddActivity extends AppCompatActivity {
     private byte[] getIMGBytes(Bitmap img){
         // Compresses the BMP
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.PNG, 50, out);
+        img.compress(Bitmap.CompressFormat.JPEG, 20, out);
         byte[] bytes = out.toByteArray();
         // This needs to be converted back to ByteArrayOutputStream to be displayed.
         return bytes;
@@ -327,6 +328,9 @@ public class PokemonAddActivity extends AppCompatActivity {
         startActivity(new Intent(PokemonAddActivity.this, ConnectionErrorActivity.class));
         finish();
     }
+
+
+
 }
 //     /**
 //      * The askPermission() method requests location permission
@@ -366,3 +370,4 @@ public class PokemonAddActivity extends AppCompatActivity {
 //         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //     }
 // }
+
