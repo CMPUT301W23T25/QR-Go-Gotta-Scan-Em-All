@@ -175,7 +175,7 @@ public class PokemonAddActivity extends AppCompatActivity {
                     pI.setCountryName(countryName);
 
                 }
-                addPokemonToDB(pI);
+//                addPokemonToDB(pI);
                 intent.putExtra("pI", pI);
 
                 // Update the database with the new pokemon as well as the Players' lists of pokemons
@@ -274,50 +274,50 @@ public class PokemonAddActivity extends AppCompatActivity {
         return bytes;
     }
 
-    private void addPokemonToDB(PokemonInformation pI){
-        // First make a query to store the pokemon into the collection of pokemon
-        addToPokemonCol(pI);
-    }
-
-    private void addToPokemonCol(PokemonInformation p){
-        String ID = p.getPokemon().getID();
-        HashMap<String, Object> pMap = new HashMap<>();
-        pMap.put("comments",new ArrayList<Map<String,String>>());
-        // make sure the specific ID of the player is used
-        DocumentReference docRef = db.getPokemonCol().document(ID);
-
-        // Get the document snapshot
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // Document exists, do not add
-                        Log.d(TAG, "Document already exists");
-                    } else {
-                        // Document does not exist, add it
-                        docRef.set(pMap)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "Pokemon data added successfully");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error adding Pokemon data", e);
-                                        switchToNetworkFail();
-                                    }
-                                });
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
+//    private void addPokemonToDB(PokemonInformation pI){
+//        // First make a query to store the pokemon into the collection of pokemon
+//        addToPokemonCol(pI);
+//    }
+//
+//    private void addToPokemonCol(PokemonInformation p){
+//        String ID = p.getPokemon().getID();
+//        HashMap<String, Object> pMap = new HashMap<>();
+//        pMap.put("comments",new ArrayList<Map<String,String>>());
+//        // make sure the specific ID of the player is used
+//        DocumentReference docRef = db.getPokemonCol().document(ID);
+//
+//        // Get the document snapshot
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        // Document exists, do not add
+//                        Log.d(TAG, "Document already exists");
+//                    } else {
+//                        // Document does not exist, add it
+//                        docRef.set(pMap)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Log.d(TAG, "Pokemon data added successfully");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w(TAG, "Error adding Pokemon data", e);
+//                                        switchToNetworkFail();
+//                                    }
+//                                });
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+//    }
 
 
     /**
