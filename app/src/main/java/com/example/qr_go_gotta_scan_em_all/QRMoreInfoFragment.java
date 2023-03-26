@@ -55,6 +55,8 @@ public class QRMoreInfoFragment extends Fragment {
     private Pokemon pk;
     private ArrayList<Comment> comments;
     ArrayAdapter<Comment> commentArrayAdapter;
+    List<String> owners = new ArrayList<>();
+
 
     ListView lW;
 
@@ -88,10 +90,12 @@ public class QRMoreInfoFragment extends Fragment {
         commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
         Button cmtBtn = view.findViewById(R.id.add_comment_btn);
         lW.setAdapter(commentArrayAdapter);
+        Button ownBtn = view.findViewById(R.id.owners_btn);
 
 
         try{
             getCommentsFromDB();
+            getOwners();
         }catch (NullPointerException e){
             System.out.println("loading db");
         }
@@ -105,6 +109,16 @@ public class QRMoreInfoFragment extends Fragment {
                 } else{
                     Toast.makeText(getActivity().getApplicationContext(), "Cannot comment on Pokemon you don't own.", Toast.LENGTH_SHORT).show();
                 }
+
+            }
+        });
+
+        ownBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+
+                ownerDialog();
+
 
             }
         });
@@ -246,6 +260,36 @@ public class QRMoreInfoFragment extends Fragment {
 
     }
 
+    void ownerDialog(){
+
+
+        // Credits: Chirag-sam
+        // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
+        // He's the real MVP
+        Dialog dialog = new Dialog(getContext());
+
+
+        //Mention the name of the layout of your custom dialog.
+        dialog.setContentView(R.layout.owners_dialog);
+        ListView ownersLW = dialog.findViewById(R.id.owners_list);
+        ArrayAdapter<String> a = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, owners);
+        ownersLW.setAdapter(a);
+        Button closeButton = dialog.findViewById(R.id.close_btn);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+
+
+
+        // show the dialog box
+        dialog.show();
+
+    }
+
     private void addComment(Comment c){
         // Add the comment to the Pokemon's comments array
         Map<String,String> m = new HashMap<>();
@@ -277,6 +321,34 @@ public class QRMoreInfoFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    private void getOwners(){
+        // Query the player collection
+        db.getPlayerCol().get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot playerDoc : task.getResult()) {
+                        // Get the pokemon_owned array from the current player document
+                        List<Map<String, String>> pokemonOwned = (List<Map<String, String>>) playerDoc.get("pokemon_owned");
+
+                        // Check if the current player owns the given pokemon
+                        for (Map<String, String> pokemon : pokemonOwned) {
+                            if (pokemon.get("ID").equals(pk.getID())) {
+                                // Add the player's username to the list of owners
+                                owners.add(playerDoc.getString("username"));
+                                break; // stop searching through the pokemon_owned array for this player
+                            }
+                        }
+                    }
+
+                    // Do something with the list of owners (e.g. update UI)
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
 

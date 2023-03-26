@@ -59,4 +59,16 @@
         app:layout_constraintTop_toBottomOf="@+id/comments_list"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/owners_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="View Owners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.759"
+        app:layout_constraintStart_toEndOf="@+id/add_comment_btn"
+        app:layout_constraintTop_toBottomOf="@+id/comments_list"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
