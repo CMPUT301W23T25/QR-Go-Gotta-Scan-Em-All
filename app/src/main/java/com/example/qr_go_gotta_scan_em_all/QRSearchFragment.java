@@ -24,12 +24,15 @@ public class QRSearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Player p;
+
     public QRSearchFragment() {
         // Required empty public constructor
     }
 
     public QRSearchFragment(Player p) {
         // Required empty public constructor
+        this.p = p;
     }
 
     /**

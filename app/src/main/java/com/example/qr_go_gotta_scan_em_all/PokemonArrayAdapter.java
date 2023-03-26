@@ -67,19 +67,14 @@ public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
         // get all the components from the GasStation object that we want on the listview
 
         TextView pokemonNameTextView = view.findViewById(R.id.pokemon_name);
-        TextView hashTextView = view.findViewById(R.id.visual_reper);
         TextView scoreView = view.findViewById(R.id.score);
         TextView locationView = view.findViewById(R.id.location);
 
-        if (pI.getImageByteArray() != null){
-            Bitmap bmp = pI.getDecodedImage();
-            ImageView image = view.findViewById(R.id.photo_location);
-            image.setImageBitmap(bmp);
-        }
+
+
 
         // Name
         String name = pI.getPokemon().getName();
-        String visualReper = pI.getPokemon().visualReper();
         // Carbon
 
         // Credits: Android Studio Website
@@ -89,7 +84,7 @@ public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
 
         pokemonNameTextView.setText("Name: "+name);
         scoreView.setText("Score: " + Double.toString(pI.getPokemon().getScore()));
-        hashTextView.setText("Visual:\n " + visualReper);
+
 
         if (pI.getPairedLocation() != null){
             locationView.setText("Location: " + pI.getCountryName() + "," +pI.getCityName());

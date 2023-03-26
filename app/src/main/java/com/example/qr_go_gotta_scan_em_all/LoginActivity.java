@@ -333,6 +333,8 @@ public class LoginActivity extends AppCompatActivity {
 //            PokemonInformation pI = new PokemonInformation();
             Pokemon p= new Pokemon();
             p.setID((String)m.get("ID"));
+            System.out.println("IMAGE");
+            System.out.println(((String)m.get("image")).getBytes(StandardCharsets.UTF_8).toString());
             PokemonInformation pI = new PokemonInformation(p,((String)m.get("image")).getBytes(StandardCharsets.UTF_8),
             (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
             pIList.add(pI);

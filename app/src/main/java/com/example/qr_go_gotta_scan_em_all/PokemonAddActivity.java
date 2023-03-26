@@ -263,7 +263,7 @@ public class PokemonAddActivity extends AppCompatActivity {
     private byte[] getIMGBytes(Bitmap img){
         // Compresses the BMP
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 50, out);
+        img.compress(Bitmap.CompressFormat.PNG, 50, out);
         byte[] bytes = out.toByteArray();
         // This needs to be converted back to ByteArrayOutputStream to be displayed.
         return bytes;
