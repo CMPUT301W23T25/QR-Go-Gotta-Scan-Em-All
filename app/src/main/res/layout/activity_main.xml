@@ -10,8 +10,9 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btmAppBar">
-    </FrameLayout>
+        android:layout_above="@id/btmAppBar"
+        android:layout_marginBottom="60dp"
+        android:fitsSystemWindows="true"></FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/btmAppBar"
