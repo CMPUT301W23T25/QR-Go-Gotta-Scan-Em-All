@@ -61,8 +61,8 @@ public class MapsActivity extends AppCompatActivity
     private boolean locationPermissionGranted = false;
     private Location lastKnownLocation;
 
-    private Double longitude;
-    private Double lattitude;
+    private double longitude;
+    private double lattitude;
     private String cityName;
     private String countryName;
 

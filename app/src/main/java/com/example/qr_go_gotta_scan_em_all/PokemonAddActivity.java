@@ -63,8 +63,8 @@ public class PokemonAddActivity extends AppCompatActivity {
 
     Database db;
     FusedLocationProviderClient fusedLocationProviderClient;
-    private Double longitude;
-    private Double lattitude;
+    private double longitude;
+    private double lattitude;
     private String cityName;
     private String countryName;
 
