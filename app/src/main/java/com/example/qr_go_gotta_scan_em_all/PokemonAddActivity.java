@@ -259,14 +259,8 @@ public class PokemonAddActivity extends AppCompatActivity {
                     });
 
 
-        }else {
-
-            addLocation();
-
-
         }
-
-
+        
     }
 
     private byte[] getIMGBytes(Bitmap img){
