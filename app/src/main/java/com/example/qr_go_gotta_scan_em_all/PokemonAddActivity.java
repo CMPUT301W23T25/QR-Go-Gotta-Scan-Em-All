@@ -229,10 +229,6 @@ public class PokemonAddActivity extends AppCompatActivity {
      */
     //referenced from - https://www.youtube.com/watch?v=I5ektSfv4lw&ab_channel=Foxandroid
 
-    /**
-     *The AddLocation() method gets the current device location using
-     * the FusedLocationProviderClient. If the app has been granted
-     */
     private void addLocation(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -257,11 +253,6 @@ public class PokemonAddActivity extends AppCompatActivity {
 
                         }
                     });
-
-
-        }else {
-
-            addLocation();
 
 
         }
