@@ -410,9 +410,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void addPokemonToPlayerArray(PokemonInformation pI){
         // Update the player document with the new Pokemon
-        String byteArrayRaw = "";
+        String imgRaw = "";
         if (pI.getImageByteArray() != null){
-            byteArrayRaw = new String(pI.getImageByteArray(), StandardCharsets.UTF_8);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                imgRaw = Base64.getEncoder().encodeToString(pI.getImageByteArray());
+            }
         }
 
         DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
@@ -421,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
         map.put("lat",pI.getLocationLat());
         map.put("long",pI.getLocationLong());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            map.put("image", Base64.getEncoder().encodeToString(pI.getImageByteArray()) );
+        map.put("image", imgRaw );
         }
         map.put("city",pI.getCityName());
         map.put("country",pI.getCountryName());

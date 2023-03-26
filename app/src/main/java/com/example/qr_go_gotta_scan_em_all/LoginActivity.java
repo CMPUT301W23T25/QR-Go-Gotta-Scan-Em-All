@@ -336,10 +336,14 @@ public class LoginActivity extends AppCompatActivity {
             p.setID((String)m.get("ID"));
             System.out.println("IMAGE");
             PokemonInformation pI = null;
+            byte[] imgBytes = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                pI = new PokemonInformation(p, Base64.getDecoder().decode((String) m.get("image")),
-                (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
+                imgBytes = Base64.getDecoder().decode((String) m.get("image"));
             }
+
+            pI = new PokemonInformation(p, imgBytes,
+                (double)m.get("lat"),(double)m.get("long"),(String)m.get("city"), (String)m.get("country"));
+
             pIList.add(pI);
             System.out.println(m.get("ID"));
             System.out.println((double)m.get("lat"));
