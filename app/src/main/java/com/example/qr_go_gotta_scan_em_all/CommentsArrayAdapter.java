@@ -59,7 +59,7 @@ public class CommentsArrayAdapter extends ArrayAdapter<Comment> {
 
         TextView userNameTw = view.findViewById(R.id.user_name);
         TextView textTw = view.findViewById(R.id.comment_text);
-        
+
 
         // Name
         String userName = c.getPlayer().getUserName();

@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,6 +65,23 @@ public class QRMoreInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        db = new Database(getActivity().getApplicationContext());
+        TextView visual = view.findViewById(R.id.visual_reper);
+        ListView lW = view.findViewById(R.id.comments_list);
+        visual.setText(pk.visualReper());
+        ArrayAdapter<Comment> commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
+
+        try{
+            getCommentsFromDB();
+        }catch (NullPointerException e){
+            System.out.println("loading db");
+        }
+        lW.setAdapter(commentArrayAdapter);
+        commentArrayAdapter.notifyDataSetChanged();
     }
 
     @Override
