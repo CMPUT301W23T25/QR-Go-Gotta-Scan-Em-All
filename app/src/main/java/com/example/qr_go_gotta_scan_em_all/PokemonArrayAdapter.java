@@ -71,11 +71,19 @@ public class PokemonArrayAdapter extends ArrayAdapter<PokemonInformation> {
         TextView scoreView = view.findViewById(R.id.score);
         TextView locationView = view.findViewById(R.id.location);
 
-        if (pI.getImageByteArray() != null){
-            Bitmap bmp = pI.getDecodedImage();
-            ImageView image = view.findViewById(R.id.photo_location);
-            image.setImageBitmap(bmp);
+        try{
+            if (pI.getImageByteArray() != null){
+                System.out.println(pI.getDecodedImage());
+                Bitmap bmp = pI.getDecodedImage();
+
+                ImageView image = view.findViewById(R.id.image_view);
+
+                image.setImageBitmap(bmp);
+            }
+        } catch (NullPointerException e){
+            System.out.println(e);
         }
+
 
         // Name
         String name = pI.getPokemon().getName();
