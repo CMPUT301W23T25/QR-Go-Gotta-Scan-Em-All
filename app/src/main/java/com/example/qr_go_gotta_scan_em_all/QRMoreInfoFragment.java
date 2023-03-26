@@ -2,7 +2,9 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -45,6 +52,9 @@ public class QRMoreInfoFragment extends Fragment {
     private Database db;
     private Pokemon pk;
     private ArrayList<Comment> comments;
+    ArrayAdapter<Comment> commentArrayAdapter;
+
+    ListView lW;
 
     // TODO: Rename and change types of parameters
 
@@ -71,17 +81,26 @@ public class QRMoreInfoFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         db = new Database(getActivity().getApplicationContext());
         TextView visual = view.findViewById(R.id.visual_reper);
-        ListView lW = view.findViewById(R.id.comments_list);
+        lW = view.findViewById(R.id.comments_list);
         visual.setText(pk.visualReper());
-        ArrayAdapter<Comment> commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
+        commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
+        Button cmtBtn = view.findViewById(R.id.add_comment_btn);
+        lW.setAdapter(commentArrayAdapter);
+
 
         try{
             getCommentsFromDB();
         }catch (NullPointerException e){
             System.out.println("loading db");
         }
-        lW.setAdapter(commentArrayAdapter);
         commentArrayAdapter.notifyDataSetChanged();
+
+        cmtBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                showDialogueBox();
+            }
+        });
     }
 
     @Override
@@ -127,7 +146,9 @@ public class QRMoreInfoFragment extends Fragment {
                                 if (comments != null) {
                                     // Query players collection to get usernames
                                     for (Map<String, String> c : commentsM) {
+
                                         String userId = c.get("user_id");
+                                        Player playerObject = new Player(userId);
                                         db.getPlayerCol()
                                                 .document(userId)
                                                 .get()
@@ -137,9 +158,9 @@ public class QRMoreInfoFragment extends Fragment {
                                                         if (task.isSuccessful()) {
                                                             DocumentSnapshot document = task.getResult();
                                                             if (document.exists()) {
-                                                                String username = document.getString("user_name");
+                                                                String username = document.getString("username");
                                                                 // Add username to comment
-                                                                c.put("user_name", username);
+                                                                playerObject.setUserName(username);
                                                             } else {
                                                                 Log.d(TAG, "No such document");
                                                             }
@@ -149,8 +170,8 @@ public class QRMoreInfoFragment extends Fragment {
                                                     }
                                                 });
                                         // Add the comment to the array of comments
-                                        Comment comment = new Comment(new Player((String)c.get("user_id"),(String)c.get("user_name")),(String)c.get("text"));
-                                        comments.add(comment);
+                                        Comment comment = new Comment(playerObject,(String)c.get("text"));
+                                        commentArrayAdapter.add(comment);
                                     }
                                     // Do something with comments array after all queries complete
                                     // For example, update UI with comments and usernames
@@ -165,6 +186,72 @@ public class QRMoreInfoFragment extends Fragment {
                 });
 
 
+
+    }
+
+    void showDialogueBox(){
+
+
+        // Credits: Chirag-sam
+        // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
+        // He's the real MVP
+        Dialog dialog = new Dialog(getContext());
+
+
+        //Mention the name of the layout of your custom dialog.
+        dialog.setContentView(R.layout.add_comment_dialog);
+        Button commentButton = dialog.findViewById(R.id.comment_btn);
+        Button closeButton = dialog.findViewById(R.id.close_btn);
+        TextView commentTxt = dialog.findViewById(R.id.comment_textbox);
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                // Switch the fragment to the specific QR code's page
+                // Make a new comment
+                Comment cmt = new Comment(p,commentTxt.getText().toString());
+                addComment(cmt);
+                commentArrayAdapter.notifyDataSetChanged();
+                // add the comment to the database
+                dialog.dismiss();
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+
+
+
+        // show the dialog box
+        dialog.show();
+
+    }
+
+    private void addComment(Comment c){
+        // Add the comment to the Pokemon's comments array
+        Map<String,String> m = new HashMap<>();
+        m.put("user_id",c.getPlayer().getUserId());
+        m.put("text",c.getText());
+        db.getPokemonCol()
+                .document(pk.getID())
+                .update("comments", FieldValue.arrayUnion(m))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Comment added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error adding comment", e);
+                    }
+                });
+        commentArrayAdapter.add(c);
     }
 
 //    private ArrayList<PokemonInformation> convertRawDataToPInfo(List<Map<String,Object>> a){

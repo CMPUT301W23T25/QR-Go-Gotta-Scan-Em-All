@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/visual_reper"
-        android:layout_width="271dp"
+        android:layout_width="wrap_content"
         android:layout_height="107dp"
         android:layout_marginTop="4dp"
         android:maxLines="8"
