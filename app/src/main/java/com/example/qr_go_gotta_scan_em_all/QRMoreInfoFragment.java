@@ -22,6 +22,7 @@ public class QRMoreInfoFragment extends Fragment {
 
     private Player p;
     private Database db;
+    private Pokemon pk;
 
     // TODO: Rename and change types of parameters
 
@@ -30,9 +31,10 @@ public class QRMoreInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public QRMoreInfoFragment(Player p) {
+    public QRMoreInfoFragment(Player p, Pokemon pk) {
         // Needed for checking if the pokemon the player is commenting on is actually in the array or not.
         this.p = p;
+        this.pk = pk;
     }
 
 
@@ -48,4 +50,5 @@ public class QRMoreInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_q_r_more_info, container, false);
     }
+
 }

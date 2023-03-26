@@ -239,7 +239,7 @@ public class OverviewFragment extends Fragment {
             public void onClick(View v) {
                 // your handler code here
                 // Switch the fragment to the specific QR code's page
-                goToOverview();
+                goToOverview(position);
                 dialog.dismiss();
             }
         });
@@ -301,13 +301,13 @@ public class OverviewFragment extends Fragment {
                 });
     }
 
-    private void goToOverview() {
+    private void goToOverview(int position) {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new QRMoreInfoFragment(player), null);
+        transaction.replace(R.id.container, new QRMoreInfoFragment(player,player.getPokemonArray().get(position).getPokemon()), null);
         transaction.commit();
     }
 
