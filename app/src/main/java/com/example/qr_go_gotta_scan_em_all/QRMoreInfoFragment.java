@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,7 +100,12 @@ public class QRMoreInfoFragment extends Fragment {
         cmtBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // your handler code here
-                showDialogueBox();
+                if(checkPokemonExistsOwnedPlayer(pk)){
+                    showDialogueBox();
+                } else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Cannot comment on Pokemon you don't own.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -149,6 +156,7 @@ public class QRMoreInfoFragment extends Fragment {
 
                                         String userId = c.get("user_id");
                                         Player playerObject = new Player(userId);
+
                                         db.getPlayerCol()
                                                 .document(userId)
                                                 .get()
@@ -158,7 +166,12 @@ public class QRMoreInfoFragment extends Fragment {
                                                         if (task.isSuccessful()) {
                                                             DocumentSnapshot document = task.getResult();
                                                             if (document.exists()) {
-                                                                String username = document.getString("username");
+                                                                String username = null;
+                                                                while(username == null){
+                                                                    username = document.getString("username");
+                                                                    commentArrayAdapter.notifyDataSetChanged();
+
+                                                                }
                                                                 // Add username to comment
                                                                 playerObject.setUserName(username);
                                                             } else {
@@ -169,9 +182,10 @@ public class QRMoreInfoFragment extends Fragment {
                                                         }
                                                     }
                                                 });
-                                        // Add the comment to the array of comments
-                                        Comment comment = new Comment(playerObject,(String)c.get("text"));
-                                        commentArrayAdapter.add(comment);
+                                            // Add the comment to the array of comments
+                                            Comment comment = new Comment(playerObject,(String)c.get("text"));
+                                            commentArrayAdapter.add(comment);
+
                                     }
                                     // Do something with comments array after all queries complete
                                     // For example, update UI with comments and usernames
@@ -184,6 +198,7 @@ public class QRMoreInfoFragment extends Fragment {
                         }
                     }
                 });
+
 
 
 
@@ -254,65 +269,15 @@ public class QRMoreInfoFragment extends Fragment {
         commentArrayAdapter.add(c);
     }
 
-//    private ArrayList<PokemonInformation> convertRawDataToPInfo(List<Map<String,Object>> a){
-//        // Make a new array
-//
-//        ArrayList<Comment> pIList = new ArrayList<>();
-//        for (Map<String,Object> m:a){
-////            PokemonInformation pI = new PokemonInformation();
-//            Comment c = new Comment(new Player(),);
-//            Pokemon p= new Pokemon();
-//            p.setID((String)m.get("ID"));
-//        }
-//
-//        return pIList;
-//
-//    }
+    private boolean checkPokemonExistsOwnedPlayer(Pokemon px){
+        for (PokemonInformation pI: p.getPokemonArray()){
+            if(Objects.equals(pI.getPokemon().getID(), px.getID())){
+                System.out.println(pI.getPokemon().getID());
+                return true;
+            }
+        }
+        return false;
+    }
 
-    /**
-     *
-     *
-     * This method retrieves the player data from the database based on their login
-     * information,
-     * creates a Player object, and sets the "isRegistered" flag to true if the
-     * player is found in
-     * the database. It also switches to the main activity and passes the player
-     * object as an extra
-     * to the intent.
-     */
-
-//    private void getPlayerData(String userID, Player player) {
-//
-//
-//        db.getPlayerCol().document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        player = new Player((String)document.get("username"), document.getId());
-//                        List<Map<String, Object>> myArray = (List<Map<String, Object>>) document.get("pokemon_owned");
-//                        player.setPokemonArray(convertRawDataToPInfo(myArray));
-//                        //
-//                        isRegistered = true;
-//                        System.out.println("registered");
-//                        intent.putExtra("player",player);
-//
-//                        // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
-//
-//                        switchToMainActivity();
-//
-//                    } else {
-//                        System.out.println("tre");
-//                        isRegistered = false;
-//                    }
-//
-//                } else {
-//                    switchToNetworkFail();
-//                }
-//            }
-//        });
-//
-//    }
 
 }
