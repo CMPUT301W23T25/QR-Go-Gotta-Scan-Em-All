@@ -107,9 +107,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="257dp"
-        android:layout_marginTop="444dp"
+        android:layout_marginTop="438dp"
         android:layout_marginEnd="23dp"
-        android:layout_marginBottom="53dp"
+        android:layout_marginBottom="59dp"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintVertical_bias="0.172"
         app:srcCompat="@drawable/release_pokemon" />
@@ -123,10 +123,26 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="447dp"
+        android:layout_marginTop="440dp"
         android:layout_marginEnd="251dp"
-        android:layout_marginBottom="54dp"
+        android:layout_marginBottom="61dp"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintVertical_bias="0.172"
         app:srcCompat="@drawable/capture_pokemon" />
+
+    <ImageView
+        android:id="@+id/comment_pokemon_button"
+        android:layout_width="127dp"
+        android:layout_height="114dp"
+        android:layout_alignBottom="@+id/border3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="466dp"
+        android:layout_marginEnd="249dp"
+        android:layout_marginBottom="-56dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.172"
+        app:srcCompat="@drawable/comment_button" />
 </RelativeLayout>
