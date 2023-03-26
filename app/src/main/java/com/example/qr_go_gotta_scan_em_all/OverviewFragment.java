@@ -2,6 +2,8 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,6 +60,11 @@ public class OverviewFragment extends Fragment {
     ListView lW;
 
     Database db;
+
+    Button deleteButton;
+
+    Button commentButton;
+    Button closeButton;
 
     private Player player;
     public OverviewFragment() {
@@ -124,6 +134,7 @@ public class OverviewFragment extends Fragment {
         itemsScanned = view.findViewById(R.id.item_scanned);
         highestScore = view.findViewById(R.id.highest_score_qr);
         lowestScore = view.findViewById(R.id.lowest_score_qr);
+
         lW = view.findViewById(R.id.list_view);
         double totalScoreNum = 0.0;
         double minScore = Double.POSITIVE_INFINITY;
@@ -155,14 +166,21 @@ public class OverviewFragment extends Fragment {
             itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
             pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
 
-            lW.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-/*                new DeleteVisit().show(getSupportFragmentManager(),"Delete Visit");
-                return true;*/
-                    // add delete confirmaton
-                    deleteFromPlayerList(position);
-                    return true;
+//            lW.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//                @Override
+//                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+///*                new DeleteVisit().show(getSupportFragmentManager(),"Delete Visit");
+//                return true;*/
+//                    // add delete confirmaton
+//                    deleteFromPlayerList(position);
+//                    return true;
+//                }
+//            });
+
+            lW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    showDialogueBox(position, view);
                 }
             });
             lW.setAdapter(pokemonArrayAdapter);
@@ -176,7 +194,65 @@ public class OverviewFragment extends Fragment {
         // or  (ImageView) view.findViewById(R.id.foo);
     }
 
-    private void deleteFromPlayerList(int pos){
+    void showDialogueBox(int position, View view){
+
+
+        // Credits: Chirag-sam
+        // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
+        // He's the real MVP
+        Dialog dialog = new Dialog(getContext());
+
+
+        //Mention the name of the layout of your custom dialog.
+        dialog.setContentView(R.layout.comment_delete_dialog);
+        deleteButton = dialog.findViewById(R.id.delete_btn);
+        commentButton = dialog.findViewById(R.id.comment_btn);
+        closeButton = dialog.findViewById(R.id.close_btn);
+        TextView hashTextView = dialog.findViewById(R.id.visual_reper);
+        hashTextView.setText(player.getPokemonArray().get(position).getPokemon().visualReper());
+        try{
+            if (player.getPokemonArray().get(position).getImageByteArray() != null){
+                System.out.println(player.getPokemonArray().get(position).getDecodedImage());
+                Bitmap bmp = player.getPokemonArray().get(position).getDecodedImage();
+
+                ImageView image = dialog.findViewById(R.id.image_view_display);
+
+                image.setImageBitmap(bmp);
+            }
+        } catch (NullPointerException e){
+            System.out.println(e);
+        }
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                deleteFromPlayerList(position);
+                dialog.dismiss();
+            }
+        });
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+
+
+
+        // show the dialog box
+        dialog.show();
+
+        }
+
+
+        private void deleteFromPlayerList(int pos){
         System.out.println(player.getPokemonArray().size());
         PokemonInformation pI = player.getPokemonAtIndex(pos);
         pokemonArrayAdapter.remove(pI);
