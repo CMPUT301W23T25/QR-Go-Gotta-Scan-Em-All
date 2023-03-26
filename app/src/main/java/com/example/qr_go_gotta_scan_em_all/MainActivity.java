@@ -113,9 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 // Firstly check if the pokemon exists in the player's array
                 if (!checkPokemonExistsOwnedPlayer(pokemonAdded.getPokemon())){
                     Toast.makeText(MainActivity.this, "Pokemon was added to your collection", Toast.LENGTH_SHORT).show();
-
+                    // First add the pokemon into the collection
+                    addToPokemonCol(pokemonAdded);
                     // Now add it to the database and local array
                     addPokemonToPlayerArray(pokemonAdded);
+
                 } else{
                     Toast.makeText(MainActivity.this, "Cannot add duplicate Pokemon", Toast.LENGTH_SHORT).show();
                 }
@@ -465,10 +467,52 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTestPokemon(){
         PokemonInformation pI = createTestPokemon();
+        // add test to db
+        addToPokemonCol(pI);
         if(!checkPokemonExistsOwnedPlayer(pI.getPokemon())){
             // add it to dn
             addPokemonToPlayerArray(pI);
         }
+    }
+
+    private void addToPokemonCol(PokemonInformation p){
+        String ID = p.getPokemon().getID();
+        HashMap<String, Object> pMap = new HashMap<>();
+        pMap.put("comments",new ArrayList<Map<String,String>>());
+        // make sure the specific ID of the player is used
+        DocumentReference docRef = db.getPokemonCol().document(ID);
+
+        // Get the document snapshot
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Document exists, do not add
+                        Log.d(TAG, "Document already exists");
+                    } else {
+                        // Document does not exist, add it
+                        docRef.set(pMap)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Pokemon data added successfully");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error adding Pokemon data", e);
+                                        switchToNetworkFail();
+                                    }
+                                });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
 
