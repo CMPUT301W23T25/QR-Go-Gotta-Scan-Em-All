@@ -260,7 +260,8 @@ public class PokemonAddActivity extends AppCompatActivity {
 
 
         }
-        
+
+
     }
 
     private byte[] getIMGBytes(Bitmap img){
