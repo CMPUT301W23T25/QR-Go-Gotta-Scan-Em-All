@@ -34,9 +34,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -260,45 +262,88 @@ public class OverviewFragment extends Fragment {
 
 
         private void deleteFromPlayerList(int pos){
-        System.out.println(player.getPokemonArray().size());
-        PokemonInformation pI = player.getPokemonAtIndex(pos);
-        pokemonArrayAdapter.remove(pI);
-        System.out.println(player.getPokemonArray().size());
-        pokemonArrayAdapter.notifyDataSetChanged();
+//        System.out.println(player.getPokemonArray().size());
+//        PokemonInformation pI = player.getPokemonAtIndex(pos);
+//        pokemonArrayAdapter.remove(pI);
+//        System.out.println(player.getPokemonArray().size());
+//        pokemonArrayAdapter.notifyDataSetChanged();
+//
+//        DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
+//        // Add the Pokemon to the player's list of owned Pokemon
+//        ArrayList<HashMap<String,Object>> a = new ArrayList<HashMap<String,Object>>();
+//        for(PokemonInformation p:player.getPokemonArray()){
+//            if(p.getPokemon().getID() != pI.getPokemon().getID()){
+//                String byteArrayRaw = "";
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//
+//                }
+//
+//                HashMap<String,Object> map = new HashMap<String,Object>();
+//                map.put("ID",p.getPokemon().getID());
+//                map.put("lat",p.getLocationLat());
+//                map.put("long",p.getLocationLong());
+//                map.put("image", byteArrayRaw);
+//                map.put("city",p.getCityName());
+//                map.put("country",p.getCountryName());
+//                a.add(map);
+//            }
+//        }
+//
+//        playerRef.update("pokemon_owned", a)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        // Handle success, if needed
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        // Handle failure, if needed
+//                    }
+//                });
 
-        DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
-        // Add the Pokemon to the player's list of owned Pokemon
-        ArrayList<HashMap<String,Object>> a = new ArrayList<HashMap<String,Object>>();
-        for(PokemonInformation p:player.getPokemonArray()){
-            if(p.getPokemon().getID() != pI.getPokemon().getID()){
-                String byteArrayRaw = "";
-                if (pI.getImageByteArray() != null){
-                    byteArrayRaw = new String(pI.getImageByteArray(), StandardCharsets.UTF_8);
+            PokemonInformation pI = player.getPokemonArray().get(pos);
+            String valueToDelete = pI.getPokemon().getID();
+            pokemonArrayAdapter.remove(pI);
+
+// Retrieve the document containing the array field that needs to be modified
+            DocumentReference docRef = db.getPlayerCol().document(player.getUserId());
+
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    List<Map<String,String>> myArray = (List<Map<String,String>>)documentSnapshot.get("pokemon_owned");
+                    Map<String,String> valRemove = null;
+                    // Modify the array by removing the element with the specified value
+
+                    // Iterate through the array's maps until the map with the appropriate ID is found
+                    for(Map<String,String> m: myArray){
+                        if(Objects.equals((String) m.get("ID"), valueToDelete)){
+                            valRemove = m;
+                        }
+
+                    }
+
+                    myArray.remove(valRemove);
+
+
+                    // Update the document with the modified array
+                    docRef.update("pokemon_owned", myArray)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "Document updated successfully");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                }
+                            });
                 }
-
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("ID",p.getPokemon().getID());
-                map.put("lat",p.getLocationLat());
-                map.put("long",p.getLocationLong());
-                map.put("image", byteArrayRaw);
-                map.put("city",p.getCityName());
-                a.add(map);
-            }
-        }
-
-        playerRef.update("pokemon_owned", a)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Handle success, if needed
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure, if needed
-                    }
-                });
+            });
     }
 
     private void goToOverview(int position) {
