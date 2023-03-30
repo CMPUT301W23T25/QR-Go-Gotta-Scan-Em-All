@@ -431,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
         }
         map.put("city",pI.getCityName());
         map.put("country",pI.getCountryName());
+        System.out.println("TEST pokemon Country" + pI.getCountryName());
 
         // Add the Pokemon to the player's list of owned Pokemon
         playerRef.update("pokemon_owned", FieldValue.arrayUnion(map))
@@ -460,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             imgArray = Base64.getDecoder().decode(imgTest);
         }
-        PokemonInformation pI = new PokemonInformation(pK,imgArray,53.5232,113.5263,"Edmonton","Canada");
+        PokemonInformation pI = new PokemonInformation(pK,imgArray,-113.5263 ,53.5232,"Edmonton","Canada");
 
         return pI;
     }

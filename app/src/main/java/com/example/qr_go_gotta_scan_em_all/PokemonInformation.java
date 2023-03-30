@@ -26,7 +26,7 @@ public class PokemonInformation implements Serializable {
         this.countryName = null;
     }
 
-    public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName, String countryNam) {
+    public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName, String countryName) {
         this.imageByteArray = imageByteArray;
         this.locationLat = locationLat;
         this.locationLong = locationLong;
