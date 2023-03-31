@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_below="@+id/border5"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="41dp"
         app:autoFocusButtonColor="@color/white"
         app:autoFocusButtonVisible="true"
         app:flashButtonVisible="true"
