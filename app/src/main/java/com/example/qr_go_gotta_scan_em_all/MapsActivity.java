@@ -98,7 +98,7 @@ public class MapsActivity extends AppCompatActivity
             }
         });
         addLocation();
-        displayPokemonOnMap();
+//        displayPokemonOnMap();
     }
 
     @Override
