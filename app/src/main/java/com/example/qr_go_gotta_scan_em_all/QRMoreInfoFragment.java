@@ -88,9 +88,9 @@ public class QRMoreInfoFragment extends Fragment {
         lW = view.findViewById(R.id.comments_list);
         visual.setText(pk.visualReper());
         commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
-        Button cmtBtn = view.findViewById(R.id.add_comment_btn);
+        ImageView cmtBtn = view.findViewById(R.id.add_comment_btn);
         lW.setAdapter(commentArrayAdapter);
-        Button ownBtn = view.findViewById(R.id.owners_btn);
+        ImageView ownBtn = view.findViewById(R.id.owners_btn);
 
 
         try{
@@ -229,8 +229,8 @@ public class QRMoreInfoFragment extends Fragment {
 
         //Mention the name of the layout of your custom dialog.
         dialog.setContentView(R.layout.add_comment_dialog);
-        Button commentButton = dialog.findViewById(R.id.comment_btn);
-        Button closeButton = dialog.findViewById(R.id.close_btn);
+        ImageView commentButton = dialog.findViewById(R.id.comment_btn);
+        ImageView closeButton = dialog.findViewById(R.id.close_btn);
         TextView commentTxt = dialog.findViewById(R.id.comment_textbox);
 
         commentButton.setOnClickListener(new View.OnClickListener() {
