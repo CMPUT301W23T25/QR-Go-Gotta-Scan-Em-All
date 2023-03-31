@@ -35,11 +35,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.maps.android.clustering.ClusterManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,12 +63,14 @@ public class MapsActivity extends AppCompatActivity
     private boolean locationPermissionGranted = false;
     private Location lastKnownLocation;
 
-    private double longitude;
-    private double lattitude;
+    private double longitude = - 113.4937;
+    private double lattitude = 53.5461;
     private String cityName;
     private String countryName;
 
     private Database db;
+    private ClusterManager<MapIconCluster> mClusterManager;
+    private MapIconClusterManager mClusterManagerRenderer;
 
     /**
      * 
@@ -97,8 +101,6 @@ public class MapsActivity extends AppCompatActivity
                 finish();
             }
         });
-        addLocation();
-//        displayPokemonOnMap();
     }
 
     @Override
@@ -116,16 +118,16 @@ public class MapsActivity extends AppCompatActivity
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
         mMap.setOnMyLocationClickListener(MapsActivity.this);
-        mMap.setMinZoomPreference(16.0f);
-        mMap.setMaxZoomPreference(21.0f);
+//        mMap.setMinZoomPreference(16.0f);
+//        mMap.setMaxZoomPreference(21.0f);
         mMap.setMyLocationEnabled(true);
         UiSettings mUiSettings = mMap.getUiSettings();
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
         mUiSettings.setMyLocationButtonEnabled(true);
-        mUiSettings.setScrollGesturesEnabled(false);
+//        mUiSettings.setScrollGesturesEnabled(false);
         zoomOnUser();
-
+        addMapMarkers();
     }
 
     @Override
@@ -154,6 +156,17 @@ public class MapsActivity extends AppCompatActivity
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()),
                                         19.0f));
+                                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                                List<Address> addresses = null;
+                                try {
+                                    addresses = geocoder.getFromLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), 1);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                lattitude = addresses.get(0).getLatitude();
+                                longitude = addresses.get(0).getLongitude();
+                                cityName = addresses.get(0).getLocality();
+                                countryName= addresses.get(0).getCountryName();
                             }
                         }
                     }
@@ -181,44 +194,6 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    private void putMarker(double lat, double lan) {
-        LatLng markLocation = new LatLng(lat, lan);
-        mMap.addMarker(new MarkerOptions()
-                .position(markLocation)
-                // .icon(BitmapDescriptor(BitmapDescriptorFactory.))
-                .title("Pokemon was found here"));
-
-    }
-
-    private void addLocation(){
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null){
-                                try {
-                                    Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    lattitude = addresses.get(0).getLatitude();
-                                    longitude = addresses.get(0).getLongitude();
-                                    cityName = addresses.get(0).getLocality();
-                                    countryName= addresses.get(0).getCountryName();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-
-                            }
-
-                        }
-                    });
-        }
-
-
-    }
-
     private List<Map<String, Object>> getNearbyPokemon(){
         CollectionReference playersRef = db.getPlayerCol();
         // Query to get the player document for the given user ID
@@ -233,7 +208,6 @@ public class MapsActivity extends AppCompatActivity
 
                 // Initialize list to hold Pokemon in the same location as the player
 
-
                 // Loop through each player document
                 for (DocumentSnapshot playerDoc : playerDocs) {
 
@@ -241,6 +215,7 @@ public class MapsActivity extends AppCompatActivity
                     List<Map<String, Object>> pokemonList = (List<Map<String, Object>>) playerDoc.get("pokemon_owned");
 
                     // Loop through each Pokemon owned by the current player
+                    assert pokemonList != null;
                     for (Map<String, Object> pokemon : pokemonList) {
 
                         // Check if the Pokemon is in the same location as the player
@@ -253,8 +228,6 @@ public class MapsActivity extends AppCompatActivity
                 }
 
                 // Return the list of Pokemon in the same location as the player
-
-            } else {
 
             }
         });
@@ -273,15 +246,40 @@ public class MapsActivity extends AppCompatActivity
         pIList.add(p);
     }
 
-    private void displayPokemonOnMap(){
-        List<Map<String, Object>> pokemonHashMaps = getNearbyPokemon();
+    //referenced from
+    //CodingWithMitch - https://youtu.be/U6Z8FkjGEb4 and https://github.com/mitchtabian/Google-Maps-2018/tree/creating-custom-google-map-markers-end
+    private void addMapMarkers(){
 
-        for (Map<String, Object> m:pokemonHashMaps){
-            putMarker((double)m.get("lat"), (double)m.get("long"));
-            System.out.println("xhuweriowrhuiowehuiowehuiweuiwehui");
-            System.out.println((double)m.get("lat"));
+        if(mMap != null){
+            if(mClusterManager == null){
+                mClusterManager = new ClusterManager<MapIconCluster>(this, mMap);
+            }
+            if(mClusterManagerRenderer == null){
+                mClusterManagerRenderer = new MapIconClusterManager(
+                        this,
+                        mMap,
+                        mClusterManager
+                );
+                mClusterManager.setRenderer(mClusterManagerRenderer);
+            }
+
+            List<Map<String, Object>> pokemonHashMaps = getNearbyPokemon();
+
+            for (Map<String, Object> m:pokemonHashMaps){
+                String snippet = "Pokemon found here";
+                int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
+                MapIconCluster newClusterMarker = new MapIconCluster(
+                            new LatLng((double)m.get("lat"), (double)m.get("long")), "Pokemon was found here",
+                            snippet,
+                            avatar
+                );
+                mClusterManager.addItem(newClusterMarker);
+            }
+            mClusterManager.cluster();
         }
     }
+
+
 
 
 }

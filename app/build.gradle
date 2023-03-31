@@ -61,6 +61,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    //used for map clustering
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
+    
     //dependencies for firebase
     implementation 'com.google.firebase:firebase-firestore:24.4.4'
     implementation platform('com.google.firebase:firebase-bom:31.2.2')
@@ -77,6 +81,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'
+
 
 
 }
