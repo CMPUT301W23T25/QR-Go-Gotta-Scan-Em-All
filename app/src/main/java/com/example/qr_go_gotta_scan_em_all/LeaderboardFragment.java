@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -107,6 +108,19 @@ public class LeaderboardFragment extends Fragment {
                                 Player player = new Player(userName, userId);
 
                                 // TODO: Add player-owned QR codes to player object
+                                for (Map pokemonMap : (ArrayList<Map>) Objects.requireNonNull(document.get("pokemon_owned"))) {
+                                    // create pokemon object
+                                    Pokemon pokemon = new Pokemon();
+
+                                    // set pokemon attributes
+                                    pokemon.setID((String) pokemonMap.get("ID"));
+
+                                    // convert pokemon to pokemonInformation object
+                                    PokemonInformation pokemonInfo = new PokemonInformation(pokemon);
+
+                                    // add pokemonInfo to player
+                                    player.addPokemon(pokemonInfo);
+                                }
 
                                 // Add player to data array
                                 data.add(player);
