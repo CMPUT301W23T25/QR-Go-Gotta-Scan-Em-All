@@ -125,6 +125,10 @@ public class LeaderboardFragment extends Fragment {
                                 // Add player to data array
                                 data.add(player);
                             }
+
+                            // Sort the data array by the total score of each player
+                            data.sort((player1, player2) -> (int) Math.round(player2.getTotalScore() - player1.getTotalScore()));
+
                             // Notify the adapter that the data has changed
                             adapter.notifyDataSetChanged();
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
