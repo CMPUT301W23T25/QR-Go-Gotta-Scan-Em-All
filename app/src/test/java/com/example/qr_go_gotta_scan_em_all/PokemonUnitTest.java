@@ -8,19 +8,19 @@ public class PokemonUnitTest {
     @Test
     public void testGetName() {
         Pokemon pokemon = new Pokemon("Pikachu");
-        assertEquals("Pikachu", pokemon.getName());
+        assertEquals("Sinistea with Glasses", pokemon.getName());
     }
 
     @Test
     public void testGetPokemonId() {
         Pokemon pokemon = new Pokemon("Pikachu");
-        assertEquals("Pikachu", pokemon.getID());
+        assertEquals("a7c280e773d1d2e4f243d88f2e1a5665aff97694f741cbd78ee9edf62954612c", pokemon.getID());
     }
 
     @Test
     public void testGetScore() {
         Pokemon pokemon = new Pokemon("Pikachu");
-        assertEquals(0, pokemon.getScore(), 0);
+        assertEquals(50.0, pokemon.getScore(), 0);
     }
 
     @Test
@@ -32,14 +32,21 @@ public class PokemonUnitTest {
 
     @Test
     public void testVisualReper() {
-        Pokemon pokemon = new Pokemon();
-        assertEquals("Pikachu", pokemon.visualReper());
+        Pokemon pokemon = new Pokemon("Pikachu");
+        assertEquals(
+                "/    \\\n" +
+                "| _  _ |\n" +
+                "@  ||  @\n" +
+                "| ,`` ,|\n" +
+                "| `--` |\n" +
+                "\\______/\n",
+                pokemon.visualReper());
     }
 
     @Test
     public void testInitHash() {
         Pokemon pokemon = new Pokemon();
         pokemon.initHash("Pikachu");
-        assertEquals("Pikachu", pokemon.getID());
+        assertEquals("a7c280e773d1d2e4f243d88f2e1a5665aff97694f741cbd78ee9edf62954612c", pokemon.getID());
     }
 }
