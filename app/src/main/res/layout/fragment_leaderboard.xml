@@ -51,7 +51,7 @@
         android:id="@+id/leaderboard_heading_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/region_select_layout">
+        app:layout_constraintTop_toBottomOf="@id/conditional_leaderboard_layout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,29 +78,66 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/region_select_layout"
+        android:id="@+id/conditional_leaderboard_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/leaderboard_heading_layout"
-        app:layout_constraintTop_toBottomOf="@+id/change_leaderboard_button"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@id/change_leaderboard_button"
+        app:layout_constraintBottom_toTopOf="@id/leaderboard_heading_layout">
 
-        <EditText
-            android:id="@+id/city_search_edit_text"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rank_estimate_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="City"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:visibility="gone">
+            >
 
+            <TextView
+                android:id="@+id/rank_estimate_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Rank Estimate:"
+                android:textColor="#4F5357"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/city_search_button"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/rank_estimate_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="0"
+                android:textColor="#4F5357"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/rank_estimate_heading_text_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/region_select_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filter"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/city_search_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="City"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/city_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

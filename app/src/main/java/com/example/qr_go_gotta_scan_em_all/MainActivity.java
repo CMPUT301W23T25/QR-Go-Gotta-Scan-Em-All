@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new LeaderboardFragment(), null);
+        transaction.replace(R.id.container, new LeaderboardFragment(player), null);
         transaction.commit();
     }
 
