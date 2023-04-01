@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -219,11 +220,22 @@ public class MapsActivity extends AppCompatActivity
                     for (Map<String, Object> pokemon : pokemonList) {
 
                         // Check if the Pokemon is in the same location as the player
-                        if (pokemon.get("city").equals(cityName) && pokemon.get("country").equals(countryName)) {
+                        System.out.println("Pokemon Country");
+                        System.out.println(pokemon.get("city"));
+                        System.out.println(pokemon.get("country"));
+                        System.out.println("User Country");
+                        System.out.println(cityName);
+                        System.out.println(countryName);
+                        if(pokemon.get("city") != null && pokemon.get("country") != null){
+                            if (pokemon.get("city") ==  cityName && pokemon.get("country") == countryName) {
 
-                            // Add the Pokemon to the list of Pokemon in the same location as the player
-                            addPokemonIntoArrayList(pokemon,pokemonInLocation);
+                                // Add the Pokemon to the list of Pokemon in the same location as the player
+                                addPokemonIntoArrayList(pokemon,pokemonInLocation);
+                                System.out.println("New Pokemon!!!!!!!");
+                                System.out.println(pokemon.get("ID"));
+                            }
                         }
+
                     }
                 }
 
@@ -239,6 +251,7 @@ public class MapsActivity extends AppCompatActivity
 
         for (Map<String, Object> pI:pIList){
             if (pI.get("ID") == p.get("ID")){
+                // Check if the Pokemon is already in the list
                 return;
             }
         }
