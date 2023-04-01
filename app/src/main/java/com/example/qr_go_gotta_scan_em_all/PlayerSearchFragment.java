@@ -157,8 +157,8 @@ public class PlayerSearchFragment extends Fragment {
                                         PokemonInformation pokemonInfo = new PokemonInformation(pokemon);
                                         pokemonInfo.setCityName((String) pokemonMap.get("city"));
                                         pokemonInfo.setCountryName((String) pokemonMap.get("country"));
-                                        pokemonInfo.setLocationLat((Double) pokemonMap.get("lat"));
-                                        pokemonInfo.setLocationLong((Double) pokemonMap.get("long"));
+                                        pokemonInfo.setLocationLat((double) pokemonMap.get("lat"));
+                                        pokemonInfo.setLocationLong((double) pokemonMap.get("long"));
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             pokemonInfo.setImageByteArray(Base64.getDecoder().decode((String) pokemonMap.get("image")));
                                         }
