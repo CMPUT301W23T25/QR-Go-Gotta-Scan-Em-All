@@ -71,6 +71,9 @@ public class GlobalQRSearchFragment extends Fragment {
         db = new Database(getActivity().getApplicationContext());
         lW = view.findViewById(R.id.listview_pokemon);
 
-
     }
+
+
+
+
 }
