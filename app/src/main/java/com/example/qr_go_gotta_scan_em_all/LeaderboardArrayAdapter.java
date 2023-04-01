@@ -1,7 +1,7 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * 
@@ -24,6 +22,9 @@ import java.util.Map;
  * username and total score.
  */
 public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
+    private int state;
+    private String region;
+
     /**
      * Constructor for the LeaderboardArrayAdapter class.
      * 
@@ -39,6 +40,7 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
      */
     public LeaderboardArrayAdapter(@NonNull Context context, @NonNull ArrayList<Player> objects) {
         super(context, 0, objects);
+        state = 0;
     }
 
     /**
@@ -71,12 +73,49 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
         // Get current Player
         Player player = getItem(position);
 
-        // Bind player data to views in the layout
+        // Get views in the layout
         TextView usernameView = view.findViewById(R.id.leaderboard_username);
-        TextView totalScoreView = view.findViewById(R.id.leaderboard_score);
+        TextView valueView = view.findViewById(R.id.leaderboard_value);
+
+        // Bind player data to views in the layout based on the state
         usernameView.setText(player.getUserName());
-        totalScoreView.setText(String.valueOf(player.getTotalScore()));
+        usernameView.setVisibility(View.VISIBLE);
+        valueView.setVisibility(View.VISIBLE);
+
+        switch (state) {
+            case 0:
+                valueView.setText(String.valueOf(player.getTotalScore()));
+                break;
+            case 1:
+                valueView.setText(String.valueOf(player.getPokemonArray().size()));
+                break;
+            case 2:
+                valueView.setText(String.valueOf(player.getBestPokemon().getScore()));
+                break;
+            case 3:
+                if (region != null) {
+                    if (player.getBestPokemonAtCity(region) != null) {
+                        valueView.setText(String.valueOf(player.getBestPokemonAtCity(region).getScore()));
+                    }
+                    else {
+                        valueView.setText("0.0");
+                    }
+
+                }
+                else {
+                    usernameView.setVisibility(View.GONE);
+                    valueView.setVisibility(View.GONE);
+                }
+                break;
+        }
 
         return view;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

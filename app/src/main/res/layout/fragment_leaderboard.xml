@@ -8,6 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".LeaderboardFragment">
 
+    <ImageView
+        android:id="@+id/change_leaderboard_button"
+        android:layout_width="193dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"
+        app:srcCompat="@drawable/leaderboard" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
         android:layout_width="412dp"
@@ -39,10 +48,10 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/leaderboard_heading_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/border">
+        app:layout_constraintTop_toBottomOf="@id/region_select_layout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,6 +64,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/leaderboard_criteria_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -67,12 +77,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/region_select_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard_heading_layout"
+        app:layout_constraintTop_toBottomOf="@+id/change_leaderboard_button"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/city_search_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="City"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <Button
+            android:id="@+id/city_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ListView
         android:id="@+id/leaderboard_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="56sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_heading_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
