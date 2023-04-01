@@ -86,12 +86,12 @@
         android:visibility="gone">
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/city_search_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="City"
+            android:hint="City"
             app:layout_constraintStart_toStartOf="parent" />
 
 
