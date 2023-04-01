@@ -7,16 +7,15 @@
 
     <ImageView
         android:id="@+id/close_btn"
-        android:layout_width="156dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="48dp"
+        android:layout_width="166dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/comment_btn"
+        app:layout_constraintHorizontal_bias="0.983"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_textbox"
-        app:layout_constraintVertical_bias="0.133"
+        app:layout_constraintVertical_bias="0.113"
         app:srcCompat="@drawable/close_button" />
 
     <ImageView
@@ -25,10 +24,10 @@
         android:layout_height="97dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_textbox"
-        app:layout_constraintVertical_bias="0.122"
+        app:layout_constraintVertical_bias="0.111"
         app:srcCompat="@drawable/add_comment" />
 
     <EditText

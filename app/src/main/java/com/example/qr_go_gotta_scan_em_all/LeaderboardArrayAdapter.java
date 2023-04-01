@@ -1,6 +1,7 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

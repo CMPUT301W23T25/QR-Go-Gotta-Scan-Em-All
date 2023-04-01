@@ -165,7 +165,7 @@ public class Pokemon implements Serializable {
 
      @return A double value representing the calculated score.
      */
-    private double calculateScore(){
+    double calculateScore(){
 
         System.out.println(ID);
         char previousChar = 'G';
@@ -223,7 +223,7 @@ public class Pokemon implements Serializable {
 
      @return A string representing the generated name.
      */
-    private String generateName(){
+    String generateName(){
         char first = ID.charAt(0);
         char second = ID.charAt(1);
         char third = ID.charAt(2);
