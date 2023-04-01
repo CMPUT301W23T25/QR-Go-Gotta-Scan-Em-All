@@ -1,5 +1,6 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -100,14 +101,26 @@ public class PlayerSearchFragment extends Fragment {
                 showSearchResults();
             }
         });
+
+        // Set the click listener for the list
+        playerSearchList.setOnItemClickListener((parent, view1, position, id) -> {
+            // Get the player
+            Player player = (Player) adapter.getItem(position);
+
+            // Create the intent
+            Intent intent = new Intent(getContext(), OtherProfileActivity.class);
+
+            // Put the player in the intent
+            intent.putExtra("player", player);
+
+            // Start the activity
+            startActivity(intent);
+        });
     }
 
     private void showSearchResults() {
         // Get the text from the search bar
         String text = playerSearchBar.getText().toString();
-
-        // Clear the data
-        data.clear();
 
         // Get the players from the database
         db.getPlayerCol()
@@ -115,6 +128,9 @@ public class PlayerSearchFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // Clear the data
+                        data.clear();
+
                         if (task.isSuccessful()) {
                             // For each player in the database, add it to the data array only if it starts with the text in the search bar
                             for (QueryDocumentSnapshot document : task.getResult()) {
