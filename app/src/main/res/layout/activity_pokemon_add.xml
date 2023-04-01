@@ -130,19 +130,4 @@
         app:layout_constraintVertical_bias="0.172"
         app:srcCompat="@drawable/capture_pokemon" />
 
-    <ImageView
-        android:id="@+id/comment_pokemon_button"
-        android:layout_width="127dp"
-        android:layout_height="114dp"
-        android:layout_alignBottom="@+id/border3"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="466dp"
-        android:layout_marginEnd="249dp"
-        android:layout_marginBottom="-56dp"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintVertical_bias="0.172"
-        app:srcCompat="@drawable/comment_button" />
 </RelativeLayout>

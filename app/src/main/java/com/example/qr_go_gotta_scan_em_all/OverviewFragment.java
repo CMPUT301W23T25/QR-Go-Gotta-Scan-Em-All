@@ -65,10 +65,10 @@ public class OverviewFragment extends Fragment {
 
     Database db;
 
-    Button deleteButton;
+    ImageView deleteButton;
 
-    Button commentButton;
-    Button closeButton;
+    ImageView commentButton;
+    ImageView closeButton;
 
     private Player player;
 
