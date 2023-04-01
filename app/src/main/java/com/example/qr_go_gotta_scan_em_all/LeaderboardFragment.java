@@ -25,8 +25,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
@@ -46,12 +48,18 @@ public class LeaderboardFragment extends Fragment {
     private ConstraintLayout rankEstimateLayout;
     private ArrayList<Player> data;
     private TextView rankEstimateText;
+    private ArrayList<Double> scoresList;
+    private Player currentPlayer;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public LeaderboardFragment() {
+    }
+
+    public LeaderboardFragment(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     /**
@@ -95,6 +103,7 @@ public class LeaderboardFragment extends Fragment {
         // Initialize the database and the adapter
         db = new Database(getContext());
         data = new ArrayList<>();
+        scoresList = new ArrayList<>();
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboardListView.setAdapter(adapter);
 
@@ -152,10 +161,19 @@ public class LeaderboardFragment extends Fragment {
 
                                     // add pokemonInfo to player
                                     player.addPokemon(pokemonInfo);
+
+                                    // add pokemon score to scoresList
+                                    scoresList.add(pokemon.getScore());
                                 }
 
                                 // Add player to data array
                                 data.add(player);
+
+                                // Update currentPlayer
+                                if (currentPlayer.getUserId().equals(player.getUserId())) {
+                                    Log.d("LEADERBOARD_FRAGMENT", "Current player found: " + currentPlayer.getUserName());
+                                    currentPlayer = player;
+                                }
                             }
 
                             updateDataOrder();
@@ -201,6 +219,7 @@ public class LeaderboardFragment extends Fragment {
             case 2:
                 leaderboardCriteriaText.setText("Global High");
                 rankEstimateLayout.setVisibility(View.VISIBLE);
+                updateRankEstimate();
                 break;
             case 3:
                 leaderboardCriteriaText.setText("Regional High");
@@ -242,5 +261,24 @@ public class LeaderboardFragment extends Fragment {
 
         // Notify the adapter that the data has changed
         adapter.notifyDataSetChanged();
+    }
+
+    private void updateRankEstimate() {
+        // Get the current player's score
+        Double score = currentPlayer.getBestPokemon().getScore();
+
+        // Remove duplicate scores from the scoresList
+        Set<Double> set = new HashSet<>(scoresList);
+        scoresList.clear();
+        scoresList.addAll(set);
+
+        // Sort the scoresList in descending order
+        scoresList.sort((score1, score2) -> (int) Math.round(score2 - score1));
+
+        // Get the rank of the current player
+        int rank = scoresList.indexOf(score) + 1;
+
+        // Update the rank estimate text
+        rankEstimateText.setText(String.valueOf(rank));
     }
 }
