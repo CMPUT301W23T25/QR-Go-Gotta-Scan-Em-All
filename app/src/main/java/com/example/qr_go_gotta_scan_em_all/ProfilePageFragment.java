@@ -4,10 +4,13 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -25,6 +28,8 @@ public class ProfilePageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     // The player object whose profile page is being displayed.
     private Player player;
+    private FragmentManager fragmentManager;
+    private ImageView playerSearchButton;
 
     /**
      * 
@@ -50,9 +55,9 @@ public class ProfilePageFragment extends Fragment {
      * 
      * @param player the player object whose profile page is being displayed
      */
-    public ProfilePageFragment(Player player) {
-        // Required empty public constructor
+    public ProfilePageFragment(Player player, FragmentManager fragmentManager) {
         this.player = player;
+        this.fragmentManager = fragmentManager;
     }
 
     /**
@@ -108,5 +113,24 @@ public class ProfilePageFragment extends Fragment {
         System.out.println(player.getUserName());
         usernameVal.setText(player.getUserName());
         // or (ImageView) view.findViewById(R.id.foo);
+
+        playerSearchButton = view.findViewById(R.id.search_button);
+
+        // Set the onClickListener for the player search button.
+        playerSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new PlayerSearchFragment and display it.
+                PlayerSearchFragment playerSearchFragment = new PlayerSearchFragment(fragmentManager);
+
+                // Replace the current fragment with player search fragment.
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.container, playerSearchFragment);
+
+                // Add the transaction to the back stack so the user can navigate back.
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 }
