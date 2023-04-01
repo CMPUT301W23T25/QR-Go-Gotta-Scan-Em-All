@@ -155,12 +155,20 @@ public class PlayerSearchFragment extends Fragment {
 
                                         // convert pokemon to pokemonInformation object
                                         PokemonInformation pokemonInfo = new PokemonInformation(pokemon);
-                                        pokemonInfo.setCityName((String) pokemonMap.get("city"));
-                                        pokemonInfo.setCountryName((String) pokemonMap.get("country"));
-                                        pokemonInfo.setLocationLat((double) pokemonMap.get("lat"));
-                                        pokemonInfo.setLocationLong((double) pokemonMap.get("long"));
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            pokemonInfo.setImageByteArray(Base64.getDecoder().decode((String) pokemonMap.get("image")));
+                                        if (pokemonMap.get("city") != null) {
+                                            pokemonInfo.setCityName((String) pokemonMap.get("city"));
+                                        }
+                                        if (pokemonMap.get("country") != null) {
+                                            pokemonInfo.setCountryName((String) pokemonMap.get("country"));
+                                        }
+                                        if (pokemonMap.get("lat") != null && pokemonMap.get("long") != null) {
+                                            pokemonInfo.setLocationLat((double) pokemonMap.get("lat"));
+                                            pokemonInfo.setLocationLong((double) pokemonMap.get("long"));
+                                        }
+                                        if (pokemonMap.get("image") != null) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                pokemonInfo.setImageByteArray(Base64.getDecoder().decode((String) pokemonMap.get("image")));
+                                            }
                                         }
 
                                         // add pokemonInfo to player
