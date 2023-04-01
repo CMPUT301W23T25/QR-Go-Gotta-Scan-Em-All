@@ -20,7 +20,7 @@ jobs:
     - name: Access APOD_API_KEY
       env:
         APOD_API_KEY: ${{ secrets.APOD_API_KEY }}
-        run: echo APOD_API_KEY=\"$APOD_API_KEY\" > ./local.properties
+      run: echo APOD_API_KEY=\"$APOD_API_KEY\" > ./local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
