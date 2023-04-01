@@ -155,6 +155,7 @@ public class LeaderboardFragment extends Fragment {
 
                                     // convert pokemon to pokemonInformation object
                                     PokemonInformation pokemonInfo = new PokemonInformation(pokemon);
+                                    pokemonInfo.setCityName((String) pokemonMap.get("city"));
 
                                     // add pokemonInfo to player
                                     player.addPokemon(pokemonInfo);

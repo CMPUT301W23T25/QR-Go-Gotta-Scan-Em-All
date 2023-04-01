@@ -8,6 +8,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -203,5 +204,20 @@ public class Player implements Serializable {
         }
 
         this.totalScore = sum;
+    }
+
+    public Pokemon getBestPokemonAtCity(String city) {
+        Pokemon bestPokemon = null;
+
+        // iterate through pokemons
+        for (PokemonInformation pI: pokemonArray) {
+            if (pI.getCityName().toLowerCase().equals(city.toLowerCase())) {
+                if (bestPokemon == null || pI.getPokemon().getScore() > bestPokemon.getScore()) {
+                    bestPokemon = pI.getPokemon();
+                }
+            }
+        }
+
+        return bestPokemon;
     }
 }
