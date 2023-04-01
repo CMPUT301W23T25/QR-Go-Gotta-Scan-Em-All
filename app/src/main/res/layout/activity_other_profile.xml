@@ -30,10 +30,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.629" />
+        app:layout_constraintVertical_bias="0.619" />
 
     <TextView
         android:id="@+id/emailView_show"
@@ -101,19 +101,16 @@
         android:id="@+id/totalScoreView"
         android:layout_width="112dp"
         android:layout_height="39dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="284dp"
-        android:layout_marginBottom="216dp"
         android:fontFamily="sans-serif-medium"
         android:text="Total Score:"
         android:textColor="@color/dark_grey"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintVertical_bias="0.687" />
 
     <TextView
         android:id="@+id/playerHighScore"
@@ -121,17 +118,16 @@
         android:layout_height="39dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="284dp"
-        android:layout_marginBottom="252dp"
         android:fontFamily="sans-serif-medium"
         android:text="High Score:"
         android:textColor="@color/dark_grey"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.981" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.632" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border3"
@@ -154,26 +150,29 @@
         android:layout_height="127dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toStartOf="@+id/border3"
         app:layout_constraintTop_toTopOf="@+id/border3"
-        app:layout_constraintVertical_bias="0.172"
+        app:layout_constraintVertical_bias="0.115"
         app:srcCompat="@drawable/pokeball_closed" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="427dp"
         android:fontFamily="sans-serif-medium"
         android:text="Profile"
         android:textColor="#FDFAFA"
         android:textSize="34sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon_owned_list_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.363" />
 
     <TextView
         android:id="@+id/usernameView_show"
@@ -184,10 +183,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.564" />
+        app:layout_constraintVertical_bias="0.554" />
 
     <ListView
         android:id="@+id/pokemon_owned_list_view"
@@ -204,7 +203,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/baseline_arrow_back_ios_24"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.048"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
