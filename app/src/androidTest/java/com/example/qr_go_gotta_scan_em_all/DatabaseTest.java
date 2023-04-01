@@ -24,6 +24,7 @@ public class DatabaseTest {
         assertEquals("Database", database.getClass().getSimpleName());
     }
 
+    // Test that the Firebase database can be connected to
     @Test
     public void testFirebaseDatabaseConnection() {
         Context context = null;
