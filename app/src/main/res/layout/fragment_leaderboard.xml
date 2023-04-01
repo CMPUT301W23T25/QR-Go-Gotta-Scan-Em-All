@@ -81,7 +81,7 @@
         android:id="@+id/region_select_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="" Of="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard_heading_layout"
         app:layout_constraintTop_toBottomOf="@+id/change_leaderboard_button"
         android:visibility="gone">
 

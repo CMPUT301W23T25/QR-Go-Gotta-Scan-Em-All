@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -36,6 +37,7 @@ public class LeaderboardFragment extends Fragment {
     private ImageView changeLeaderboardButton;
     private int state;
     private TextView leaderboardCriteriaText;
+    private ConstraintLayout regionSearchLayout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,6 +69,7 @@ public class LeaderboardFragment extends Fragment {
         leaderboardListView = view.findViewById(R.id.leaderboard_list_view);
         changeLeaderboardButton = view.findViewById(R.id.change_leaderboard_button);
         leaderboardCriteriaText = view.findViewById(R.id.leaderboard_criteria_text);
+        regionSearchLayout = view.findViewById(R.id.region_select_layout);
 
         return view;
     }
@@ -121,6 +124,7 @@ public class LeaderboardFragment extends Fragment {
                         break;
                     case 3:
                         leaderboardCriteriaText.setText("Regional High");
+                        regionSearchLayout.setVisibility(View.VISIBLE);
                         break;
                 }
 
