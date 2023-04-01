@@ -8,6 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".LeaderboardFragment">
 
+    <ImageView
+        android:id="@+id/change_leaderboard_button"
+        android:layout_width="193dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"
+        app:srcCompat="@drawable/leaderboard" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
         android:layout_width="412dp"
@@ -42,7 +51,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/border">
+        app:layout_constraintTop_toBottomOf="@+id/change_leaderboard_button">
 
         <TextView
             android:layout_width="wrap_content"
