@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -71,6 +72,8 @@ public class MapsActivity extends AppCompatActivity
     private Database db;
     private ClusterManager<MapIconCluster> mClusterManager;
     private MapIconClusterManager mClusterManagerRenderer;
+
+    private List<Map<String, Object>> pokemonInLocationRaw;
 
     /**
      * 
@@ -194,12 +197,12 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
-    private List<Map<String, Object>> getNearbyPokemon(){
+    private void getAllPokemonScanned(){
         CollectionReference playersRef = db.getPlayerCol();
         // Query to get the player document for the given user ID
         // Function to get all player documents in the players collection
         // Query to get all player documents
-        List<Map<String, Object>> pokemonInLocation = new ArrayList<>();
+        pokemonInLocationRaw = new ArrayList<>();
         Task<QuerySnapshot> querySnapshotTask = playersRef.get();
         querySnapshotTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -213,38 +216,36 @@ public class MapsActivity extends AppCompatActivity
 
                     // Get the list of Pokemon owned by the current player
                     List<Map<String, Object>> pokemonList = (List<Map<String, Object>>) playerDoc.get("pokemon_owned");
-
-                    // Loop through each Pokemon owned by the current player
-                    assert pokemonList != null;
-                    for (Map<String, Object> pokemon : pokemonList) {
-
-                        // Check if the Pokemon is in the same location as the player
-                        if (pokemon.get("city").equals(cityName) && pokemon.get("country").equals(countryName)) {
-
-                            // Add the Pokemon to the list of Pokemon in the same location as the player
-                            addPokemonIntoArrayList(pokemon,pokemonInLocation);
-                        }
+                    for (Map<String, Object> m:pokemonList){
+                        Toast.makeText(this, "#RFUJIO", Toast.LENGTH_SHORT).show();
+                        String snippet = "Pokemon found here";
+                        int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
+                        MapIconCluster newClusterMarker = new MapIconCluster(
+                                new LatLng((double)m.get("lat"), (double)m.get("long")), "Pokemon was found here",
+                                snippet,
+                                avatar);
+                        mClusterManager.addItem(newClusterMarker);
                     }
-                }
 
-                // Return the list of Pokemon in the same location as the player
+
+                }
 
             }
         });
 
-        return pokemonInLocation; // Return null for now, as the results will be retrieved asynchronously
     }
 
-    private void addPokemonIntoArrayList(Map<String, Object> p, List<Map<String, Object>> pIList){
-
-        for (Map<String, Object> pI:pIList){
-            if (pI.get("ID") == p.get("ID")){
-                return;
-            }
-        }
-
-        pIList.add(p);
-    }
+//    private void addPokemonIntoArrayList(Map<String, Object> p, List<Map<String, Object>> pIList){
+//
+//        for (Map<String, Object> pI:pIList){
+//            if (pI.get("ID") == p.get("ID")){
+//                // Check if the Pokemon is already in the list
+//                return;
+//            }
+//        }
+//
+//        pIList.add(p);
+//    }
 
     //referenced from
     //CodingWithMitch - https://youtu.be/U6Z8FkjGEb4 and https://github.com/mitchtabian/Google-Maps-2018/tree/creating-custom-google-map-markers-end
@@ -263,9 +264,10 @@ public class MapsActivity extends AppCompatActivity
                 mClusterManager.setRenderer(mClusterManagerRenderer);
             }
 
-            List<Map<String, Object>> pokemonHashMaps = getNearbyPokemon();
 
-            for (Map<String, Object> m:pokemonHashMaps){
+            getAllPokemonScanned();
+            for (Map<String, Object> m:pokemonInLocationRaw){
+
                 String snippet = "Pokemon found here";
                 int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
                 MapIconCluster newClusterMarker = new MapIconCluster(
@@ -278,6 +280,8 @@ public class MapsActivity extends AppCompatActivity
             mClusterManager.cluster();
         }
     }
+
+
 
 
 
