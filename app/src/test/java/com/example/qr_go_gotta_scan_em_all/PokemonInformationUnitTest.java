@@ -4,7 +4,10 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Pair;
 
 import org.junit.Before;
@@ -88,5 +91,40 @@ public class PokemonInformationUnitTest {
         Pokemon newPokemon = new Pokemon("Bulbasaur");
         pI1.setPokemon(newPokemon);
         assertEquals(newPokemon, pI1.getPokemon());
+    }
+
+    @Test
+    public void testGetPairedLocation() {
+        assertNull(pI1.getPairedLocation());
+        assertNotNull(pI2.getPairedLocation());
+        assertEquals(45.12, pI2.getPairedLocation().first, 0.0);
+        assertEquals(72.34, pI2.getPairedLocation().second, 0.0);
+    }
+
+    @Test
+    public void testGetCountryName() {
+        assertNull(pI1.getCountryName());
+        assertEquals("Canada", pI2.getCountryName());
+    }
+
+    @Test
+    public void testSetCountryName() {
+        assertNull(pI1.getCountryName());
+        pI1.setCountryName("USA");
+        assertEquals("USA", pI1.getCountryName());
+    }
+
+    @Test
+    public void testSetLocationLat() {
+        assertEquals(Double.POSITIVE_INFINITY, pI1.getLocationLat(), 0.0);
+        pI1.setLocationLat(12.34);
+        assertEquals(12.34, pI1.getLocationLat(), 0.0);
+    }
+
+    @Test
+    public void testSetLocationLong() {
+        assertEquals(Double.POSITIVE_INFINITY, pI1.getLocationLong(), 0.0);
+        pI1.setLocationLong(56.78);
+        assertEquals(56.78, pI1.getLocationLong(), 0.0);
     }
 }

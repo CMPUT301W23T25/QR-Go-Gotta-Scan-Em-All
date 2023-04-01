@@ -2,7 +2,9 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Pair;
+
+
+import androidx.core.util.Pair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -92,8 +94,7 @@ public class PokemonInformation implements Serializable {
 
     public Pair<Double,Double> getPairedLocation(){
         if (Double.compare(locationLat, Double.POSITIVE_INFINITY) != 0 && Double.compare(locationLong, Double.POSITIVE_INFINITY) != 0){
-            Pair<Double, Double> pair = new Pair<>(locationLat,locationLong);
-            return pair;
+            return new Pair<>(locationLat,locationLong);
         }
         return null;
     }
