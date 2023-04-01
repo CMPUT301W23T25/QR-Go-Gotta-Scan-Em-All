@@ -1,5 +1,6 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -106,11 +109,28 @@ public class LeaderboardFragment extends Fragment {
                                 // Create player object
                                 Player player = new Player(userName, userId);
 
-                                // TODO: Add player-owned QR codes to player object
+                                // Add player-owned QR codes to player object
+                                for (Map pokemonMap : (ArrayList<Map>) Objects.requireNonNull(document.get("pokemon_owned"))) {
+                                    // create pokemon object
+                                    Pokemon pokemon = new Pokemon();
+
+                                    // set pokemon attributes
+                                    pokemon.setID((String) pokemonMap.get("ID"));
+
+                                    // convert pokemon to pokemonInformation object
+                                    PokemonInformation pokemonInfo = new PokemonInformation(pokemon);
+
+                                    // add pokemonInfo to player
+                                    player.addPokemon(pokemonInfo);
+                                }
 
                                 // Add player to data array
                                 data.add(player);
                             }
+
+                            // Sort the data array by the total score of each player
+                            data.sort((player1, player2) -> (int) Math.round(player2.getTotalScore() - player1.getTotalScore()));
+
                             // Notify the adapter that the data has changed
                             adapter.notifyDataSetChanged();
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
@@ -119,5 +139,23 @@ public class LeaderboardFragment extends Fragment {
                         }
                     }
                 });
+
+        // Set onItemClickListener for the ListView
+        leaderboard_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Get the player that was clicked
+                Player player = (Player) adapterView.getItemAtPosition(i);
+
+                // Create an intent to open the OtherProfileActivity
+                Intent intent = new Intent(getContext(), OtherProfileActivity.class);
+
+                // Pass the player's data to the OtherProfileActivity
+                intent.putExtra("player", player);
+
+                // Start the OtherProfileActivity
+                startActivity(intent);
+            }
+        });
     }
 }
