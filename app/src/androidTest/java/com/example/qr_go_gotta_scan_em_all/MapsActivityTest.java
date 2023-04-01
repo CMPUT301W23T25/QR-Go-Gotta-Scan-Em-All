@@ -1,5 +1,11 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -48,4 +54,5 @@ public class MapsActivityTest {
     public void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
+
 }
