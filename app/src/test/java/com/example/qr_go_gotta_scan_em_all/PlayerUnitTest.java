@@ -30,12 +30,14 @@ public class PlayerUnitTest {
         // add pokemon
         Pokemon pokemon = new Pokemon("Pikachu");
         pokemonArray.add(pokemon);
-        player.addPokemon(pokemon);
+        PokemonInformation pokemonInformation = new PokemonInformation(pokemon);
+        player.addPokemon(pokemonInformation);
         assertEquals(pokemonArray.size(), player.getPokemonArray().size());
 
         // remove pokemon
         pokemonArray.remove(pokemon);
-        player.removePokemon(pokemon);
+        PokemonInformation pokemonInformation2 = new PokemonInformation(pokemon);
+        player.removePokemon(pokemonInformation2);
         assertEquals(pokemonArray.size(), player.getPokemonArray().size());
     }
 
