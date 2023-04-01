@@ -107,7 +107,7 @@ public class LeaderboardFragment extends Fragment {
                                 // Create player object
                                 Player player = new Player(userName, userId);
 
-                                // TODO: Add player-owned QR codes to player object
+                                // Add player-owned QR codes to player object
                                 for (Map pokemonMap : (ArrayList<Map>) Objects.requireNonNull(document.get("pokemon_owned"))) {
                                     // create pokemon object
                                     Pokemon pokemon = new Pokemon();
