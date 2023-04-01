@@ -43,6 +43,7 @@ public class LeaderboardFragment extends Fragment {
     private EditText regionSearchInput;
     private Button regionSearchButton;
     private String region;
+    private ConstraintLayout rankEstimateLayout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -50,14 +51,6 @@ public class LeaderboardFragment extends Fragment {
      */
     public LeaderboardFragment() {
     }
-    /**
-
-     Creates the view hierarchy associated with the fragment.
-     @param inflater - the LayoutInflater object that can be used to inflate any views in the fragment
-     @param container - the parent view that the fragment UI should be attached to
-     @param savedInstanceState - saved state information about the fragment, can be null
-     @return - the inflated View object for the fragment UI
-     */
 
     /**
 
@@ -77,21 +70,10 @@ public class LeaderboardFragment extends Fragment {
         regionSearchLayout = view.findViewById(R.id.region_select_layout);
         regionSearchInput = view.findViewById(R.id.city_search_edit_text);
         regionSearchButton = view.findViewById(R.id.city_search_button);
+        rankEstimateLayout = view.findViewById(R.id.rank_estimate_layout);
 
         return view;
     }
-    /**
-
-     Called after the fragment's view has been created and makes sure that the ListView adapter is set with the
-
-     appropriate data. In this case, the data is a mock list of Players, but should be replaced with actual data from
-
-     the database.
-
-     @param view - the view hierarchy returned by onCreateView
-
-     @param savedInstanceState - saved state information about the fragment, can be null
-     */
 
     /**
 
@@ -112,6 +94,9 @@ public class LeaderboardFragment extends Fragment {
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboardListView.setAdapter(adapter);
 
+        // Initialize the leaderboard
+        updateLeaderboard();
+
         // Set on click listener for the region search button
         regionSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,28 +115,7 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 state = (state + 1) % 4;
-                regionSearchLayout.setVisibility(View.GONE);
-
-                // Change the leaderboard criteria text based on the state
-                switch (state) {
-                    case 0:
-                        leaderboardCriteriaText.setText("Total Score");
-                        break;
-                    case 1:
-                        leaderboardCriteriaText.setText("Pokemons Caught");
-                        break;
-                    case 2:
-                        leaderboardCriteriaText.setText("Global High");
-                        break;
-                    case 3:
-                        leaderboardCriteriaText.setText("Regional High");
-                        regionSearchLayout.setVisibility(View.VISIBLE);
-                        break;
-                }
-
-                // Notify the adapter that the data has changed
-                adapter.setState(state);
-                adapter.notifyDataSetChanged();
+                updateLeaderboard();
             }
         });
 
@@ -239,5 +203,33 @@ public class LeaderboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void updateLeaderboard() {
+        // Hide the conditional layouts
+        rankEstimateLayout.setVisibility(View.GONE);
+        regionSearchLayout.setVisibility(View.GONE);
+
+        // Change the leaderboard criteria text based on the state
+        switch (state) {
+            case 0:
+                leaderboardCriteriaText.setText("Total Score");
+                break;
+            case 1:
+                leaderboardCriteriaText.setText("Pokemons Caught");
+                break;
+            case 2:
+                leaderboardCriteriaText.setText("Global High");
+                rankEstimateLayout.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                leaderboardCriteriaText.setText("Regional High");
+                regionSearchLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        // Notify the adapter that the data has changed
+        adapter.setState(state);
+        adapter.notifyDataSetChanged();
     }
 }
