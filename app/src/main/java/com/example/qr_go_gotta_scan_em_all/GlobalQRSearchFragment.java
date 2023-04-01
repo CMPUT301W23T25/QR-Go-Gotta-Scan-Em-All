@@ -2,11 +2,17 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,22 +26,23 @@ public class GlobalQRSearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private ListView lW;
+
+    private Database db;
+
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Player p;
 
     public GlobalQRSearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GlobalQRSearchFragment.
-     */
+    public GlobalQRSearchFragment(Player p) {
+        this.p = p;
+    }
+
+
+
     // TODO: Rename and change types and number of parameters
     public static GlobalQRSearchFragment newInstance(String param1, String param2) {
         GlobalQRSearchFragment fragment = new GlobalQRSearchFragment();
@@ -49,10 +56,7 @@ public class GlobalQRSearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -60,5 +64,13 @@ public class GlobalQRSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_global_q_r_search, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        db = new Database(getActivity().getApplicationContext());
+        lW = view.findViewById(R.id.listview_pokemon);
+
+
     }
 }
