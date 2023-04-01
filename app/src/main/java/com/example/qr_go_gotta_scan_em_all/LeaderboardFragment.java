@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +40,9 @@ public class LeaderboardFragment extends Fragment {
     private int state;
     private TextView leaderboardCriteriaText;
     private ConstraintLayout regionSearchLayout;
+    private EditText regionSearchInput;
+    private Button regionSearchButton;
+    private String region;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -70,6 +75,8 @@ public class LeaderboardFragment extends Fragment {
         changeLeaderboardButton = view.findViewById(R.id.change_leaderboard_button);
         leaderboardCriteriaText = view.findViewById(R.id.leaderboard_criteria_text);
         regionSearchLayout = view.findViewById(R.id.region_select_layout);
+        regionSearchInput = view.findViewById(R.id.city_search_edit_text);
+        regionSearchButton = view.findViewById(R.id.city_search_button);
 
         return view;
     }
@@ -105,11 +112,25 @@ public class LeaderboardFragment extends Fragment {
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboardListView.setAdapter(adapter);
 
+        // Set on click listener for the region search button
+        regionSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the region name from the input
+                region = regionSearchInput.getText().toString();
+
+                // Notify the adapter that the data has changed
+                adapter.setRegion(region);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         // Set on click listener for the change leaderboard button
         changeLeaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 state = (state + 1) % 4;
+                regionSearchLayout.setVisibility(View.GONE);
 
                 // Change the leaderboard criteria text based on the state
                 switch (state) {
@@ -180,7 +201,13 @@ public class LeaderboardFragment extends Fragment {
                                         return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
                                     case 3:
                                         // TODO: Implement regional high comparison
-                                        return 0;
+                                        Double score1 = 0.0;
+                                        Double score2 = 0.0;
+                                        if (player1.getBestPokemonAtCity(region) != null)
+                                            score1 = player1.getBestPokemonAtCity(region).getScore();
+                                        if (player2.getBestPokemonAtCity(region) != null)
+                                            score2 = player2.getBestPokemonAtCity(region).getScore();
+                                        return (int) Math.round(score2 - score1);
                                     default:
                                         return 0;
                                 }

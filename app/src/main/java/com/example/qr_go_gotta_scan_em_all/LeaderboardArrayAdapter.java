@@ -1,6 +1,7 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
  */
 public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
     private int state;
+    private String region;
 
     /**
      * Constructor for the LeaderboardArrayAdapter class.
@@ -77,6 +79,9 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
 
         // Bind player data to views in the layout based on the state
         usernameView.setText(player.getUserName());
+        usernameView.setVisibility(View.VISIBLE);
+        valueView.setVisibility(View.VISIBLE);
+
         switch (state) {
             case 0:
                 valueView.setText(String.valueOf(player.getTotalScore()));
@@ -88,7 +93,19 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
                 valueView.setText(String.valueOf(player.getBestPokemon().getScore()));
                 break;
             case 3:
-                // TODO: Find best pokemon in region
+                if (region != null) {
+                    if (player.getBestPokemonAtCity(region) != null) {
+                        valueView.setText(String.valueOf(player.getBestPokemonAtCity(region).getScore()));
+                    }
+                    else {
+                        valueView.setText("0.0");
+                    }
+
+                }
+                else {
+                    usernameView.setVisibility(View.GONE);
+                    valueView.setVisibility(View.GONE);
+                }
                 break;
         }
 
@@ -97,5 +114,8 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
 
     public void setState(int state) {
         this.state = state;
+    }
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

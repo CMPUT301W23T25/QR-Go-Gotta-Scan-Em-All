@@ -211,7 +211,7 @@ public class Player implements Serializable {
 
         // iterate through pokemons
         for (PokemonInformation pI: pokemonArray) {
-            if (pI.getCityName().toLowerCase().equals(city.toLowerCase())) {
+            if (pI.getCityName() != null && pI.getCityName().toLowerCase().equals(city.toLowerCase())) {
                 if (bestPokemon == null || pI.getPokemon().getScore() > bestPokemon.getScore()) {
                     bestPokemon = pI.getPokemon();
                 }
