@@ -44,6 +44,8 @@ public class LeaderboardFragment extends Fragment {
     private Button regionSearchButton;
     private String region;
     private ConstraintLayout rankEstimateLayout;
+    private ArrayList<Player> data;
+    private TextView rankEstimateText;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,6 +73,7 @@ public class LeaderboardFragment extends Fragment {
         regionSearchInput = view.findViewById(R.id.city_search_edit_text);
         regionSearchButton = view.findViewById(R.id.city_search_button);
         rankEstimateLayout = view.findViewById(R.id.rank_estimate_layout);
+        rankEstimateText = view.findViewById(R.id.rank_estimate_text_view);
 
         return view;
     }
@@ -87,10 +90,11 @@ public class LeaderboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         state = 0;
+        region = "";
 
         // Initialize the database and the adapter
         db = new Database(getContext());
-        ArrayList<Player> data = new ArrayList<>();
+        data = new ArrayList<>();
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboardListView.setAdapter(adapter);
 
@@ -154,31 +158,7 @@ public class LeaderboardFragment extends Fragment {
                                 data.add(player);
                             }
 
-                            // Sort the data array based on the state
-                            data.sort((player1, player2) -> {
-                                switch (state) {
-                                    case 0:
-                                        return (int) Math.round(player2.getTotalScore() - player1.getTotalScore());
-                                    case 1:
-                                        return player2.getPokemonArray().size() - player1.getPokemonArray().size();
-                                    case 2:
-                                        return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
-                                    case 3:
-                                        // TODO: Implement regional high comparison
-                                        Double score1 = 0.0;
-                                        Double score2 = 0.0;
-                                        if (player1.getBestPokemonAtCity(region) != null)
-                                            score1 = player1.getBestPokemonAtCity(region).getScore();
-                                        if (player2.getBestPokemonAtCity(region) != null)
-                                            score2 = player2.getBestPokemonAtCity(region).getScore();
-                                        return (int) Math.round(score2 - score1);
-                                    default:
-                                        return 0;
-                                }
-                            });
-
-                            // Notify the adapter that the data has changed
-                            adapter.notifyDataSetChanged();
+                            updateDataOrder();
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
                         } else {
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get failed: ", task.getException());
@@ -228,8 +208,39 @@ public class LeaderboardFragment extends Fragment {
                 break;
         }
 
+        updateDataOrder();
+
         // Notify the adapter that the data has changed
         adapter.setState(state);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void updateDataOrder() {
+        // Sort the data array based on the state
+        data.sort((player1, player2) -> {
+            switch (state) {
+                case 0:
+                    return (int) Math.round(player2.getTotalScore() - player1.getTotalScore());
+                case 1:
+                    return player2.getPokemonArray().size() - player1.getPokemonArray().size();
+                case 2:
+                    return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
+                case 3:
+                    Double score1 = 0.0;
+                    Double score2 = 0.0;
+
+                    if (player1.getBestPokemonAtCity(region) != null)
+                        score1 = player1.getBestPokemonAtCity(region).getScore();
+                    if (player2.getBestPokemonAtCity(region) != null)
+                        score2 = player2.getBestPokemonAtCity(region).getScore();
+
+                    return (int) Math.round(score2 - score1);
+                default:
+                    return 0;
+            }
+        });
+
+        // Notify the adapter that the data has changed
         adapter.notifyDataSetChanged();
     }
 }
