@@ -22,30 +22,24 @@
 
     <TextView
         android:id="@+id/visual_reper"
-        android:layout_width="195dp"
-        android:layout_height="192dp"
-        android:layout_marginTop="4dp"
-        android:maxLines="8"
-        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="----"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/comments_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ListView
         android:id="@+id/comments_list"
-        android:layout_width="409dp"
-        android:layout_height="257dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="413dp"
+        android:layout_height="394dp"
+        android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/visual_reper"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/visual_reper" />
 
     <ImageView
         android:id="@+id/add_comment_btn"
