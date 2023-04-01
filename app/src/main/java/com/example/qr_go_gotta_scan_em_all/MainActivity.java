@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.setReorderingAllowed(true);
 
         // Replace whatever is in the fragment_container view with this fragment
-        transaction.replace(R.id.container, new ProfilePageFragment(player), null);
+        transaction.replace(R.id.container, new ProfilePageFragment(player, fragmentManager), null);
         transaction.commit();
     }
 
