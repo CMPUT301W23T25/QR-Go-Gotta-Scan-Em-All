@@ -1,5 +1,6 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -137,5 +139,23 @@ public class LeaderboardFragment extends Fragment {
                         }
                     }
                 });
+
+        // Set onItemClickListener for the ListView
+        leaderboard_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Get the player that was clicked
+                Player player = (Player) adapterView.getItemAtPosition(i);
+
+                // Create an intent to open the OtherProfileActivity
+                Intent intent = new Intent(getContext(), OtherProfileActivity.class);
+
+                // Pass the player's data to the OtherProfileActivity
+                intent.putExtra("player", player);
+
+                // Start the OtherProfileActivity
+                startActivity(intent);
+            }
+        });
     }
 }
