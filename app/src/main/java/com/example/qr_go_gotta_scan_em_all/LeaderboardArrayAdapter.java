@@ -1,7 +1,6 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * 
@@ -24,6 +21,8 @@ import java.util.Map;
  * username and total score.
  */
 public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
+    private int state;
+
     /**
      * Constructor for the LeaderboardArrayAdapter class.
      * 
@@ -39,6 +38,7 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
      */
     public LeaderboardArrayAdapter(@NonNull Context context, @NonNull ArrayList<Player> objects) {
         super(context, 0, objects);
+        state = 0;
     }
 
     /**
@@ -71,12 +71,31 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
         // Get current Player
         Player player = getItem(position);
 
-        // Bind player data to views in the layout
+        // Get views in the layout
         TextView usernameView = view.findViewById(R.id.leaderboard_username);
-        TextView totalScoreView = view.findViewById(R.id.leaderboard_score);
+        TextView valueView = view.findViewById(R.id.leaderboard_value);
+
+        // Bind player data to views in the layout based on the state
         usernameView.setText(player.getUserName());
-        totalScoreView.setText(String.valueOf(player.getTotalScore()));
+        switch (state) {
+            case 0:
+                valueView.setText(String.valueOf(player.getTotalScore()));
+                break;
+            case 1:
+                valueView.setText(String.valueOf(player.getPokemonArray().size()));
+                break;
+            case 2:
+                valueView.setText(String.valueOf(player.getBestPokemon().getScore()));
+                break;
+            case 3:
+                // TODO: Find best pokemon in region
+                break;
+        }
 
         return view;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

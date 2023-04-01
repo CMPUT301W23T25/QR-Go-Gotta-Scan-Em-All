@@ -123,6 +123,10 @@ public class LeaderboardFragment extends Fragment {
                         leaderboardCriteriaText.setText("Regional High");
                         break;
                 }
+
+                // Notify the adapter that the data has changed
+                adapter.setState(state);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -160,8 +164,22 @@ public class LeaderboardFragment extends Fragment {
                                 data.add(player);
                             }
 
-                            // Sort the data array by the total score of each player
-                            data.sort((player1, player2) -> (int) Math.round(player2.getTotalScore() - player1.getTotalScore()));
+                            // Sort the data array based on the state
+                            data.sort((player1, player2) -> {
+                                switch (state) {
+                                    case 0:
+                                        return (int) Math.round(player2.getTotalScore() - player1.getTotalScore());
+                                    case 1:
+                                        return player2.getPokemonArray().size() - player1.getPokemonArray().size();
+                                    case 2:
+                                        return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
+                                    case 3:
+                                        // TODO: Implement regional high comparison
+                                        return 0;
+                                    default:
+                                        return 0;
+                                }
+                            });
 
                             // Notify the adapter that the data has changed
                             adapter.notifyDataSetChanged();
