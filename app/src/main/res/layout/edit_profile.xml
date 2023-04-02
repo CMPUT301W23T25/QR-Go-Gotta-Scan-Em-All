@@ -20,15 +20,16 @@
         android:fontFamily="sans-serif-condensed"
         android:hint="Username"
         android:inputType="textPersonName"
+        android:padding="10dp"
         android:textColor="@color/dark_grey"
         android:textColorHint="@color/dark_grey"
-        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/border2"
-        app:layout_constraintVertical_bias="0.604" />
+        app:layout_constraintVertical_bias="0.604"
+        android:autofillHints="Username" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border2"
@@ -49,9 +50,12 @@
         android:id="@+id/imageView"
         android:layout_width="162dp"
         android:layout_height="146dp"
+        app:layout_constraintBottom_toBottomOf="@+id/border2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/border2"
         app:srcCompat="@drawable/pokeball_closed"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="92dp" />
+        android:contentDescription="pokeball" />
 
     <TextView
         android:id="@+id/textView2"
@@ -62,19 +66,21 @@
         android:textColor="#FDFAFA"
         android:textSize="34sp"
         android:textStyle="italic"
-        tools:layout_editor_absoluteX="122dp"
-        tools:layout_editor_absoluteY="270dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/border2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/create_button"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:srcCompat="@drawable/img_1" />
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:srcCompat="@drawable/img_1"
+        android:contentDescription="enter button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
