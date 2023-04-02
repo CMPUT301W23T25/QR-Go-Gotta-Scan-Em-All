@@ -36,8 +36,7 @@ public class PlayerUnitTest {
 
         // remove pokemon
         pokemonArray.remove(pokemon);
-        PokemonInformation pokemonInformation2 = new PokemonInformation(pokemon);
-        player.removePokemon(pokemonInformation2);
+        player.removePokemon(pokemonInformation);
         assertEquals(pokemonArray.size(), player.getPokemonArray().size());
     }
 
