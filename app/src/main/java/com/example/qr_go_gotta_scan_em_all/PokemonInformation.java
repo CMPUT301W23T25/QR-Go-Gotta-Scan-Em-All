@@ -2,7 +2,9 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Pair;
+
+
+import androidx.core.util.Pair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -78,8 +80,8 @@ public class PokemonInformation implements Serializable {
      *  @param lon double of longitude
      */
     public void setLocation(double lat, double lon) {
-        this.locationLong = lat;
-        this.locationLat = lon;
+        this.locationLong = lon;
+        this.locationLat = lat;
     }
 
     public void setCityName(String cityName) {
@@ -92,7 +94,7 @@ public class PokemonInformation implements Serializable {
 
     public Pair<Double,Double> getPairedLocation(){
         if (Double.compare(locationLat, Double.POSITIVE_INFINITY) != 0 && Double.compare(locationLong, Double.POSITIVE_INFINITY) != 0){
-            return new Pair<Double,Double>(locationLat,locationLong);
+            return new Pair<>(locationLat,locationLong);
         }
         return null;
     }
