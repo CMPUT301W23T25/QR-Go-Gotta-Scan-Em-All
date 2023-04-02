@@ -22,8 +22,8 @@ jobs:
         cache: gradle
     - name: Access APOD_API_KEY
       env:
-        APOD_API_KEY: ${{ secrets.APOD_API_KEY }}
-      run: echo APOD_API_KEY=\"$APOD_API_KEY\" > local.properties
+        MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+      run: echo MAPS_API_KEY=\"$MAPS_API_KEY\" > local.properties
     - name: Setup Android SDK Tools
       uses: android-actions/setup-android@v2.0.2
     - name: Create local.properties file
