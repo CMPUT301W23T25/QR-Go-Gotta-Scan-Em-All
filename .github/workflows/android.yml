@@ -1,5 +1,8 @@
 name: Android CI
 
+# secrets accessing referenced from Jake Lee
+# https://blog.jakelee.co.uk/accessing-android-app-secret-from-github-actions-using-gradle/
+
 on:
   push:
     branches: [ "main" ]
@@ -19,7 +22,7 @@ jobs:
         cache: gradle
     - name: Access APOD_API_KEY
       env:
-        APOD_API_KEY: $
+        APOD_API_KEY: ${{ secrets.APOD_API_KEY }}
       run: echo APOD_API_KEY=\"$APOD_API_KEY\" > local.properties
     - name: Setup Android SDK Tools
       uses: android-actions/setup-android@v2.0.2
