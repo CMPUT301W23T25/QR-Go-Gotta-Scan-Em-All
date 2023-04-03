@@ -34,7 +34,7 @@ public class MapsActivityTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
         // click on poke ball
-        solo.clickOnView(solo.getView(R.id.poke_ball));
+        solo.clickOnView(solo.getView(R.id.map));
         solo.assertCurrentActivity("Wrong Activity", MapsActivity.class);
     }
 

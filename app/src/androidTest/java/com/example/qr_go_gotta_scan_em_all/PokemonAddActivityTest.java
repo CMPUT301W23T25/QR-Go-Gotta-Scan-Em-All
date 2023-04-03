@@ -33,7 +33,7 @@ public class PokemonAddActivityTest {
 
         // click back button
         solo.clickOnView(solo.getView(R.id.qr_scanner_back_btn));
-        solo.assertCurrentActivity("Wrong Activity", PokemonAddActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     /**

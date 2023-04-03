@@ -34,12 +34,10 @@ public class PokemonUnitTest {
     public void testVisualReper() {
         Pokemon pokemon = new Pokemon("Pikachu");
         assertEquals(
-                "/    \\\n" +
-                "| _  _ |\n" +
-                "@  ||  @\n" +
-                "| ,`` ,|\n" +
-                "| `--` |\n" +
-                "\\______/\n",
+                "  ^~^  ,\n"+
+                        " ◪-◪ \n"+
+                        " /   \\/ \n"+
+                        "(\\|||/) \n",
                 pokemon.visualReper());
     }
 
