@@ -144,19 +144,26 @@ public class LoginActivity extends AppCompatActivity {
         isUserNameTaken(userName, new OnCheckUsernameCallback() {
             @Override
             public void onResult(boolean isTaken) {
-                if (!isTaken) {
-                    player = playerFactory.generatePlayer();
-                    player.setUserName(userName);
+                String refinedUserName = userName.trim();
 
-                    // add the player to DB
-                    addPlayer(player);
+                if(refinedUserName != ""){
+                    if (!isTaken) {
+                        player = playerFactory.generatePlayer();
+                        player.setUserName(userName);
 
-                    intent.putExtra("player", player);
-                    switchToMainActivity();
+                        // add the player to DB
+                        addPlayer(player);
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
+                        intent.putExtra("player", player);
+                        switchToMainActivity();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
+                    }
+                } else{
+                    Toast.makeText(LoginActivity.this, "Cannot use blank username", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
         // Next create a AppUser class
@@ -215,6 +222,7 @@ public class LoginActivity extends AppCompatActivity {
         playerMap.put("pokemon_owned",new ArrayList<Map<String, Object>>());
         playerMap.put("leaderboard_stats",new HashMap<String,String>());
         playerMap.put("friends",new ArrayList<String>());
+        playerMap.put("email","");
 
 
         // make sure the specific ID of the player is used
@@ -261,6 +269,7 @@ public class LoginActivity extends AppCompatActivity {
                         player = new Player((String)document.get("username"), document.getId());
                         List<Map<String, Object>> myArray = (List<Map<String, Object>>) document.get("pokemon_owned");
                         player.setPokemonArray(convertRawDataToPInfo(myArray));
+                        player.setEmailAddress((String)document.get("email"));
                         //
                         isRegistered = true;
                         System.out.println("registered");

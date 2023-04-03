@@ -1,5 +1,7 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.Image;
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.firestore.DocumentReference;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +48,7 @@ public class ProfilePageFragment extends Fragment {
     private ImageView editProfilePage;
 
     private TextView emailTextView;
+    private Database db;
 
     /**
      * 
@@ -109,8 +115,15 @@ public class ProfilePageFragment extends Fragment {
         pokemonNearMeButton = view.findViewById(R.id.pokemon_near_me_button);
         editProfilePage = view.findViewById(R.id.edit_profile_info);
         emailTextView = view.findViewById(R.id.email_val);
+
+        if(!player.getEmailAddress().trim().equals("")){
+            emailTextView.setText(player.getEmailAddress());
+        } else{
+            emailTextView.setText("");
+        }
         System.out.println(player.getUserName());
         usernameVal.setText(player.getUserName());
+        db = new Database(getContext().getApplicationContext());
         // or (ImageView) view.findViewById(R.id.foo);
 
         playerSearchButton = view.findViewById(R.id.search_button);
@@ -148,6 +161,11 @@ public class ProfilePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 editProfileDialog();
+                if(!player.getEmailAddress().trim().equals("")){
+                    emailTextView.setText(player.getEmailAddress());
+                } else{
+                    emailTextView.setText("");
+                }
             }
         });
     }
@@ -164,7 +182,6 @@ public class ProfilePageFragment extends Fragment {
 
         //Mention the name of the layout of your custom dialog.
         dialog.setContentView(R.layout.edit_profile);
-        ListView ownersLW = dialog.findViewById(R.id.owners_list);
         ImageView closeButton = dialog.findViewById(R.id.close_button);
         ImageView saveButton = dialog.findViewById(R.id.save_button);
         EditText emailTxt = dialog.findViewById(R.id.email_textview);
@@ -181,12 +198,27 @@ public class ProfilePageFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // your handler code here
+                String emailTxtString = emailTxt.getText().toString();
+                updateEmailAddress(emailTxtString);
+                player.setEmailAddress(emailTxtString);
                 dialog.dismiss();
             }
         });
     }
 
     private void updateEmailAddress(String email){
+        String playerId = player.getUserId();
 
+
+        DocumentReference playerRef = db.getPlayerCol().document(playerId);
+
+        playerRef.update("email", email)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Email updated successfully"))
+                .addOnFailureListener(e -> switchToNetworkFail());
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
+        getActivity().finish();
     }
 }

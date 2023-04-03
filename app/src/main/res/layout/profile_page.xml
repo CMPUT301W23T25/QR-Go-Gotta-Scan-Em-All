@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/email_val"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="163dp"
         android:layout_marginBottom="178dp"
@@ -20,39 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/email_view"
-        app:layout_constraintTop_toTopOf="@+id/high_score_val"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/high_score_val"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="163dp"
-        android:text=""
-        android:textColor="@color/dark_grey"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/highest_score_qr"
-        app:layout_constraintTop_toTopOf="@+id/total_score" />
-
-    <TextView
-        android:id="@+id/total_score"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="163dp"
-        android:text=""
-        android:textColor="@color/dark_grey"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/total_score_view"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintTop_toBottomOf="@+id/username_val"
+        app:layout_constraintVertical_bias="0.625" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/border"
@@ -115,42 +84,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/highest_score_qr"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="283dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Total Score:"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/total_score_view"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="283dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="High Score:"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/border"
-        app:layout_constraintVertical_bias="0.151" />
-
-    <TextView
         android:id="@+id/email_view"
         android:layout_width="112dp"
         android:layout_height="39dp"
@@ -165,13 +98,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/highest_score_qr"
-        app:layout_constraintVertical_bias="0.678" />
+        app:layout_constraintTop_toBottomOf="@+id/username_view" />
 
     <TextView
         android:id="@+id/username_val"
-        android:layout_width="112dp"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:text=""
