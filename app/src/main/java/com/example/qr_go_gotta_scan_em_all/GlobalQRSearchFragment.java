@@ -58,7 +58,6 @@ public class GlobalQRSearchFragment extends Fragment {
 
     private String textSearch;
 
-    LocationHandler lH;
 
     public GlobalQRSearchFragment() {
         // Required empty public constructor
@@ -85,7 +84,6 @@ public class GlobalQRSearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         db = new Database(getActivity().getApplicationContext());
         lW = view.findViewById(R.id.listview_pokemon);
-        lH = new LocationHandler(getActivity().getApplicationContext());
         textSearch = "";
         locSearchTxt = view.findViewById(R.id.location_search);
         searchBttn = view.findViewById(R.id.search_bttn);
@@ -102,7 +100,6 @@ public class GlobalQRSearchFragment extends Fragment {
     }
 
     private void getAllPokemonNearBy(){
-        Pair<String,String> pCityCountry = lH.getCityAndCountry(lH.getCurrentLocation());
         CollectionReference pokemonRef = db.getPokemonCol();
 
         // Retrieve all documents in the pokemon collection
