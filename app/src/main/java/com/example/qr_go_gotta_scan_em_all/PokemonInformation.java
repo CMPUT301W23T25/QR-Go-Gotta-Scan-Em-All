@@ -9,7 +9,10 @@ import androidx.core.util.Pair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-
+/**
+ PokemonInformation class is a Serializable class that stores information about a specific Pokemon,
+ including its image, location (latitude and longitude), city name, country name, and Pokemon object.
+ */
 public class PokemonInformation implements Serializable {
     private byte[] imageByteArray;
     private double locationLat;
@@ -19,6 +22,11 @@ public class PokemonInformation implements Serializable {
     private String countryName;
     private Pokemon pokemon;
 
+    /**
+     * Constructor that initializes the PokemonInformation object with a Pokemon instance.
+     *
+     * @param pokemon The Pokemon object.
+     */
     public PokemonInformation(Pokemon pokemon) {
         this.pokemon = pokemon;
         this.imageByteArray = null;
@@ -28,6 +36,16 @@ public class PokemonInformation implements Serializable {
         this.countryName = null;
     }
 
+    /**
+     * Constructor that initializes the PokemonInformation object with a Pokemon instance and additional information.
+     *
+     * @param pokemon       The Pokemon object.
+     * @param imageByteArray The byte array of the Pokemon image.
+     * @param locationLat    The latitude of the Pokemon's location.
+     * @param locationLong   The longitude of the Pokemon's location.
+     * @param cityName       The name of the city where the Pokemon is located.
+     * @param countryName    The name of the country where the Pokemon is located.
+     */
     public PokemonInformation(Pokemon pokemon, byte[] imageByteArray, double locationLat, double locationLong, String cityName, String countryName) {
         this.imageByteArray = imageByteArray;
         this.locationLat = locationLat;
@@ -92,6 +110,11 @@ public class PokemonInformation implements Serializable {
         this.pokemon = pokemon;
     }
 
+    /**
+     * Returns a Pair object containing the latitude and longitude of the Pokemon's location.
+     *
+     * @return A Pair object with the Pokemon's location (latitude, longitude) if available, otherwise null.
+     */
     public Pair<Double,Double> getPairedLocation(){
         if (Double.compare(locationLat, Double.POSITIVE_INFINITY) != 0 && Double.compare(locationLong, Double.POSITIVE_INFINITY) != 0){
             return new Pair<>(locationLat,locationLong);
@@ -99,6 +122,11 @@ public class PokemonInformation implements Serializable {
         return null;
     }
 
+    /**
+     * Returns the decoded Bitmap image of the Pokemon.
+     *
+     * @return The decoded Bitmap image of the Pokemon.
+     */
     public Bitmap getDecodedImage(){
         Bitmap bmp = null;
         // https://stackoverflow.com/questions/7620401/how-to-convert-image-file-data-in-a-byte-array-to-a-bitmap

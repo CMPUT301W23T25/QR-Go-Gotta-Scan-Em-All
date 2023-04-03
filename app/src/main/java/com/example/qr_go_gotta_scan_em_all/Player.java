@@ -194,7 +194,9 @@ public class Player implements Serializable {
         PokemonInformation pI = pokemonArray.get(pos);
         this.removePokemon(pI);
     }
-
+    /**
+     * Updates the player's total score based on the score of each Pokemon in the player's Pokemon array.
+     */
     private void updateTotalScore() {
         Double sum = 0.0;
 
@@ -206,6 +208,12 @@ public class Player implements Serializable {
         this.totalScore = sum;
     }
 
+    /**
+     * Returns the best Pokemon the player has caught in a specific city.
+     *
+     * @param city the name of the city to filter by
+     * @return the best Pokemon the player has caught in the specified city or null if no Pokemon have been caught in that city
+     */
     public Pokemon getBestPokemonAtCity(String city) {
         Pokemon bestPokemon = null;
 

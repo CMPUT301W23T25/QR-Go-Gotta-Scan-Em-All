@@ -16,12 +16,23 @@ import com.google.maps.android.ui.IconGenerator;
 
 //referenced from
 //CodingWithMitch - https://youtu.be/U6Z8FkjGEb4 and https://github.com/mitchtabian/Google-Maps-2018/tree/creating-custom-google-map-markers-end
-
+/**
+ * MapIconClusterManager is a custom implementation of DefaultClusterRenderer that
+ * customizes the appearance of cluster item markers on the map.
+ */
 public class MapIconClusterManager extends DefaultClusterRenderer<MapIconCluster> {
     private final IconGenerator iconGenerator;
     private final ImageView imageView;
     private final int markerSize;
 
+    /**
+     * Constructs a MapIconClusterManager with the specified context, GoogleMap,
+     * and ClusterManager.
+     *
+     * @param context       The context associated with this cluster manager.
+     * @param googleMap     The GoogleMap instance used to display the markers.
+     * @param clusterManager The ClusterManager instance used to manage the clusters.
+     */
     public MapIconClusterManager(Context context, GoogleMap googleMap,
                                  ClusterManager<MapIconCluster> clusterManager) {
 
@@ -38,6 +49,13 @@ public class MapIconClusterManager extends DefaultClusterRenderer<MapIconCluster
 
     }
 
+    /**
+     * Called before an individual cluster item is rendered on the map. Sets the
+     * appearance of the cluster item's marker using the provided icon.
+     *
+     * @param item          The MapIconCluster item to be rendered.
+     * @param markerOptions The MarkerOptions instance used to customize the marker's appearance.
+     */
     @Override
     protected void onBeforeClusterItemRendered(MapIconCluster item, MarkerOptions markerOptions) {
 
@@ -46,6 +64,13 @@ public class MapIconClusterManager extends DefaultClusterRenderer<MapIconCluster
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
     }
 
+    /**
+     * Determines whether the cluster should be rendered as a single cluster or as individual markers.
+     * This method always returns false, causing the cluster to always render as individual markers.
+     *
+     * @param cluster The Cluster instance to be rendered.
+     * @return false to always render the cluster as individual markers.
+     */
     @Override
     protected boolean shouldRenderAsCluster(Cluster cluster) {
         return false;

@@ -52,9 +52,9 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * 
- * The MapsActivity class displays a Google Map and allows the user to interact
- * with it.
+ * MapsActivity is an AppCompatActivity that displays a Google Map and allows the user to interact
+ * with it. It shows the user's current location and marks the locations where Pokémon have been
+ * scanned by other users.
  */
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -106,7 +106,12 @@ public class MapsActivity extends AppCompatActivity
         });
 
     }
-
+    /**
+     * Called when the GoogleMap instance is ready to be used. Initializes the map,
+     * sets the UI settings, and zooms in on the user's location.
+     *
+     * @param googleMap The GoogleMap instance that is ready to be used.
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
@@ -136,15 +141,31 @@ public class MapsActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Called when the user clicks on their location on the map. Currently, this
+     * method does nothing.
+     *
+     * @param location The user's location on the map.
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
     }
 
+    /**
+     * Called when the user clicks the My Location button. Currently, this method
+     * returns false, indicating that the default behavior should be used.
+     *
+     * @return false to indicate that the default behavior should be used.
+     */
     @Override
     public boolean onMyLocationButtonClick() {
         return false;
     }
 
+    /**
+     * Zooms in on the user's current location by setting the map's camera
+     * position to the current location of the device.
+     */
     private void zoomOnUser() {
         // referenced from -
         // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
@@ -183,6 +204,10 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Checks if the user has granted the location permission. If not, requests the
+     * permission and updates the locationPermissionGranted flag accordingly.
+     */
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -200,6 +225,10 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Retrieves all Pokémon scanned by users from the Firestore database and adds
+     * markers to the map for each Pokémon location.
+     */
     private void getAllPokemonScanned(){
 
         CollectionReference pokemonRef = db.getPokemonCol();
@@ -239,6 +268,14 @@ public class MapsActivity extends AppCompatActivity
 
     //referenced from
     //CodingWithMitch - https://youtu.be/U6Z8FkjGEb4 and https://github.com/mitchtabian/Google-Maps-2018/tree/creating-custom-google-map-markers-end
+    /**
+     * Adds a marker to the map for the given longitude and latitude coordinates.
+     * The marker is added to a cluster manager to enable clustering of markers
+     * when the map is zoomed out.
+     *
+     * @param longitude The longitude coordinate of the marker.
+     * @param latitude The latitude coordinate of the marker.
+     */
     private void addMapMarkers(double longitude, double latitude){
 
         if(mMap != null){
@@ -268,10 +305,5 @@ public class MapsActivity extends AppCompatActivity
             mClusterManager.cluster();
         }
     }
-
-
-
-
-
 
 }

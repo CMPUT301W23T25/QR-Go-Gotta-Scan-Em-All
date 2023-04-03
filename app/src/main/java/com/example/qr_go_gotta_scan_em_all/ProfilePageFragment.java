@@ -33,8 +33,6 @@ public class ProfilePageFragment extends Fragment {
 
     /**
      * 
-     * /**
-     * 
      * Required empty public constructor for the fragment.
      */
     public ProfilePageFragment() {

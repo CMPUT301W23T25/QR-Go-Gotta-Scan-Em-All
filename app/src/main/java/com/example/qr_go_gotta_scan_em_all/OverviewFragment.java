@@ -119,18 +119,13 @@ public class OverviewFragment extends Fragment {
 
     }
     /**
-
-     Called immediately after onCreateView() has returned a non-null View,
-
-     and allows the fragment to perform further initialization of that View.
-
-     Sets the text of the username field to the current user's username, and
-
-     populates the list view with the user's Pokémon.
-
-     @param view The View object returned by onCreateView()
-
-     @param savedInstanceState This fragment's previously saved state, if any
+     * Called immediately after onCreateView() has returned a non-null View,
+     * and allows the fragment to perform further initialization of that View.
+     * Sets the text of the username field to the current user's username, and
+     * populates the list view with the user's Pokémon.
+     *
+     * @param view The View object returned by onCreateView()
+     * @param savedInstanceState This fragment's previously saved state, if any
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -200,7 +195,13 @@ public class OverviewFragment extends Fragment {
 
         // or  (ImageView) view.findViewById(R.id.foo);
     }
-
+    /**
+     * Displays a dialog box to show details of the clicked Pokémon, and allows the user to delete
+     * the Pokémon or view additional information about it.
+     *
+     * @param position The index of the clicked Pokémon in the ListView
+     * @param view The view object representing the clicked Pokémon
+     */
     void showDialogueBox(int position, View view){
 
 
@@ -260,7 +261,11 @@ public class OverviewFragment extends Fragment {
 
         }
 
-
+        /**
+         * Deletes a Pokémon from the player's list of caught Pokémon and updates the UI.
+         *
+         * @param pos The index of the Pokémon to delete
+         */
         private void deleteFromPlayerList(int pos){
 //        System.out.println(player.getPokemonArray().size());
 //        PokemonInformation pI = player.getPokemonAtIndex(pos);
@@ -345,7 +350,11 @@ public class OverviewFragment extends Fragment {
                 }
             });
     }
-
+    /**
+     * Transitions to the QRMoreInfoFragment to display more information about the selected Pokémon.
+     *
+     * @param position The index of the selected Pokémon in the ListView
+     */
     private void goToOverview(int position) {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
