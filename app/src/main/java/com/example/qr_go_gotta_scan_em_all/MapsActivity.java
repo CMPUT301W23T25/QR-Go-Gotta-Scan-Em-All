@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
@@ -174,6 +175,8 @@ public class MapsActivity extends AppCompatActivity
                                 cityName = addresses.get(0).getLocality();
                                 countryName= addresses.get(0).getCountryName();
                             }
+                        } else{
+                            switchToNetworkFail();
                         }
                     }
                 });
@@ -267,6 +270,15 @@ public class MapsActivity extends AppCompatActivity
             mClusterManager.addItem(newClusterMarker);
             mClusterManager.cluster();
         }
+    }
+
+    /**
+
+     Starts the NetworkFailActivity and finishes the current activity.
+     */
+    private void switchToNetworkFail() {
+        startActivity(new Intent(MapsActivity.this, ConnectionErrorActivity.class));
+        finish();
     }
 
 
