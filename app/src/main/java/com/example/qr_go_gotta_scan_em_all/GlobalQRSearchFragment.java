@@ -50,9 +50,6 @@ public class GlobalQRSearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private Player p;
 
-    private String playerCity;
-    private String playerCountry;
-
     private EditText locSearchTxt;
     private ImageView searchBttn;
 
