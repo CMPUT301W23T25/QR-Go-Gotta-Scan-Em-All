@@ -60,7 +60,6 @@ public class PokemonAddActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Bitmap locationImgRaw;
     private String pokemonCaught;
-//    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
     boolean photoAdded = false;
@@ -108,7 +107,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
-        title.setText("It's " + pokemonCaught);
+        title.setText("It's " + new Pokemon(pokemonCaught).getName());
 
         //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -325,14 +324,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 //    }
 
 
-    /**
 
-     Starts the NetworkFailActivity and finishes the current activity.
-     */
-    private void switchToNetworkFail() {
-        startActivity(new Intent(PokemonAddActivity.this, ConnectionErrorActivity.class));
-        finish();
-    }
 
 
 
