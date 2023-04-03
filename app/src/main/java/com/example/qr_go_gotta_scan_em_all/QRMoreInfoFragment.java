@@ -41,7 +41,7 @@ import java.util.Objects;
 /**
 
  A fragment representing the more info screen for a specific Pokemon with its comments and owners.
- Activities that contain this fragment must implement the {@link QRMoreInfoFragment.OnFragmentInteractionListener} interface
+ Activities that contain this fragment must implement the {@link QRMoreInfoFragment} interface
  to handle interaction events.
  create an instance of this fragment.
  */
@@ -167,27 +167,6 @@ public class QRMoreInfoFragment extends Fragment {
      * Retrieves the comments for the current Pokemon from the database and adds them to the comments list.
      */
     private void getCommentsFromDB(){
-//        db.getPokemonCol().document(pk.getID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//
-//                        List<Map<String, String>> myArray = (List<Map<String, String>>) document.get("comments");
-//
-//
-//                        // Store the array of hashmaps of the pokemons  { pokemonID: …, location: …, photo: …, }.
-//
-//                    }
-//
-//                } else {
-//                    startActivity(new Intent(((MainActivity)getActivity()), ConnectionErrorActivity.class));
-//                }
-//            }
-//        });
-
-// Query Pokemon collection to get comments for the specified Pokemon
         db.getPokemonCol()
                 .document(pk.getID())
                 .get()
