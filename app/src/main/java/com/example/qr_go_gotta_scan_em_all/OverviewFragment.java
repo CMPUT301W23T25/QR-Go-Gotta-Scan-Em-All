@@ -333,6 +333,11 @@ public class OverviewFragment extends Fragment {
         transaction.commit();
     }
 
+    /**
+     * Returns the name of the lowest scoring Pokémon in the player's collection.
+     *
+     * @return The name of the Pokémon with the lowest score, or an empty string if the player has no Pokémon.
+     */
     private String getWorstPokemon() {
         double minScore = Double.POSITIVE_INFINITY;
         String lowestScoringQRName = "";

@@ -100,9 +100,22 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
         return view;
     }
 
+    /**
+     * Sets the current state of the adapter. The state determines how the
+     * leaderboard will be sorted and displayed.
+     *
+     * @param state The new state for the adapter.
+     */
     public void setState(int state) {
         this.state = state;
     }
+
+    /**
+     * Sets the current region for the adapter. The region is used to filter
+     * and display the leaderboard based on regional high scores.
+     *
+     * @param region The new region for the adapter.
+     */
     public void setRegion(String region) {
         this.region = region;
     }
