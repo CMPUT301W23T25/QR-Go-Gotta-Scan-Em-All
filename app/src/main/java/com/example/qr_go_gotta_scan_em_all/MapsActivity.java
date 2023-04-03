@@ -73,7 +73,7 @@ public class MapsActivity extends AppCompatActivity
     private ClusterManager<MapIconCluster> mClusterManager;
     private MapIconClusterManager mClusterManagerRenderer;
 
-    private List<Map<String, Object>> pokemonInLocationRaw;
+    private List<Map<String, Object>> pokemonInLocationRaw = new ArrayList<>();
 
     /**
      * 
@@ -104,10 +104,12 @@ public class MapsActivity extends AppCompatActivity
                 finish();
             }
         });
+
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
         // referenced from -
         // https://developers.google.com/maps/documentation/android-sdk/controls
         if (ActivityCompat.checkSelfPermission(this,
@@ -130,7 +132,8 @@ public class MapsActivity extends AppCompatActivity
         mUiSettings.setMyLocationButtonEnabled(true);
 //        mUiSettings.setScrollGesturesEnabled(false);
         zoomOnUser();
-        addMapMarkers();
+        getAllPokemonScanned();
+
     }
 
     @Override
@@ -198,38 +201,25 @@ public class MapsActivity extends AppCompatActivity
     }
 
     private void getAllPokemonScanned(){
-        CollectionReference playersRef = db.getPlayerCol();
-        // Query to get the player document for the given user ID
-        // Function to get all player documents in the players collection
-        // Query to get all player documents
-        pokemonInLocationRaw = new ArrayList<>();
-        Task<QuerySnapshot> querySnapshotTask = playersRef.get();
-        querySnapshotTask.addOnCompleteListener(task -> {
+
+        CollectionReference pokemonRef = db.getPokemonCol();
+
+        // Retrieve all documents in the pokemon collection
+        pokemonRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Get the list of player documents
-                List<DocumentSnapshot> playerDocs = task.getResult().getDocuments();
+                // Iterate over each document in the collection
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    // Get the pokemon_location key for the current document
+                    List<Map<String, Object>> locationArray = (List<Map<String, Object>>) document.getData().get("pokemon_locations");
+                    // if the pokemon is close to the player add it on the map (do later)
 
-                // Initialize list to hold Pokemon in the same location as the player
-
-                // Loop through each player document
-                for (DocumentSnapshot playerDoc : playerDocs) {
-
-                    // Get the list of Pokemon owned by the current player
-                    List<Map<String, Object>> pokemonList = (List<Map<String, Object>>) playerDoc.get("pokemon_owned");
-                    for (Map<String, Object> m:pokemonList){
-                        Toast.makeText(this, "#RFUJIO", Toast.LENGTH_SHORT).show();
-                        String snippet = "Pokemon found here";
-                        int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
-                        MapIconCluster newClusterMarker = new MapIconCluster(
-                                new LatLng((double)m.get("lat"), (double)m.get("long")), "Pokemon was found here",
-                                snippet,
-                                avatar);
-                        mClusterManager.addItem(newClusterMarker);
+                    for(Map<String, Object> m: locationArray){
+                        addMapMarkers((double)m.get("longitude"), (double) m.get("latitude"));
                     }
 
-
                 }
-
+            } else {
+                System.out.println("Error getting documents: " + task.getException());
             }
         });
 
@@ -249,7 +239,7 @@ public class MapsActivity extends AppCompatActivity
 
     //referenced from
     //CodingWithMitch - https://youtu.be/U6Z8FkjGEb4 and https://github.com/mitchtabian/Google-Maps-2018/tree/creating-custom-google-map-markers-end
-    private void addMapMarkers(){
+    private void addMapMarkers(double longitude, double latitude){
 
         if(mMap != null){
             if(mClusterManager == null){
@@ -265,18 +255,16 @@ public class MapsActivity extends AppCompatActivity
             }
 
 
-            getAllPokemonScanned();
-            for (Map<String, Object> m:pokemonInLocationRaw){
 
-                String snippet = "Pokemon found here";
-                int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
-                MapIconCluster newClusterMarker = new MapIconCluster(
-                            new LatLng((double)m.get("lat"), (double)m.get("long")), "Pokemon was found here",
-                            snippet,
-                            avatar
-                );
-                mClusterManager.addItem(newClusterMarker);
-            }
+
+            String snippet = "Pokemon found here";
+            int avatar = R.drawable.png_clipart_pokeball_pokeball_thumbnail_removebg_preview_1;
+            MapIconCluster newClusterMarker = new MapIconCluster(
+                        new LatLng(latitude, longitude), "Pokemon was found here",
+                        snippet,
+                        avatar
+            );
+            mClusterManager.addItem(newClusterMarker);
             mClusterManager.cluster();
         }
     }

@@ -34,6 +34,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -350,51 +352,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
-    /*
-     * private boolean checkNotRegistered(){
-     * // Implement based on if it is decided to use the text file, or the phone ID
-     * isUserRegisteredQuery();
-     * return isRegistered;
-     * }
-     */
 
-    /*
-     * private void isUserRegisteredQuery(){
-     * db.getPlayerCol().document(new PlayerIDGenerator(this).getUserId())
-     * .get()
-     * .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-     * 
-     * @Override
-     * public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-     * if (task.isSuccessful()) {
-     * DocumentSnapshot document = task.getResult();
-     * if (document.exists()) {
-     * // Document exists
-     * isRegistered = true;
-     * System.out.println("registed alrady");
-     * } else {
-     * // Document doesn't exist
-     * isRegistered = false;
-     * System.out.println("registed not");
-     * }
-     * } else {
-     * // Error getting document
-     * Log.d(TAG, "get failed with ", task.getException());
-     * // go to network not found activity
-     * switchToNetworkFail();
-     * }
-     * }
-     * });
-     * }
-     * 
-     * 
-     * /**
-     * 
-     * Switches the activity to ConnectionErrorActivity to indicate a network
-     * failure.
-     * The current activity will be finished to prevent returning to it on back
-     * button press.
-     */
 
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
@@ -461,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             imgArray = Base64.getDecoder().decode(imgTest);
         }
-        PokemonInformation pI = new PokemonInformation(pK,imgArray,-113.5263 ,53.5232,"Edmonton","Canada");
+        PokemonInformation pI = new PokemonInformation(pK,imgArray,53.5232 ,-113.5263,"Edmonton","Canada");
 
         return pI;
     }
@@ -480,6 +438,9 @@ public class MainActivity extends AppCompatActivity {
         String ID = p.getPokemon().getID();
         HashMap<String, Object> pMap = new HashMap<>();
         pMap.put("comments",new ArrayList<Map<String,String>>());
+        pMap.put("pokemon_locations",new ArrayList<Map<String,Object>>());
+        pMap.put("pokemon_lat",p.getLocationLat());
+        pMap.put("pokemon_long",p.getLocationLong());
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPokemonCol().document(ID);
 
@@ -508,16 +469,43 @@ public class MainActivity extends AppCompatActivity {
                                         switchToNetworkFail();
                                     }
                                 });
+
+                        addPokemonLocationToCollection(p);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
+
+
     }
 
+    private void addPokemonLocationToCollection(PokemonInformation p){
+        // add the location to the database
+        DocumentReference pokemonLocationsRef = db.getPokemonCol().document(p.getPokemon().getID());
 
-//    public String getMyData() {
-//        return qrResult;
-//    }
+        // Create a map containing the city, country, latitude, and longitude
+        Map<String, Object> locationMap = new HashMap<>();
+        locationMap.put("city", p.getCityName());
+        locationMap.put("country", p.getCountryName());
+        locationMap.put("latitude", p.getLocationLat());
+        locationMap.put("longitude", p.getLocationLong());
+
+        // Check if both city and country are not null
+        pokemonLocationsRef.update("pokemon_locations", FieldValue.arrayUnion(locationMap))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Handle success, if needed
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure, if needed
+                    }
+                });
+    }
 }
