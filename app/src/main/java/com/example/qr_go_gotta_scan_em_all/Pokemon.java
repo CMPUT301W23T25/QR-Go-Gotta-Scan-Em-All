@@ -88,28 +88,6 @@ public class Pokemon implements Serializable {
      * Returns the visual representation of the Pokemon.
      * @return The visual representation of the Pokemon.
      */
-//    public String visualReper(){
-//        String binary = hexToBinary(this.ID);
-//        List<List<String>> nameList = new ArrayList<List<String>>();
-//        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
-//        nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
-//        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
-//        nameList.add(Arrays.asList("| ,`` ,|","|      |"));
-//        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
-//        nameList.add(Arrays.asList("|______|","\\______/"));
-//
-//        String name = "";
-//        for (int i = 0; i < nameList.size(); i++){
-//            String temp = "";
-//            char c = binary.charAt(i);
-//            temp+=c ;
-//            int index = Integer.parseInt(temp);
-//            name += nameList.get(i).get(index) +"\n";
-//
-//        }
-//        return name;
-//    }
-
     public String visualReper(){
         List<List<String>> nameList = new ArrayList<List<String>>();
 
@@ -429,7 +407,13 @@ public class Pokemon implements Serializable {
         // Cap or no cap
         if (fifth == '0' || fifth == '1' || fifth == '2' || fifth == '3' ||
                 fifth == '4' || fifth == '5' || fifth == '6' || fifth == '7') {
-            pokemon.add(0,hat);
+            ArrayList<String> clone = new ArrayList<>(pokemon);
+            pokemon = new ArrayList<>();
+            pokemon.add(hat);
+            for(String s:clone){
+                pokemon.add(s);
+            }
+
             isHat = true;
         }
         // Sunglasses or no sunglasses
@@ -439,7 +423,7 @@ public class Pokemon implements Serializable {
             int indexModifed;
             if(isHat){
                 // eyes will be on 3rd index
-                indexModifed = 3;
+                indexModifed = 2;
             } else{
                 // eyes will be on 1st index
                 indexModifed = 1;

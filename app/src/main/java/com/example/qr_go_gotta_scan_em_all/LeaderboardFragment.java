@@ -180,6 +180,7 @@ public class LeaderboardFragment extends Fragment {
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
                         } else {
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get failed: ", task.getException());
+                            switchToNetworkFail();
                         }
                     }
                 });
@@ -298,5 +299,12 @@ public class LeaderboardFragment extends Fragment {
 
         // Update the rank estimate text
         rankEstimateText.setText(String.valueOf(rank));
+    }
+    /**
+     * Switch to the ConnectionErrorActivity in case of network failure.
+     */
+    private void switchToNetworkFail() {
+        startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
+        getActivity().finish();
     }
 }

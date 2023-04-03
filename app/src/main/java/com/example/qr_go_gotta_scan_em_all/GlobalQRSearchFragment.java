@@ -64,20 +64,44 @@ public class GlobalQRSearchFragment extends Fragment {
     private ImageView useCurrentLocBtn;
 
 
+    /**
+     * A simple {@link Fragment} subclass.
+     * Use the {@link GlobalQRSearchFragment} factory method to
+     * create an instance of this fragment.
+     */
     public GlobalQRSearchFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Constructor for the GlobalQRSearchFragment class.
+     *
+     * @param p The Player object for the current user.
+     */
     public GlobalQRSearchFragment(Player p) {
         this.p = p;
     }
 
+    /**
+     * Called when the fragment is being created. This is where you can perform any
+     * initial setup that does not require a view hierarchy, such as initializing
+     * fragment-level variables.
+     *
+     * @param savedInstanceState A bundle containing the saved state of the fragment, if any.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * Called when the fragment is being created. This is where you can perform any
+     * initial setup that does not require a view hierarchy, such as initializing
+     * fragment-level variables.
+     *
+     * @param savedInstanceState A bundle containing the saved state of the fragment, if any.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,6 +109,14 @@ public class GlobalQRSearchFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_global_q_r_search, container, false);
     }
 
+    /**
+     * This method is called after the view for this fragment is created.
+     * It initializes the database, location handler, and UI components, and sets up
+     * click listeners for the search button and use current location button.
+     *
+     * @param view The view that was created for this fragment.
+     * @param savedInstanceState A bundle containing the saved state of the fragment, if any.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         db = new Database(getActivity().getApplicationContext());
@@ -136,7 +168,12 @@ public class GlobalQRSearchFragment extends Fragment {
 
     }
 
-
+    /**
+     * Retrieve all Pokemon near the specified city and country.
+     *
+     * @param city The city to search for nearby Pokemon.
+     * @param country The country to search for nearby Pokemon.
+     */
     private void getAllPokemonNearBy(String city, String country) {
         CollectionReference pokemonRef = db.getPokemonCol();
         // Retrieve documents in the pokemon collection where the country or city field matches the search text
@@ -169,6 +206,9 @@ public class GlobalQRSearchFragment extends Fragment {
         });
     }
 
+    /**
+     * Switch to the ConnectionErrorActivity in case of network failure.
+     */
     private void switchToNetworkFail() {
         startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
         getActivity().finish();
