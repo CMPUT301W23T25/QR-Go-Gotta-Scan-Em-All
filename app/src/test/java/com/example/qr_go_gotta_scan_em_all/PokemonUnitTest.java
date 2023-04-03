@@ -38,6 +38,7 @@ public class PokemonUnitTest {
                         " ◪-◪ \n"+
                         " /   \\/ \n"+
                         "(\\|||/) \n",
+
                 pokemon.visualReper());
     }
 
