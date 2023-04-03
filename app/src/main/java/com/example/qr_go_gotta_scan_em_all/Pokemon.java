@@ -748,14 +748,4 @@ public class Pokemon implements Serializable {
         return stream.toByteArray();
     }
 
-//    public void setImg(Bitmap img){
-//        this.img = img;
-//    }
-//
-//    public Bitmap getImg(){
-//        return img;
-//    }
-
-
-
 }

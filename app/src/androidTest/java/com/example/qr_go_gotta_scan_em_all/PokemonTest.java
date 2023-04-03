@@ -26,12 +26,12 @@ public class PokemonTest {
     @Test
     public void testVisualReper() {
         Pokemon pokemon = new Pokemon("Sinistea with Glasses");
-        String expectedOutput = "/    \\\n" +
-                "| 0  0 |\n" +
-                "|  ||  |\n" +
-                "|      |\n" +
-                "|/----\\|\n" +
-                "|______|";
+        String expectedOutput = " /----(  ^_^  )----\\\n"+
+                "|  {   \\('v')/   }  |\n"+
+                "|   {   /   \\   }   |\n"+
+                "|_)(   /\\   /\\   )(_|\n"+
+                "|)  (_ | \\|/  |_)  (|\n"+
+                "'     \"--^^^^--\"    '\n";
         String actualOutput = pokemon.visualReper();
         assertEquals(expectedOutput.trim(), actualOutput.trim());
     }

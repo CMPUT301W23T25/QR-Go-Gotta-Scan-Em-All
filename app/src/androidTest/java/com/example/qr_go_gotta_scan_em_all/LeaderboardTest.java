@@ -46,7 +46,7 @@ public class LeaderboardTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
         // click on poke ball
-        solo.clickOnView(solo.getView(R.id.poke_ball));
+        solo.clickOnView(solo.getView(R.id.leaderboard));
         solo.assertCurrentActivity("Wrong Activity", LeaderboardFragment.class);
     }
     @Test
