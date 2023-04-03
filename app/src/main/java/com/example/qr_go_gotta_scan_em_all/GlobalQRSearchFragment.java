@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,14 +50,16 @@ public class GlobalQRSearchFragment extends Fragment {
     private ListView lW;
 
     private Database db;
-
-    // TODO: Rename and change types of parameters
     private Player p;
 
     private EditText locSearchTxt;
     private ImageView searchBttn;
 
     private String textSearch;
+
+    private LocationHandler lH;
+
+    private Button useCurrentLocBtn;
 
 
     public GlobalQRSearchFragment() {
@@ -81,49 +87,70 @@ public class GlobalQRSearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         db = new Database(getActivity().getApplicationContext());
         lW = view.findViewById(R.id.listview_pokemon);
+        lH = new LocationHandler(getActivity().getApplicationContext());
         textSearch = "";
         locSearchTxt = view.findViewById(R.id.location_search);
         searchBttn = view.findViewById(R.id.search_bttn);
+        nearByPokemon = new ArrayList<>();
+        useCurrentLocBtn = view.findViewById(R.id.use_current_location_btn);
+        adapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),nearByPokemon);
+        Pair<String,String> myCityCountry = lH.getCityAndCountry(lH.getCurrentLocation());
+        lW.setAdapter(adapter);
 
         searchBttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                adapter.clear();
                 // get the text entered into the search
                 textSearch = locSearchTxt.getText().toString().toUpperCase(Locale.ROOT);
                 // Make a query to search for results that match the city and country
+                getAllPokemonNearBy(textSearch,textSearch);
+            }
+        });
+
+        useCurrentLocBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clear();
+                // get the text entered into the search
+                textSearch = locSearchTxt.getText().toString().toUpperCase(Locale.ROOT);
+                // Make a query to search for results that match the city and country
+                getAllPokemonNearBy(myCityCountry.second,myCityCountry.first);
             }
         });
 
     }
 
-    private void getAllPokemonNearBy(){
-        CollectionReference pokemonRef = db.getPokemonCol();
 
-        // Retrieve all documents in the pokemon collection
+    private void getAllPokemonNearBy(String city, String country) {
+        CollectionReference pokemonRef = db.getPokemonCol();
+        // Retrieve documents in the pokemon collection where the country or city field matches the search text
         pokemonRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Iterate over each document in the collection
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    // Get the pokemon_location key for the current document
+                    // Get the pokemon_locations array for the current document
                     List<Map<String, Object>> locationArray = (List<Map<String, Object>>) document.getData().get("pokemon_locations");
-                    // if the pokemon is close to the player add it on the map (do later)
 
-                    for(Map<String, Object> m: locationArray){
-                        if (textSearch == (String)m.get("country") || textSearch == (String)m.get("city")){
-                            // add it to list
+                    // Check each location in the array
+                    for(Map<String, Object> m : locationArray){
+                        String countryMap = ((String) m.get("country")).toUpperCase();
+                        String cityMap = ((String) m.get("city")).toUpperCase();
+
+                        // Check if textSearch is included in the country or city name
+                        if (cityMap.contains(city.toUpperCase().trim()) || countryMap.contains(country.toUpperCase().trim())) {
+                            // Add the document to the list
                             Pokemon tempP = new Pokemon();
                             tempP.setID(document.getId());
+                            PokemonInformation tempPI = new PokemonInformation(tempP,null,(double)m.get("latitude"),(double)m.get("longitude"),cityMap,countryMap);
+                            adapter.add(tempPI);
                         }
                     }
-
-
                 }
             } else {
                 System.out.println("Error getting documents: " + task.getException());
-                switchToNetworkFail();
             }
         });
-
     }
 
     private void switchToNetworkFail() {

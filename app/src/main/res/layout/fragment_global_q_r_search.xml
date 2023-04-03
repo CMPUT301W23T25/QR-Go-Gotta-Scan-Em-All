@@ -51,6 +51,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/img_1" />
+
     </LinearLayout>
 
     <ListView
@@ -64,5 +65,11 @@
         android:padding="16dp" >
 
     </ListView>
+
+    <Button
+        android:id="@+id/use_current_location_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use My Current Location" />
 
 </LinearLayout>
