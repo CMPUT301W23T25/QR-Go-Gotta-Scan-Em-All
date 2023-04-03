@@ -107,7 +107,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 
         pokemonCaught = (String) getIntent().getSerializableExtra("PokemonCaught");
         TextView title = findViewById(R.id.captured_pokemon_name);
-        title.setText("It's " + pokemonCaught);
+        title.setText("It's " + new Pokemon(pokemonCaught).getName());
 
         //referenced from -https://developer.android.com/training/camera/camera-intents
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
