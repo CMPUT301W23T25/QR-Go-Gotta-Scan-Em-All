@@ -69,8 +69,8 @@
 
     <TextView
         android:id="@+id/visual_reper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="410dp"
+        android:layout_height="198dp"
         android:letterSpacing="0"
         android:maxLines="40"
         android:padding="20dp"
@@ -86,8 +86,8 @@
 
     <ImageView
         android:id="@+id/image_view_display"
-        android:layout_width="319dp"
-        android:layout_height="318dp"
+        android:layout_width="313dp"
+        android:layout_height="264dp"
         android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toTopOf="@+id/close_btn"
         app:layout_constraintEnd_toEndOf="parent"
