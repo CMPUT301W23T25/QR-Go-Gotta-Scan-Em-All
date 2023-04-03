@@ -56,13 +56,13 @@ public class QRMoreInfoFragment extends Fragment {
     private Database db;
     private Pokemon pk;
     private ArrayList<Comment> comments;
-    ArrayAdapter<Comment> commentArrayAdapter;
-    List<String> owners = new ArrayList<>();
-    ImageView cmtBtn;
-    ImageView ownBtn;
-    ListView lW;
+    private ArrayAdapter<Comment> commentArrayAdapter;
+    private List<String> owners = new ArrayList<>();
+    private ImageView cmtBtn;
+    private ImageView ownBtn;
+    private ListView lW;
 
-    ImageView closeButton;
+    private ImageView closeButton;
 
     // TODO: Rename and change types of parameters
 
@@ -236,7 +236,7 @@ public class QRMoreInfoFragment extends Fragment {
     /**
      * Shows the custom dialog box for adding a comment to the Pokemon.
      */
-    void showDialogueBox(){
+    private void showDialogueBox(){
 
 
         // Credits: Chirag-sam
@@ -280,7 +280,7 @@ public class QRMoreInfoFragment extends Fragment {
     /**
      * Shows the custom dialog box displaying the list of owners of the Pokemon.
      */
-    void ownerDialog(){
+    private void ownerDialog(){
         // Credits: Chirag-sam
         // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
         // He's the real MVP

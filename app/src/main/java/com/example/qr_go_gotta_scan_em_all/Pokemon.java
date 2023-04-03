@@ -223,7 +223,7 @@ public class Pokemon implements Serializable {
 
      @return A string representing the generated name.
      */
-    String generateName(){
+    protected String generateName(){
         char first = ID.charAt(0);
         char second = ID.charAt(1);
         char third = ID.charAt(2);

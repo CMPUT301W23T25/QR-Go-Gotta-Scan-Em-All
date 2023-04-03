@@ -60,19 +60,19 @@ public class OverviewFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private PokemonArrayAdapter pokemonArrayAdapter;
-    TextView usernameVal;
-    TextView totalScore;
-    TextView itemsScanned;
-    TextView highestScore;
-    TextView lowestScore;
-    ListView lW;
+    private TextView usernameVal;
+    private TextView totalScore;
+    private TextView itemsScanned;
+    private TextView highestScore;
+    private TextView lowestScore;
+    private ListView lW;
 
-    Database db;
+    private Database db;
 
-    ImageView deleteButton;
+    private ImageView deleteButton;
 
-    ImageView commentButton;
-    ImageView closeButton;
+    private ImageView commentButton;
+    private ImageView closeButton;
 
     private Player player;
 

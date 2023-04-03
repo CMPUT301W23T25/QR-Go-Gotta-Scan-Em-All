@@ -65,8 +65,8 @@ public class PokemonAddActivity extends AppCompatActivity {
     boolean photoAdded = false;
     private boolean locationPermissionGranted;
 
-    Database db;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private Database db;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private double longitude;
     private double lattitude;
     private String cityName;
