@@ -9,20 +9,19 @@
         android:id="@+id/close_btn"
         android:layout_width="110dp"
         android:layout_height="57dp"
-        android:layout_marginTop="1dp"
         android:text="Close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
         android:id="@+id/owners_list"
         android:layout_width="409dp"
         android:layout_height="668dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/close_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.158"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintVertical_bias="0.158" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

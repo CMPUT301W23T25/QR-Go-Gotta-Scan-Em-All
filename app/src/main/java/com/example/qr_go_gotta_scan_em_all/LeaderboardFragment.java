@@ -25,8 +25,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A fragment representing a list of Items.
@@ -43,6 +45,11 @@ public class LeaderboardFragment extends Fragment {
     private EditText regionSearchInput;
     private Button regionSearchButton;
     private String region;
+    private ConstraintLayout rankEstimateLayout;
+    private ArrayList<Player> data;
+    private TextView rankEstimateText;
+    private ArrayList<Double> scoresList;
+    private Player currentPlayer;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -50,14 +57,10 @@ public class LeaderboardFragment extends Fragment {
      */
     public LeaderboardFragment() {
     }
-    /**
 
-     Creates the view hierarchy associated with the fragment.
-     @param inflater - the LayoutInflater object that can be used to inflate any views in the fragment
-     @param container - the parent view that the fragment UI should be attached to
-     @param savedInstanceState - saved state information about the fragment, can be null
-     @return - the inflated View object for the fragment UI
-     */
+    public LeaderboardFragment(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     /**
 
@@ -77,21 +80,11 @@ public class LeaderboardFragment extends Fragment {
         regionSearchLayout = view.findViewById(R.id.region_select_layout);
         regionSearchInput = view.findViewById(R.id.city_search_edit_text);
         regionSearchButton = view.findViewById(R.id.city_search_button);
+        rankEstimateLayout = view.findViewById(R.id.rank_estimate_layout);
+        rankEstimateText = view.findViewById(R.id.rank_estimate_text_view);
 
         return view;
     }
-    /**
-
-     Called after the fragment's view has been created and makes sure that the ListView adapter is set with the
-
-     appropriate data. In this case, the data is a mock list of Players, but should be replaced with actual data from
-
-     the database.
-
-     @param view - the view hierarchy returned by onCreateView
-
-     @param savedInstanceState - saved state information about the fragment, can be null
-     */
 
     /**
 
@@ -105,12 +98,17 @@ public class LeaderboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         state = 0;
+        region = "";
 
         // Initialize the database and the adapter
         db = new Database(getContext());
-        ArrayList<Player> data = new ArrayList<>();
+        data = new ArrayList<>();
+        scoresList = new ArrayList<>();
         adapter = new LeaderboardArrayAdapter(getContext(), data);
         leaderboardListView.setAdapter(adapter);
+
+        // Initialize the leaderboard
+        updateLeaderboard();
 
         // Set on click listener for the region search button
         regionSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -130,28 +128,7 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 state = (state + 1) % 4;
-                regionSearchLayout.setVisibility(View.GONE);
-
-                // Change the leaderboard criteria text based on the state
-                switch (state) {
-                    case 0:
-                        leaderboardCriteriaText.setText("Total Score");
-                        break;
-                    case 1:
-                        leaderboardCriteriaText.setText("Pokemons Caught");
-                        break;
-                    case 2:
-                        leaderboardCriteriaText.setText("Global High");
-                        break;
-                    case 3:
-                        leaderboardCriteriaText.setText("Regional High");
-                        regionSearchLayout.setVisibility(View.VISIBLE);
-                        break;
-                }
-
-                // Notify the adapter that the data has changed
-                adapter.setState(state);
-                adapter.notifyDataSetChanged();
+                updateLeaderboard();
             }
         });
 
@@ -184,37 +161,22 @@ public class LeaderboardFragment extends Fragment {
 
                                     // add pokemonInfo to player
                                     player.addPokemon(pokemonInfo);
+
+                                    // add pokemon score to scoresList
+                                    scoresList.add(pokemon.getScore());
                                 }
 
                                 // Add player to data array
                                 data.add(player);
+
+                                // Update currentPlayer
+                                if (currentPlayer.getUserId().equals(player.getUserId())) {
+                                    Log.d("LEADERBOARD_FRAGMENT", "Current player found: " + currentPlayer.getUserName());
+                                    currentPlayer = player;
+                                }
                             }
 
-                            // Sort the data array based on the state
-                            data.sort((player1, player2) -> {
-                                switch (state) {
-                                    case 0:
-                                        return (int) Math.round(player2.getTotalScore() - player1.getTotalScore());
-                                    case 1:
-                                        return player2.getPokemonArray().size() - player1.getPokemonArray().size();
-                                    case 2:
-                                        return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
-                                    case 3:
-                                        // TODO: Implement regional high comparison
-                                        Double score1 = 0.0;
-                                        Double score2 = 0.0;
-                                        if (player1.getBestPokemonAtCity(region) != null)
-                                            score1 = player1.getBestPokemonAtCity(region).getScore();
-                                        if (player2.getBestPokemonAtCity(region) != null)
-                                            score2 = player2.getBestPokemonAtCity(region).getScore();
-                                        return (int) Math.round(score2 - score1);
-                                    default:
-                                        return 0;
-                                }
-                            });
-
-                            // Notify the adapter that the data has changed
-                            adapter.notifyDataSetChanged();
+                            updateDataOrder();
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get succeeded.");
                         } else {
                             Log.d("LEADERBOARD_FRAGMENT", "Cached get failed: ", task.getException());
@@ -239,5 +201,84 @@ public class LeaderboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void updateLeaderboard() {
+        // Hide the conditional layouts
+        rankEstimateLayout.setVisibility(View.GONE);
+        regionSearchLayout.setVisibility(View.GONE);
+
+        // Change the leaderboard criteria text based on the state
+        switch (state) {
+            case 0:
+                leaderboardCriteriaText.setText("Total Score");
+                break;
+            case 1:
+                leaderboardCriteriaText.setText("Pokemons Caught");
+                break;
+            case 2:
+                leaderboardCriteriaText.setText("Global High");
+                rankEstimateLayout.setVisibility(View.VISIBLE);
+                updateRankEstimate();
+                break;
+            case 3:
+                leaderboardCriteriaText.setText("Regional High");
+                regionSearchLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+
+        updateDataOrder();
+
+        // Notify the adapter that the data has changed
+        adapter.setState(state);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void updateDataOrder() {
+        // Sort the data array based on the state
+        data.sort((player1, player2) -> {
+            switch (state) {
+                case 0:
+                    return (int) Math.round(player2.getTotalScore() - player1.getTotalScore());
+                case 1:
+                    return player2.getPokemonArray().size() - player1.getPokemonArray().size();
+                case 2:
+                    return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
+                case 3:
+                    Double score1 = 0.0;
+                    Double score2 = 0.0;
+
+                    if (player1.getBestPokemonAtCity(region) != null)
+                        score1 = player1.getBestPokemonAtCity(region).getScore();
+                    if (player2.getBestPokemonAtCity(region) != null)
+                        score2 = player2.getBestPokemonAtCity(region).getScore();
+
+                    return (int) Math.round(score2 - score1);
+                default:
+                    return 0;
+            }
+        });
+
+        // Notify the adapter that the data has changed
+        adapter.notifyDataSetChanged();
+    }
+
+    private void updateRankEstimate() {
+        // Get the current player's score
+        Double score = currentPlayer.getBestPokemon().getScore();
+
+        // Remove duplicate scores from the scoresList
+        Set<Double> set = new HashSet<>(scoresList);
+        scoresList.clear();
+        scoresList.addAll(set);
+
+        // Sort the scoresList in descending order
+        scoresList.sort((score1, score2) -> (int) Math.round(score2 - score1));
+
+        // Get the rank of the current player
+        int rank = scoresList.indexOf(score) + 1;
+
+        // Update the rank estimate text
+        rankEstimateText.setText(String.valueOf(rank));
     }
 }
