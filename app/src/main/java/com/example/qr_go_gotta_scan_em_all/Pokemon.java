@@ -128,7 +128,6 @@ public class Pokemon implements Serializable {
         ));
 
         nameList.add(Arrays.asList(
-                " /\\                 /\\\n",
                 "/ \\'._   (\\_/)   _.'/ \\\n",
                 "|.''._'--(o.o)--'_.''.|\n",
                 " \\_ / `;=/ \" \\=;` \\ _/\n",
@@ -209,9 +208,7 @@ public class Pokemon implements Serializable {
 
         nameList.add(Arrays.asList(
                 "     (()__(()\n",
-                "     /       \\ \n",
-                "    ( /    \\  \\\n",
-                "     \\(o o)   /\n",
+                "     \\(o o)  \\\n",
                 "     (_()_)__/ \\\n",
                 "    / _,==.____ \\\n",
                 "   (   |--|      )\n",
@@ -470,6 +467,8 @@ public class Pokemon implements Serializable {
                     if (glassesIndex == glasses.length()){
                         insideParentheses = false;
                     }
+               } else {
+                   result.append(currentChar);
                }
            }
            newEyes = result.toString();
