@@ -110,7 +110,14 @@ public class LoginActivity extends AppCompatActivity {
                     // Intent class will help to go to next activity using
                     // it's object named intent.
                     // SecondActivity is the name of new created EmptyActivity.
-                    createUserSession();
+                    userName = userText.getText().toString();
+                    String refinedUserName = userName.trim();
+
+                    if(!refinedUserName.equals("")) {
+                        createUserSession();
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Cannot use blank username", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -133,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
      * created.
      */
     private void createUserSession() {
-        userName = userText.getText().toString();
+
 
         // Firstly check the the database if the userName is taken or not.
         // isUserNameTaken(userName);
@@ -144,25 +151,21 @@ public class LoginActivity extends AppCompatActivity {
         isUserNameTaken(userName, new OnCheckUsernameCallback() {
             @Override
             public void onResult(boolean isTaken) {
-                String refinedUserName = userName.trim();
 
-                if(refinedUserName != ""){
-                    if (!isTaken) {
-                        player = playerFactory.generatePlayer();
-                        player.setUserName(userName);
+                if (!isTaken) {
+                    player = playerFactory.generatePlayer();
+                    player.setUserName(userName);
 
-                        // add the player to DB
-                        addPlayer(player);
+                    // add the player to DB
+                    addPlayer(player);
 
-                        intent.putExtra("player", player);
-                        switchToMainActivity();
+                    intent.putExtra("player", player);
+                    switchToMainActivity();
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
-                    }
-                } else{
-                    Toast.makeText(LoginActivity.this, "Cannot use blank username", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         });

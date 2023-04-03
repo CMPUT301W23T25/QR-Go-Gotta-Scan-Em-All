@@ -15,6 +15,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
 
@@ -86,29 +88,29 @@ public class Pokemon implements Serializable {
      * Returns the visual representation of the Pokemon.
      * @return The visual representation of the Pokemon.
      */
+//    public String visualReper(){
+//        String binary = hexToBinary(this.ID);
+//        List<List<String>> nameList = new ArrayList<List<String>>();
+//        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
+//        nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
+//        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
+//        nameList.add(Arrays.asList("| ,`` ,|","|      |"));
+//        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
+//        nameList.add(Arrays.asList("|______|","\\______/"));
+//
+//        String name = "";
+//        for (int i = 0; i < nameList.size(); i++){
+//            String temp = "";
+//            char c = binary.charAt(i);
+//            temp+=c ;
+//            int index = Integer.parseInt(temp);
+//            name += nameList.get(i).get(index) +"\n";
+//
+//        }
+//        return name;
+//    }
+
     public String visualReper(){
-        String binary = hexToBinary(this.ID);
-        List<List<String>> nameList = new ArrayList<List<String>>();
-        nameList.add(Arrays.asList("/\\____/\\","/    \\"));
-        nameList.add(Arrays.asList("| _  _ |","| 0  0 |"));
-        nameList.add(Arrays.asList("|  ||  |","@  ||  @"));
-        nameList.add(Arrays.asList("| ,`` ,|","|      |"));
-        nameList.add(Arrays.asList("| `--` |","|/----\\|"));
-        nameList.add(Arrays.asList("|______|","\\______/"));
-
-        String name = "";
-        for (int i = 0; i < nameList.size(); i++){
-            String temp = "";
-            char c = binary.charAt(i);
-            temp+=c ;
-            int index = Integer.parseInt(temp);
-            name += nameList.get(i).get(index) +"\n";
-
-        }
-        return name;
-    }
-
-    public String visualReperN(){
         List<List<String>> nameList = new ArrayList<List<String>>();
 
         // There are 20 possible different pokemon bodies
@@ -267,8 +269,6 @@ public class Pokemon implements Serializable {
 
         nameList.add(Arrays.asList(
                 "   .,--.\n",
-                " .' __  \\\n",
-                " | .._  |\n",
                 " |(} {)|\n",
                 " / /|  |.\n",
                 "(_/ /____)\n",
@@ -318,7 +318,8 @@ public class Pokemon implements Serializable {
         ));
 
         String hat =" [```]\n=======\n";
-        String glasses = "(◪-◪)";
+        String glasses = "◪-◪";
+        String ak47 = "︻╦╤─";
 
         // Determine the Pokemon
         char first = ID.charAt(0);
@@ -329,7 +330,7 @@ public class Pokemon implements Serializable {
         char sixth = ID.charAt(5);
         boolean isHat = false;
         boolean isGlasses = false;
-        List<String> pokemon;
+        List<String> pokemon = new ArrayList<>();
         String name = "";
 
         // Mega or not
@@ -346,10 +347,7 @@ public class Pokemon implements Serializable {
         // 8, 9, a, b = Ghost
         // c, d, e, f = Water
 
-        List<String> normalPokemon = Arrays.asList("Meowth", "Evee", "Snorlax", "Ditto", "Kangaskhan", "Tauros", "Bidoof", "Null");
-        List<String> electricPokemon = Arrays.asList("Pikachu", "Raichu", "Jolteon", "Raikou", "Bellibolt", "Electrode", "Electivire", "Zeraora");
-        List<String> ghostPokemon = Arrays.asList("Gengar", "Dusknoir", "Cofagrigus", "Sinistea", "Spectrier", "Giratina", "Palossand", "Mimikyu");
-        List<String> waterPokemon = Arrays.asList("Blastoise", "Psyduck", "Golduck", "Vaporeon", "Wailord", "Quaxly", "Wiglett", "Gyarados");
+
 
         if (first == '0' || first == '1' || first == '2' || first == '3'){
             // Handle Normal Names
@@ -374,89 +372,131 @@ public class Pokemon implements Serializable {
         } else if (first == '4' || first == '5' || first == '6' || first == '7'){
             // Handle Electric names
             if (second == '0' || second == '1') {
-                pokemon = electricPokemon.get(0);
+                pokemon = nameList.get(4);
             } else if (second == '2' || second == '3') {
-                pokemon = electricPokemon.get(1);
+                pokemon = nameList.get(4);
             } else if (second == '4' || second == '5') {
-                pokemon = electricPokemon.get(2);
+                pokemon = nameList.get(5);
             } else if (second == '6' || second == '7') {
-                pokemon = electricPokemon.get(3);
+                pokemon = nameList.get(6);
             } else if (second == '8' || second == '9') {
-                pokemon = electricPokemon.get(4);
+                pokemon = nameList.get(7);
             } else if (second == 'a' || second == 'b') {
-                pokemon = electricPokemon.get(5);
+                pokemon = nameList.get(8);
             } else if (second == 'c' || second == 'd') {
-                pokemon = electricPokemon.get(6);
+                pokemon = nameList.get(9);
             } else if (second == 'e' || second == 'f') {
-                pokemon = electricPokemon.get(7);
+                pokemon = nameList.get(10);
             }
         } else if (first == '8' || first == '9' || first == 'a' || first == 'b'){
             // Handle Ghost names
             if (second == '0' || second == '1') {
-                pokemon = ghostPokemon.get(0);
+                pokemon = nameList.get(11);
             } else if (second == '2' || second == '3') {
-                pokemon = ghostPokemon.get(1);
+                pokemon = nameList.get(11);
             } else if (second == '4' || second == '5') {
-                pokemon = ghostPokemon.get(2);
+                pokemon = nameList.get(12);
             } else if (second == '6' || second == '7') {
-                pokemon = ghostPokemon.get(3);
+                pokemon = nameList.get(12);
             } else if (second == '8' || second == '9') {
-                pokemon = ghostPokemon.get(4);
+                pokemon = nameList.get(13);
             } else if (second == 'a' || second == 'b') {
-                pokemon = ghostPokemon.get(5);
+                pokemon = nameList.get(13);
             } else if (second == 'c' || second == 'd') {
-                pokemon = ghostPokemon.get(6);
+                pokemon = nameList.get(1);
             } else if (second == 'e' || second == 'f') {
-                pokemon = ghostPokemon.get(7);
+                pokemon = nameList.get(1);
             }
         } else{
             // Handle Water names
             if (second == '0' || second == '1') {
-                pokemon = waterPokemon.get(0);
+                pokemon = nameList.get(14);
             } else if (second == '2' || second == '3') {
-                pokemon = waterPokemon.get(1);
+                pokemon = nameList.get(14);
             } else if (second == '4' || second == '5') {
-                pokemon = waterPokemon.get(2);
+                pokemon = nameList.get(15);
             } else if (second == '6' || second == '7') {
-                pokemon = waterPokemon.get(3);
+                pokemon = nameList.get(16);
             } else if (second == '8' || second == '9') {
-                pokemon = waterPokemon.get(4);
+                pokemon = nameList.get(17);
             } else if (second == 'a' || second == 'b') {
-                pokemon = waterPokemon.get(5);
+                pokemon = nameList.get(17);
             } else if (second == 'c' || second == 'd') {
-                pokemon = waterPokemon.get(6);
+                pokemon = nameList.get(18);
             } else if (second == 'e' || second == 'f') {
-                pokemon = waterPokemon.get(7);
+                pokemon = nameList.get(19);
             }
         }
 
-        name += pokemon;
 
         // Cap or no cap
         if (fifth == '0' || fifth == '1' || fifth == '2' || fifth == '3' ||
                 fifth == '4' || fifth == '5' || fifth == '6' || fifth == '7') {
-            name += " with Cap";
+            pokemon.add(0,hat);
             isHat = true;
         }
         // Sunglasses or no sunglasses
         if (sixth == '0' || sixth == '1' || sixth == '2' || sixth == '3' ||
                 sixth == '4' || sixth == '5' || sixth == '6' || sixth == '7') {
+
+            int indexModifed;
             if(isHat){
-                name += " and Glasses";
+                // eyes will be on 3rd index
+                indexModifed = 3;
             } else{
-                name += " with Glasses";
+                // eyes will be on 1st index
+                indexModifed = 1;
             }
+
+            String oldEyes = pokemon.get(indexModifed);
+
+
+           String newEyes;
+
+           StringBuilder result = new StringBuilder();
+           boolean insideParentheses = false;
+           int glassesIndex = 0;
+
+           for (int i = 0; i < oldEyes.length(); i++) {
+               char currentChar = oldEyes.charAt(i);
+
+               if (currentChar == '(') {
+                    insideParentheses = true;
+               } else if (currentChar == ')') {
+                    insideParentheses = false;
+               } else if (insideParentheses) {
+                    result.append(glasses.charAt(glassesIndex));
+                    glassesIndex++;
+                    if (glassesIndex == glasses.length()){
+                        insideParentheses = false;
+                    }
+               }
+           }
+           newEyes = result.toString();
+           pokemon.set(indexModifed,newEyes);
+           // iterate through the string until a ( is reached, replace everything between the ( until a ) is reached
             isGlasses = true;
         }
+
+
+
+
 
         if (isGlasses && isHat){
             // Sigma or not
             if (fourth == '0' || fourth == '1' || fourth == '2' || fourth == '3' ||
                     fourth == '4' || fourth == '5' || fourth == '6' || fourth == '7') {
-                name += " **Sigma**";
+               pokemon.add(ak47);
             }
         }
-        return name;
+        // Put all the strings in ArrayList together into one
+        String finalString = "";
+
+        for(String s:pokemon){
+            finalString += s;
+        }
+
+        return finalString;
 
     }
 
