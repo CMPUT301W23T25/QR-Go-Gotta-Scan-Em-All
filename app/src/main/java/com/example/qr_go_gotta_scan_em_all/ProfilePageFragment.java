@@ -204,6 +204,10 @@ public class ProfilePageFragment extends Fragment {
         });
     }
 
+    /**
+     * Updates the email address for the current player in the Firebase Firestore database.
+     * @param email The new email address for the player.
+     */
     private void updateEmailAddress(String email){
         String playerId = player.getUserId();
 
@@ -215,6 +219,9 @@ public class ProfilePageFragment extends Fragment {
                 .addOnFailureListener(e -> switchToNetworkFail());
     }
 
+    /**
+     * Switches to the ConnectionErrorActivity and finishes the current activity.
+     */
     private void switchToNetworkFail() {
         startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
         getActivity().finish();

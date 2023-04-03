@@ -164,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
         goToOverview();
         handleNavBar();
         handlePokeBall();
-        initTestPokemon();
-
+//        initTestPokemon();
     }
 
     /**
@@ -476,13 +475,13 @@ public class MainActivity extends AppCompatActivity {
      * If the Pokemon doesn't exist in the player's owned list, it's added to the database.
      */
     private void initTestPokemon(){
-        PokemonInformation pI = createTestPokemon();
-        // add test to db
-        addToPokemonCol(pI);
-        if(!checkPokemonExistsOwnedPlayer(pI.getPokemon())){
-            // add it to dn
-            addPokemonToPlayerArray(pI);
-        }
+//        PokemonInformation pI = createTestPokemon();
+//        // add test to db
+//        addToPokemonCol(pI);
+//        if(!checkPokemonExistsOwnedPlayer(pI.getPokemon())){
+//            // add it to dn
+//            addPokemonToPlayerArray(pI);
+//        }
     }
 
     /**
