@@ -380,7 +380,9 @@ public class QRMoreInfoFragment extends Fragment {
             }
         });
     }
-
+    /**
+     * Switch to the ConnectionErrorActivity in case of network failure.
+     */
     private void switchToNetworkFail() {
         startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
         getActivity().finish();
