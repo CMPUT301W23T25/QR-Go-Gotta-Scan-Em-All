@@ -168,6 +168,7 @@ public class ProfilePageFragment extends Fragment {
         ImageView closeButton = dialog.findViewById(R.id.close_button);
         ImageView saveButton = dialog.findViewById(R.id.save_button);
         EditText emailTxt = dialog.findViewById(R.id.email_textview);
+        dialog.show();
 
 
         closeButton.setOnClickListener(new View.OnClickListener() {
