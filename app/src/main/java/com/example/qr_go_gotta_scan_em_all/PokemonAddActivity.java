@@ -60,7 +60,6 @@ public class PokemonAddActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Bitmap locationImgRaw;
     private String pokemonCaught;
-//    private byte[] locationImgCompressed;
 
     boolean locationAdded = false;
     boolean photoAdded = false;
@@ -320,14 +319,7 @@ public class PokemonAddActivity extends AppCompatActivity {
 //    }
 
 
-    /**
 
-     Starts the NetworkFailActivity and finishes the current activity.
-     */
-    private void switchToNetworkFail() {
-        startActivity(new Intent(PokemonAddActivity.this, ConnectionErrorActivity.class));
-        finish();
-    }
 
 
 

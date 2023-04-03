@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
     // https://github.com/hamidsaid/Modern-Bottom-Navigation/tree/main/app/src
     private BottomNavigationView btmNavView;
     private FloatingActionButton pokeBall;
-    private String qrResult;
-
     private Player player;
 
     private Intent switchLoginIntent;
@@ -404,6 +402,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Handle failure, if needed
+                        switchToNetworkFail();
                     }
                 });
     }
@@ -474,6 +473,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
+                    switchToNetworkFail();
                 }
             }
         });
@@ -505,7 +505,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Handle failure, if needed
+                        switchToNetworkFail();
                     }
                 });
     }
+
+
 }
