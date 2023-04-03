@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
-
+/**
+ * PlayerSearchFragment is a Fragment that allows users to search for other players.
+ * It displays a search bar where users can input the player's username and see the search results in a list.
+ */
 public class PlayerSearchFragment extends Fragment {
     private FragmentManager fragmentManager;
     private ImageView playerSearchButton;
@@ -42,11 +45,21 @@ public class PlayerSearchFragment extends Fragment {
     public PlayerSearchFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Constructs a new PlayerSearchFragment with the provided FragmentManager.
+     * @param fragmentManager FragmentManager to manage this fragment.
+     */
     public PlayerSearchFragment(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return View Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +69,12 @@ public class PlayerSearchFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle) has returned,
+     * but before any saved state has been restored in to the view.
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle).
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -117,7 +136,9 @@ public class PlayerSearchFragment extends Fragment {
             startActivity(intent);
         });
     }
-
+    /**
+     * Fetches the search results based on the text entered in the search bar and updates the ListView accordingly.
+     */
     private void showSearchResults() {
         // Get the text from the search bar
         String text = playerSearchBar.getText().toString();

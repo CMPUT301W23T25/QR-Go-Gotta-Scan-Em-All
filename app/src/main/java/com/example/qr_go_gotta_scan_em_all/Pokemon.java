@@ -361,7 +361,12 @@ public class Pokemon implements Serializable {
         }
         return name;
     }
-
+    /**
+     * Compresses the given Bitmap image to a byte array using the JPEG format with a specified compression quality.
+     *
+     * @param img The Bitmap image to be compressed.
+     * @return A byte array representing the compressed image data.
+     */
     private byte[] compressImage(Bitmap img){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 50, stream);

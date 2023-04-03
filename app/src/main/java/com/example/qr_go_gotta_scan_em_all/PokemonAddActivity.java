@@ -263,7 +263,12 @@ public class PokemonAddActivity extends AppCompatActivity {
 
 
     }
-
+    /**
+     * The getIMGBytes method compresses a given Bitmap image and returns the resulting byte array.
+     *
+     * @param img The Bitmap image to be compressed.
+     * @return A byte array representing the compressed image data.
+     */
     private byte[] getIMGBytes(Bitmap img){
         // Compresses the BMP
         ByteArrayOutputStream out = new ByteArrayOutputStream();
