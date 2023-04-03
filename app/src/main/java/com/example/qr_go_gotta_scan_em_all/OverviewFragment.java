@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import static java.lang.Double.parseDouble;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -313,6 +314,7 @@ public class OverviewFragment extends Fragment {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error updating document", e);
+                                    switchToNetworkFail();
                                 }
                             });
                 }
@@ -351,6 +353,11 @@ public class OverviewFragment extends Fragment {
 
         }
         return lowestScoringQRName;
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
+        getActivity().finish();
     }
 
 }
