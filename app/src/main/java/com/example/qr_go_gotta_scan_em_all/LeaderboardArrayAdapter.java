@@ -32,12 +32,7 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
      * @param objects The ArrayList of Player objects to be displayed in the
      *                ListView.
      */
-    /**
-     * Constructor for the LeaderboardArrayAdapter class.
-     *
-     * @param context The context of the current activity.
-     * @param objects An ArrayList of Player objects to display in the list.
-     */
+
     public LeaderboardArrayAdapter(@NonNull Context context, @NonNull ArrayList<Player> objects) {
         super(context, 0, objects);
         state = 0;
@@ -52,14 +47,7 @@ public class LeaderboardArrayAdapter extends ArrayAdapter<Player> {
      *                    attached to.
      * @return The new view for the list item at the specified position.
      */
-    /**
-     * Gets the View for each item in the ListView.
-     * 
-     * @param position    The position of the item in the ListView.
-     * @param convertView The old view to reuse, if possible.
-     * @param parent      The parent view group of the item.
-     * @return The View for the item at the specified position in the ListView.
-     */
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

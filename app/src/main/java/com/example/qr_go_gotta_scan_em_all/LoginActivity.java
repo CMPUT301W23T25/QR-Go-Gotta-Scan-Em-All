@@ -39,7 +39,7 @@ import java.util.Map;
 
 /**
  * 
- * <<<<<<< HEAD
+ *
  * The {@link: LoginActivity} class is responsible for handling the user login
  * process and creating a user session.
  * 
@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * <<<<<<< HEAD
+     *
      * 
      * Called when the activity is starting.
      * Initializes the UI elements and database object and checks if the user is
