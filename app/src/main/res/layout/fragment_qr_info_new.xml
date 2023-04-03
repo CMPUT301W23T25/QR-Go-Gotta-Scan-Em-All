@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/visual_reper"
                 android:layout_width="match_parent"
-                android:layout_height="212dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
                 android:maxLines="20"
@@ -39,15 +39,15 @@
                 android:text="----"
                 android:textAlignment="center"
                 android:textSize="16sp" />
+
+            <ListView
+                android:id="@+id/comments_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1" />
         </LinearLayout>
     </ScrollView>
-
-    <ListView
-        android:id="@+id/comments_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"

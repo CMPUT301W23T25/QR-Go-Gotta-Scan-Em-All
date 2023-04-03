@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GlobalQRSearchFragment#newInstance} factory method to
@@ -32,6 +34,8 @@ public class GlobalQRSearchFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Player p;
+
+    private ArrayList<Pokemon> pokemonNearMeList;
 
     public GlobalQRSearchFragment() {
         // Required empty public constructor
@@ -71,7 +75,10 @@ public class GlobalQRSearchFragment extends Fragment {
         db = new Database(getActivity().getApplicationContext());
         lW = view.findViewById(R.id.listview_pokemon);
 
+
     }
+
+
 
 
 
