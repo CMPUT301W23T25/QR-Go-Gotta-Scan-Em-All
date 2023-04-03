@@ -18,6 +18,14 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     private Intent try_again_attempt;
     private ImageView try_again_btn;
 
+    /**
+     * Called when the activity is starting. This is where most initialization should go.
+     * Sets the view, initializes the try_again_intent, and sets an onClickListener on the try_again_btn.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down
+     *                           then this Bundle contains the data it most recently supplied in
+     *                           onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

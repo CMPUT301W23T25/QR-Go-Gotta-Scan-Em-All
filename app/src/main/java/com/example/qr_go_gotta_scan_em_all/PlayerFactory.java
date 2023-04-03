@@ -27,6 +27,11 @@ public class PlayerFactory implements Serializable {
                     Settings.Secure.ANDROID_ID);
      }
 
+     /**
+      * Generates a new Player instance using the unique user ID.
+      *
+      * @return A Player instance with the generated ID based on the Android ID.
+      */
      public Player generatePlayer() {
           Player player = new Player(userId);
           return player;

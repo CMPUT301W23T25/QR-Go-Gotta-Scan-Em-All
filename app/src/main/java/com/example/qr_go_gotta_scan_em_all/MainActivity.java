@@ -103,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
     });
+
+    /**
+     * ActivityResultLauncher object to handle the result of starting the activity
+     * for adding a Pokemon. On successful addition, it checks if the Pokemon is
+     * already in the player's array. If not, it adds the Pokemon to the Firestore
+     * collection, the player's database, and the local array. If it's a duplicate,
+     * it displays a message informing the user.
+     */
     ActivityResultLauncher<Intent> startPokemonAdd = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -129,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
 
             });
 
+    /**
+     * The onCreate method initializes the main activity, sets the layout, and
+     * sets up the navigation bar and other UI elements. It also initializes the
+     * database and the player object, and handles the Poke Ball UI element.
+     *
+     * @param savedInstanceState A Bundle object containing the activity's previous state, if it exists.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,12 +168,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The onResume method is called when the activity enters the Resumed state.
+     * It is used to perform any necessary UI updates or other tasks when the
+     * activity becomes visible again.
+     */
     @Override
     public void onResume() {
         super.onResume();
 
     }
 
+    /**
+     * This method sets up the navigation bar to handle menu item clicks.
+     * It switches between the different fragments associated with each menu item.
+     */
     private void handleNavBar() {
 
         btmNavView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -351,12 +375,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * This method switches to a ConnectionErrorActivity when there is a network failure.
+     * It finishes the current activity before starting the new one.
+     */
     private void switchToNetworkFail() {
         startActivity(new Intent(MainActivity.this, ConnectionErrorActivity.class));
         finish();
     }
 
+    /**
+     * This method checks if a specific Pokemon is already owned by the player.
+     * It iterates through the player's Pokemon array and compares the IDs.
+     *
+     * @param p The Pokemon object to check for in the player's owned Pokemon.
+     * @return true if the Pokemon is owned by the player, false otherwise.
+     */
     private boolean checkPokemonExistsOwnedPlayer(Pokemon p){
         for (PokemonInformation pI: player.getPokemonArray()){
             if(Objects.equals(pI.getPokemon().getID(), p.getID())){
@@ -367,6 +401,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * This method adds a given Pokemon to the player's array of owned Pokemon.
+     * It updates the player document in the Firestore with the new Pokemon and its information.
+     * In case of network failure or any other error, it will switch to a network fail UI.
+     *
+     * @param pI The PokemonInformation object containing the information of the Pokemon to be added.
+     */
     private void addPokemonToPlayerArray(PokemonInformation pI){
         // Update the player document with the new Pokemon
         player.addPokemon(pI);
@@ -407,6 +448,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * This method creates a test Pokemon object for testing purposes.
+     * It initializes the Pokemon with a specific ID, image, location, and other information.
+     *
+     * @return The created PokemonInformation object.
+     */
     private PokemonInformation createTestPokemon(){
         String pID = "28b9bc2e675baf98ca6798979f6d092eb743cf7ee5e770a822871bc752a9ce60";
         Pokemon pK = new Pokemon();
@@ -423,6 +470,11 @@ public class MainActivity extends AppCompatActivity {
         return pI;
     }
 
+    /**
+     * This method initializes the test Pokemon by creating a test PokemonInformation object
+     * and adding it to the Firestore collection if it's not already owned by the player.
+     * If the Pokemon doesn't exist in the player's owned list, it's added to the database.
+     */
     private void initTestPokemon(){
         PokemonInformation pI = createTestPokemon();
         // add test to db
@@ -433,6 +485,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method adds a new Pokemon and its information to the Firestore collection.
+     * If the Pokemon with the given ID already exists, it will not add a new entry.
+     * Otherwise, it will create a new document in the collection with the Pokemon's information.
+     * In case of network failure or any other error, it will switch to a network fail UI.
+     *
+     * @param p The PokemonInformation object containing the information of the Pokemon to be added.
+     */
     private void addToPokemonCol(PokemonInformation p){
         String ID = p.getPokemon().getID();
         HashMap<String, Object> pMap = new HashMap<>();
@@ -481,6 +541,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method adds a new location to the Firestore collection for the given Pokemon.
+     * The location is added to an array in the document with the Pokemon's ID.
+     * In case of network failure or any other error, it will switch to a network fail UI.
+     *
+     * @param p The PokemonInformation object containing the location information to be added.
+     */
     private void addPokemonLocationToCollection(PokemonInformation p){
         // add the location to the database
         DocumentReference pokemonLocationsRef = db.getPokemonCol().document(p.getPokemon().getID());

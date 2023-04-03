@@ -237,6 +237,10 @@ public class MapsActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Switches the current activity to the ConnectionErrorActivity to display a network failure message
+     * and closes the current activity.
+     */
     private void switchToNetworkFail() {
         startActivity(new Intent(MapsActivity.this, ConnectionErrorActivity.class));
         finish();
