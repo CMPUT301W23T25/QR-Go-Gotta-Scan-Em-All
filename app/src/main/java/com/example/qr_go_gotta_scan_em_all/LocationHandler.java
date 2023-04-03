@@ -17,17 +17,32 @@ import java.util.Locale;
 import android.Manifest;
 import android.util.Pair;
 
+/**
+ * LocationHandler class is responsible for obtaining the device's
+ * current location and providing city and country name based on
+ * the location.
+ */
 public class LocationHandler implements LocationListener {
 
     private final Context mContext;
     private LocationManager locationManager;
     private Location currentLocation;
 
+    /**
+     * Constructor for the LocationHandler class.
+     *
+     * @param context The context in which the LocationHandler is used.
+     */
     public LocationHandler(Context context) {
         mContext = context;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
+    /**
+     * Get the current location of the device.
+     *
+     * @return The current Location object or null if permission is not granted.
+     */
     public Location getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -42,6 +57,12 @@ public class LocationHandler implements LocationListener {
         return currentLocation;
     }
 
+    /**
+     * Get the city and country name based on the provided location.
+     *
+     * @param location The Location object containing the latitude and longitude.
+     * @return A Pair<String, String> containing the country name and city name.
+     */
     public Pair<String,String> getCityAndCountry(Location location) {
 
         String city = "";
@@ -64,11 +85,19 @@ public class LocationHandler implements LocationListener {
         return new Pair<String,String>(country,city);
     }
 
+    /**
+     * Callback method when the device's location changes.
+     *
+     * @param location The updated Location object.
+     */
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
     }
 
+    /**
+     * Start requesting location updates.
+     */
     public void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -79,6 +108,9 @@ public class LocationHandler implements LocationListener {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
     }
 
+    /**
+     * Stop requesting location updates.
+     */
     public void stopLocationUpdates() {
         locationManager.removeUpdates(this);
     }
