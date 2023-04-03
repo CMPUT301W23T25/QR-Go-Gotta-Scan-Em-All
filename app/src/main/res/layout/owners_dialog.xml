@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageView
         android:id="@+id/close_btn"
-        android:layout_width="110dp"
-        android:layout_height="57dp"
-        android:text="Close"
+        android:layout_width="124dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/owners_list"
+        app:srcCompat="@drawable/close_button" />
 
     <ListView
         android:id="@+id/owners_list"
