@@ -39,9 +39,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link QRMoreInfoFragment} factory method to
- * create an instance of this fragment.
+
+ A fragment representing the more info screen for a specific Pokemon with its comments and owners.
+ Activities that contain this fragment must implement the {@link QRMoreInfoFragment.OnFragmentInteractionListener} interface
+ to handle interaction events.
+ create an instance of this fragment.
  */
 public class QRMoreInfoFragment extends Fragment {
 
@@ -68,7 +70,12 @@ public class QRMoreInfoFragment extends Fragment {
     public QRMoreInfoFragment() {
         // Required empty public constructor
     }
-
+    /**
+     * Constructor that initializes the fragment with the provided player and Pokemon instances.
+     *
+     * @param p  The Player object
+     * @param pk The Pokemon object
+     */
     public QRMoreInfoFragment(Player p, Pokemon pk) {
         // Needed for checking if the pokemon the player is commenting on is actually in the array or not.
         this.p = p;
@@ -76,13 +83,25 @@ public class QRMoreInfoFragment extends Fragment {
         this.comments = new ArrayList<>();
     }
 
-
+    /**
+     * Called to do the initial creation of a fragment.
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * Called after onCreateView, allows to set up any additional views and event listeners.
+     *
+     * @param view               The View returned by onCreateView.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         db = new Database(getActivity().getApplicationContext());
@@ -125,7 +144,18 @@ public class QRMoreInfoFragment extends Fragment {
             }
         });
     }
-
+    /**
+     * Called when the view hierarchy associated with the fragment is being created.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to. The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return The View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,6 +163,9 @@ public class QRMoreInfoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_qr_info_new, container, false);
     }
 
+    /**
+     * Retrieves the comments for the current Pokemon from the database and adds them to the comments list.
+     */
     private void getCommentsFromDB(){
 //        db.getPokemonCol().document(pk.getID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //            @Override
@@ -219,7 +252,9 @@ public class QRMoreInfoFragment extends Fragment {
 
 
     }
-
+    /**
+     * Shows the custom dialog box for adding a comment to the Pokemon.
+     */
     void showDialogueBox(){
 
 
@@ -261,7 +296,9 @@ public class QRMoreInfoFragment extends Fragment {
         dialog.show();
 
     }
-
+    /**
+     * Shows the custom dialog box displaying the list of owners of the Pokemon.
+     */
     void ownerDialog(){
         // Credits: Chirag-sam
         // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
@@ -289,7 +326,11 @@ public class QRMoreInfoFragment extends Fragment {
         dialog.show();
 
     }
-
+    /**
+     * Adds the specified comment to the Pokemon's comments array and updates the database.
+     *
+     * @param c The Comment object to be added.
+     */
     private void addComment(Comment c){
         // Add the comment to the Pokemon's comments array
         Map<String,String> m = new HashMap<>();
@@ -312,7 +353,12 @@ public class QRMoreInfoFragment extends Fragment {
                 });
         commentArrayAdapter.add(c);
     }
-
+    /**
+     * Checks if the specified Pokemon exists in the player's owned Pokemon list.
+     *
+     * @param px The Pokemon object to be checked.
+     * @return True if the player owns the Pokemon, otherwise false.
+     */
     private boolean checkPokemonExistsOwnedPlayer(Pokemon px){
         for (PokemonInformation pI: p.getPokemonArray()){
             if(Objects.equals(pI.getPokemon().getID(), px.getID())){
@@ -322,7 +368,9 @@ public class QRMoreInfoFragment extends Fragment {
         }
         return false;
     }
-
+    /**
+     * Retrieves the list of owners for the current Pokemon from the database and adds them to the owners list.
+     */
     private void getOwners(){
         // Query the player collection
         db.getPlayerCol().get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
