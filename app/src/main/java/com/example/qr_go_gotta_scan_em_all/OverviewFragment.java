@@ -227,12 +227,8 @@ public class OverviewFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // your handler code here
-
-                totalScore.setText("Total Score: " + Double.toString(player.getTotalScore()));
-                highestScore.setText("Highest Scoring: " + player.getBestPokemon());
-                lowestScore.setText("Lowest Scoring: " + getWorstPokemon());
-                itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
                 deleteFromPlayerList(position);
+
                 dialog.dismiss();
             }
         });
@@ -267,9 +263,46 @@ public class OverviewFragment extends Fragment {
          */
         private void deleteFromPlayerList(int pos){
 
+
+
             PokemonInformation pI = player.getPokemonArray().get(pos);
             String valueToDelete = pI.getPokemon().getID();
             pokemonArrayAdapter.remove(pI);
+
+            double totalScoreNum = 0.0;
+            double minScore = Double.POSITIVE_INFINITY;
+            double maxScore = 0.0;
+            String lowestScoringQRName = "";
+            String highestScoringQRName = "";
+
+
+            try {
+                System.out.println(player.getUserName());
+                usernameVal.setText(player.getUserName());
+
+                for (int i = 0; i < player.getPokemonArray().size(); i++) {
+                    double pScore = player.getPokemonArray().get(i).getPokemon().getScore();
+                    totalScoreNum += pScore;
+                    if (pScore > maxScore) {
+                        maxScore = pScore;
+                        highestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
+                    }
+                    if (pScore < minScore) {
+                        minScore = pScore;
+                        lowestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
+                    }
+                }
+            }catch (NullPointerException e){
+                System.out.println("loading db");
+            }
+
+
+
+            totalScore.setText("Total Score: " + Double.toString(totalScoreNum));
+            highestScore.setText("Highest Scoring: " + highestScoringQRName);
+            lowestScore.setText("Lowest Scoring: " + lowestScoringQRName);
+            itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
+
 
 // Retrieve the document containing the array field that needs to be modified
             DocumentReference docRef = db.getPlayerCol().document(player.getUserId());
@@ -326,30 +359,8 @@ public class OverviewFragment extends Fragment {
     }
 
     /**
-     * Returns the name of the lowest scoring Pokémon in the player's collection.
-     *
-     * @return The name of the Pokémon with the lowest score, or an empty string if the player has no Pokémon.
+     * Switch to the ConnectionErrorActivity in case of network failure.
      */
-    private String getWorstPokemon() {
-        double minScore = Double.POSITIVE_INFINITY;
-        String lowestScoringQRName = "";
-        try {
-            System.out.println(player.getUserName());
-            usernameVal.setText(player.getUserName());
-
-            for (int i = 0; i < player.getPokemonArray().size(); i++) {
-                double pScore = player.getPokemonArray().get(i).getPokemon().getScore();
-                if (pScore < minScore) {
-                    minScore = pScore;
-                    lowestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
-                }
-            }
-        } catch (Exception e) {
-
-        }
-        return lowestScoringQRName;
-    }
-
     private void switchToNetworkFail() {
         startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
         getActivity().finish();
