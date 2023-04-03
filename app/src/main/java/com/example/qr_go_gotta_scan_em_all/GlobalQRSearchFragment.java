@@ -28,12 +28,17 @@ public class GlobalQRSearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private PokemonArrayAdapter adapter;
+
+    private ArrayList<PokemonInformation> nearByPokemon;
+
     private ListView lW;
 
     private Database db;
 
     // TODO: Rename and change types of parameters
     private Player p;
+
 
     private ArrayList<Pokemon> pokemonNearMeList;
 
@@ -76,9 +81,12 @@ public class GlobalQRSearchFragment extends Fragment {
         lW = view.findViewById(R.id.listview_pokemon);
 
 
+
     }
 
+    private void getAllPokemonNearBy(){
 
+    }
 
 
 

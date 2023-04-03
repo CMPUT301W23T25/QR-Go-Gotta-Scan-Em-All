@@ -42,14 +42,7 @@ public class ProfilePageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * 
-     * /**
-     * 
-     * Constructor that sets the player object passed as an argument.
-     * 
-     * @param player the player object whose profile page is being displayed
-     */
+
     /**
      * 
      * Constructor that sets the player object passed as an argument.
@@ -76,15 +69,7 @@ public class ProfilePageFragment extends Fragment {
 
     }
 
-    /**
-     * 
-     * Called when the fragment's view is created.
-     * 
-     * @param inflater           the layout inflater
-     * @param container          the view group container
-     * @param savedInstanceState the saved instance state of the fragment
-     * @return the inflated view of the fragment
-     */
+
     /**
      * 
      * Called when the fragment's view is created.
