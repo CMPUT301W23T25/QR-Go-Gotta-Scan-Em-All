@@ -172,16 +172,6 @@ public class OverviewFragment extends Fragment {
             itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
             pokemonArrayAdapter = new PokemonArrayAdapter(getActivity().getApplicationContext(),player.getPokemonArray());
 
-//            lW.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//                @Override
-//                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-///*                new DeleteVisit().show(getSupportFragmentManager(),"Delete Visit");
-//                return true;*/
-//                    // add delete confirmaton
-//                    deleteFromPlayerList(position);
-//                    return true;
-//                }
-//            });
 
             lW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

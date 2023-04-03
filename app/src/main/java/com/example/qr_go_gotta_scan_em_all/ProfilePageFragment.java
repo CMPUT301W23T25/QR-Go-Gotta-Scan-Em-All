@@ -118,8 +118,6 @@ public class ProfilePageFragment extends Fragment {
 
         if(!player.getEmailAddress().trim().equals("")){
             emailTextView.setText(player.getEmailAddress());
-        } else{
-            emailTextView.setText("");
         }
         System.out.println(player.getUserName());
         usernameVal.setText(player.getUserName());
@@ -161,11 +159,6 @@ public class ProfilePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 editProfileDialog();
-                if(!player.getEmailAddress().trim().equals("")){
-                    emailTextView.setText(player.getEmailAddress());
-                } else{
-                    emailTextView.setText("");
-                }
             }
         });
     }
@@ -201,6 +194,11 @@ public class ProfilePageFragment extends Fragment {
                 String emailTxtString = emailTxt.getText().toString();
                 updateEmailAddress(emailTxtString);
                 player.setEmailAddress(emailTxtString);
+                if(!player.getEmailAddress().trim().equals("")){
+                    emailTextView.setText(player.getEmailAddress());
+                } else{
+                    emailTextView.setText("");
+                }
                 dialog.dismiss();
             }
         });

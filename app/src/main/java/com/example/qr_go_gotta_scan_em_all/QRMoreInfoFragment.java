@@ -61,7 +61,7 @@ public class QRMoreInfoFragment extends Fragment {
     private ImageView cmtBtn;
     private ImageView ownBtn;
     private ListView lW;
-
+    private TextView name;
     private ImageView closeButton;
 
     // TODO: Rename and change types of parameters
@@ -108,6 +108,8 @@ public class QRMoreInfoFragment extends Fragment {
         TextView visual = view.findViewById(R.id.visual_reper);
         lW = view.findViewById(R.id.comments_list);
         visual.setText(pk.visualReper());
+        name = view.findViewById(R.id.pokemon_name);
+        name.setText(pk.getName());
         commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
         cmtBtn = view.findViewById(R.id.add_comment_btn);
         lW.setAdapter(commentArrayAdapter);

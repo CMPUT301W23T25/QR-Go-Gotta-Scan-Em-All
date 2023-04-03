@@ -7,12 +7,14 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -119,6 +121,19 @@ public class GlobalQRSearchFragment extends Fragment {
             }
         });
 
+        lW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setReorderingAllowed(true);
+
+                // Replace whatever is in the fragment_container view with this fragment
+                transaction.replace(R.id.container, new QRMoreInfoFragment(p,nearByPokemon.get(position).getPokemon()), null);
+                transaction.commit();
+            }
+        });
+
     }
 
 
@@ -149,6 +164,7 @@ public class GlobalQRSearchFragment extends Fragment {
                 }
             } else {
                 System.out.println("Error getting documents: " + task.getException());
+                switchToNetworkFail();
             }
         });
     }

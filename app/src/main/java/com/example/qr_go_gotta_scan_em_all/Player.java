@@ -37,6 +37,7 @@ public class Player implements Serializable {
         this.bestPokemon = null;
         this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
+        this.emailAddress = "";
     }
 
     /**
@@ -52,6 +53,7 @@ public class Player implements Serializable {
         this.bestPokemon = null;
         this.totalScore = 0.0;
         this.friends = new ArrayList<Player>();
+        this.emailAddress = "";
     }
 
     /**
