@@ -1,5 +1,6 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;

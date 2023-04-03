@@ -207,6 +207,7 @@ public class QRMoreInfoFragment extends Fragment {
                                                             }
                                                         } else {
                                                             Log.d(TAG, "get failed with ", task.getException());
+                                                            switchToNetworkFail();
                                                         }
                                                     }
                                                 });
@@ -223,6 +224,7 @@ public class QRMoreInfoFragment extends Fragment {
                             }
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
+                            switchToNetworkFail();
                         }
                     }
                 });
@@ -373,9 +375,15 @@ public class QRMoreInfoFragment extends Fragment {
                     // Do something with the list of owners (e.g. update UI)
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
+                    switchToNetworkFail();
                 }
             }
         });
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
+        getActivity().finish();
     }
 
 

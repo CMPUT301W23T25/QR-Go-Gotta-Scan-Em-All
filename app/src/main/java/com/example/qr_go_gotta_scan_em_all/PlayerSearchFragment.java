@@ -205,8 +205,14 @@ public class PlayerSearchFragment extends Fragment {
                             Log.d("PLAYER_SEARCH_FRAGMENT", "Cached get succeeded.");
                         } else {
                             Log.d("PLAYER_SEARCH_FRAGMENT", "Cached get failed: ", task.getException());
+                            switchToNetworkFail();
                         }
                     }
                 });
+    }
+
+    private void switchToNetworkFail() {
+        startActivity(new Intent(getActivity(), ConnectionErrorActivity.class));
+        getActivity().finish();
     }
 }
