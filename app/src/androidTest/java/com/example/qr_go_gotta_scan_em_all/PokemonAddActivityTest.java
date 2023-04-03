@@ -45,28 +45,6 @@ public class PokemonAddActivityTest {
     }
 
     /**
-     * Test the save button
-     */
-    @Test
-    public void testSaveButton() {
-        // click on add photo button
-        solo.clickOnView(solo.getView(R.id.capture_pokemon_button));
-
-        // TODO: write tests here
-    }
-
-    /**
-     * Test the release button
-     */
-    @Test
-    public void testReleaseButton() {
-        // click on release button
-        solo.clickOnView(solo.getView(R.id.release_pokemon_button));
-
-        // TODO: write tests here
-    }
-
-    /**
      * Closes the activity after each test
      * @throws Exception
      */
