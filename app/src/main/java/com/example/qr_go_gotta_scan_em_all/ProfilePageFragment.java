@@ -1,6 +1,8 @@
 package com.example.qr_go_gotta_scan_em_all;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,8 +13,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -33,7 +38,11 @@ public class ProfilePageFragment extends Fragment {
     private FragmentManager fragmentManager;
     private ImageView playerSearchButton;
 
-    private Button pokemonNearMeButton;
+    private ImageView pokemonNearMeButton;
+
+    private ImageView editProfilePage;
+
+    private TextView emailTextView;
 
     /**
      * 
@@ -98,6 +107,8 @@ public class ProfilePageFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameVal = view.findViewById(R.id.username_val);
         pokemonNearMeButton = view.findViewById(R.id.pokemon_near_me_button);
+        editProfilePage = view.findViewById(R.id.edit_profile_info);
+        emailTextView = view.findViewById(R.id.email_val);
         System.out.println(player.getUserName());
         usernameVal.setText(player.getUserName());
         // or (ImageView) view.findViewById(R.id.foo);
@@ -132,5 +143,49 @@ public class ProfilePageFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        editProfilePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfileDialog();
+            }
+        });
+    }
+
+    /**
+     * Shows the custom dialog box allowing the user to modify the email.
+     */
+    private void editProfileDialog() {
+        // Credits: Chirag-sam
+        // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
+        // He's the real MVP
+        Dialog dialog = new Dialog(getContext());
+
+
+        //Mention the name of the layout of your custom dialog.
+        dialog.setContentView(R.layout.edit_profile);
+        ListView ownersLW = dialog.findViewById(R.id.owners_list);
+        ImageView closeButton = dialog.findViewById(R.id.close_button);
+        ImageView saveButton = dialog.findViewById(R.id.save_button);
+        EditText emailTxt = dialog.findViewById(R.id.email_textview);
+
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // your handler code here
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void updateEmailAddress(String email){
+
     }
 }

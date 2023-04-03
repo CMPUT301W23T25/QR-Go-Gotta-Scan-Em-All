@@ -1,8 +1,8 @@
 package com.example.qr_go_gotta_scan_em_all;
 
 public class Comment {
-    Player player;
-    String text;
+    private Player player;
+    private String text;
 
     /**
      * Constructs a Comment object with the given player and text.

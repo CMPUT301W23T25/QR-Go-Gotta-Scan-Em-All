@@ -195,13 +195,24 @@
         app:srcCompat="@drawable/search_icon"
         tools:ignore="UnknownIdInLayout" />
 
-    <Button
+    <ImageView
         android:id="@+id/pokemon_near_me_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Pokemon Near Me"
+        android:layout_width="334dp"
+        android:layout_height="51dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_val" />
+        app:layout_constraintTop_toBottomOf="@+id/email_val"
+        app:srcCompat="@drawable/find_pokemon_button" />
+
+    <ImageView
+        android:id="@+id/edit_profile_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
+        android:src="@drawable/img_2"
+        app:layout_constraintBottom_toTopOf="@+id/pokemon_near_me_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/email_val"
+        app:layout_constraintTop_toBottomOf="@+id/border" />
 </androidx.constraintlayout.widget.ConstraintLayout>

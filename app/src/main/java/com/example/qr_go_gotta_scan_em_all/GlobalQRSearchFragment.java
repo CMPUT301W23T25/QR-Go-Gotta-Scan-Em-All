@@ -59,7 +59,7 @@ public class GlobalQRSearchFragment extends Fragment {
 
     private LocationHandler lH;
 
-    private Button useCurrentLocBtn;
+    private ImageView useCurrentLocBtn;
 
 
     public GlobalQRSearchFragment() {
@@ -158,11 +158,6 @@ public class GlobalQRSearchFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void addPokemonToArray(PokemonInformation pI){
-        for (PokemonInformation pI2:nearByPokemon){
-
-        }
-    }
 
 
 
