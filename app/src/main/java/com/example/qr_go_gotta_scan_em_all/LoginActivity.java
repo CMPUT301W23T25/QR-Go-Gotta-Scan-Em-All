@@ -325,7 +325,15 @@ public class LoginActivity extends AppCompatActivity {
 //
 //    }
 
-
+    /**
+     * This method converts a list of raw Pokemon data maps into an ArrayList of
+     * PokemonInformation objects. It iterates through the input list, extracts
+     * the Pokemon information, and creates new PokemonInformation objects that
+     * are added to the output ArrayList.
+     *
+     * @param a The list of raw Pokemon data maps to be converted.
+     * @return An ArrayList of PokemonInformation objects created from the input data.
+     */
     private ArrayList<PokemonInformation> convertRawDataToPInfo(List<Map<String,Object>> a){
         // Make a new array
 

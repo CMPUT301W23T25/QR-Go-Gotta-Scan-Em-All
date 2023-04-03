@@ -203,6 +203,12 @@ public class LeaderboardFragment extends Fragment {
         });
     }
 
+    /**
+     * This method updates the leaderboard UI elements based on the current state.
+     * It shows or hides the rank estimate and region search layouts, and changes
+     * the leaderboard criteria text. It also updates the data order and notifies
+     * the adapter that the data has changed.
+     */
     private void updateLeaderboard() {
         // Hide the conditional layouts
         rankEstimateLayout.setVisibility(View.GONE);
@@ -234,6 +240,12 @@ public class LeaderboardFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * This method sorts the data array of players based on the leaderboard state.
+     * The sorting is done using different criteria, such as total score, number
+     * of Pokemons caught, global high score, and regional high score. The adapter
+     * is then notified that the data has changed.
+     */
     private void updateDataOrder() {
         // Sort the data array based on the state
         data.sort((player1, player2) -> {
@@ -263,6 +275,12 @@ public class LeaderboardFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * This method updates the rank estimate for the current player based on their
+     * global high score. It removes duplicate scores from the scores list, sorts
+     * the list in descending order, finds the player's rank, and updates the rank
+     * estimate text accordingly.
+     */
     private void updateRankEstimate() {
         // Get the current player's score
         Double score = currentPlayer.getBestPokemon().getScore();

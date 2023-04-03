@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * Represents the activity for displaying another player's profile.
+ */
 public class OtherProfileActivity extends AppCompatActivity {
     private ListView pokemonOwnedListView;
     private ImageView backButton;
@@ -17,6 +20,11 @@ public class OtherProfileActivity extends AppCompatActivity {
     private TextView emailTextView;
     private PokemonArrayAdapter adapter;
 
+    /**
+     * Initializes the activity, sets up UI components, and handles data passed through the intent.
+     *
+     * @param savedInstanceState The activity's previously saved state, if any
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
