@@ -56,9 +56,11 @@ public class QRMoreInfoFragment extends Fragment {
     private ArrayList<Comment> comments;
     ArrayAdapter<Comment> commentArrayAdapter;
     List<String> owners = new ArrayList<>();
-
-
+    ImageView cmtBtn;
+    ImageView ownBtn;
     ListView lW;
+
+    ImageView closeButton;
 
     // TODO: Rename and change types of parameters
 
@@ -88,9 +90,9 @@ public class QRMoreInfoFragment extends Fragment {
         lW = view.findViewById(R.id.comments_list);
         visual.setText(pk.visualReper());
         commentArrayAdapter = new CommentsArrayAdapter(getActivity().getApplicationContext(),comments);
-        ImageView cmtBtn = view.findViewById(R.id.add_comment_btn);
+        cmtBtn = view.findViewById(R.id.add_comment_btn);
         lW.setAdapter(commentArrayAdapter);
-        ImageView ownBtn = view.findViewById(R.id.owners_btn);
+        ownBtn = view.findViewById(R.id.owners_btn);
 
 
         try{
@@ -128,7 +130,7 @@ public class QRMoreInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_q_r_more_info, container, false);
+        return inflater.inflate(R.layout.fragment_qr_info_new, container, false);
     }
 
     private void getCommentsFromDB(){
@@ -261,8 +263,6 @@ public class QRMoreInfoFragment extends Fragment {
     }
 
     void ownerDialog(){
-
-
         // Credits: Chirag-sam
         // https://github.com/Pro-Grammerr/Custom-Dialog/blob/master/app/src/main/java/com/awesomeness/customdialog/MainActivity.java
         // He's the real MVP
@@ -274,7 +274,7 @@ public class QRMoreInfoFragment extends Fragment {
         ListView ownersLW = dialog.findViewById(R.id.owners_list);
         ArrayAdapter<String> a = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, owners);
         ownersLW.setAdapter(a);
-        Button closeButton = dialog.findViewById(R.id.close_btn);
+        closeButton = dialog.findViewById(R.id.close_btn);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
