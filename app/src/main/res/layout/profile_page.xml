@@ -194,4 +194,14 @@
         app:layout_constraintVertical_bias="0.049"
         app:srcCompat="@drawable/search_icon"
         tools:ignore="UnknownIdInLayout" />
+
+    <Button
+        android:id="@+id/pokemon_near_me_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Pokemon Near Me"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_val" />
 </androidx.constraintlayout.widget.ConstraintLayout>

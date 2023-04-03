@@ -245,8 +245,8 @@ public class LeaderboardFragment extends Fragment {
                 case 2:
                     return (int) Math.round(player2.getBestPokemon().getScore() - player1.getBestPokemon().getScore());
                 case 3:
-                    Double score1 = 0.0;
-                    Double score2 = 0.0;
+                    double score1 = 0.0;
+                    double score2 = 0.0;
 
                     if (player1.getBestPokemonAtCity(region) != null)
                         score1 = player1.getBestPokemonAtCity(region).getScore();

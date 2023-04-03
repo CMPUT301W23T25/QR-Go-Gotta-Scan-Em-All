@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class ProfilePageFragment extends Fragment {
     private Player player;
     private FragmentManager fragmentManager;
     private ImageView playerSearchButton;
+
+    private Button pokemonNearMeButton;
 
     /**
      * 
@@ -108,6 +111,7 @@ public class ProfilePageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameVal = view.findViewById(R.id.username_val);
+        pokemonNearMeButton = view.findViewById(R.id.pokemon_near_me_button);
         System.out.println(player.getUserName());
         usernameVal.setText(player.getUserName());
         // or (ImageView) view.findViewById(R.id.foo);
@@ -127,6 +131,18 @@ public class ProfilePageFragment extends Fragment {
 
                 // Add the transaction to the back stack so the user can navigate back.
                 transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        pokemonNearMeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setReorderingAllowed(true);
+
+                // Replace whatever is in the fragment_container view with this fragment
+                transaction.replace(R.id.container, new GlobalQRSearchFragment(player), null);
                 transaction.commit();
             }
         });

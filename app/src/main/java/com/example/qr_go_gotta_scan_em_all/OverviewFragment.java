@@ -2,6 +2,8 @@ package com.example.qr_go_gotta_scan_em_all;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Double.parseDouble;
+
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -233,6 +236,11 @@ public class OverviewFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // your handler code here
+
+                totalScore.setText("Total Score: " + Double.toString(player.getTotalScore()));
+                highestScore.setText("Highest Scoring: " + player.getBestPokemon());
+                lowestScore.setText("Lowest Scoring: " + getWorstPokemon());
+                itemsScanned.setText("QR Scanned: " + Integer.toString(player.getPokemonArray().size()));
                 deleteFromPlayerList(position);
                 dialog.dismiss();
             }
@@ -267,46 +275,6 @@ public class OverviewFragment extends Fragment {
          * @param pos The index of the Pokémon to delete
          */
         private void deleteFromPlayerList(int pos){
-//        System.out.println(player.getPokemonArray().size());
-//        PokemonInformation pI = player.getPokemonAtIndex(pos);
-//        pokemonArrayAdapter.remove(pI);
-//        System.out.println(player.getPokemonArray().size());
-//        pokemonArrayAdapter.notifyDataSetChanged();
-//
-//        DocumentReference playerRef = db.getPlayerCol().document(player.getUserId());
-//        // Add the Pokemon to the player's list of owned Pokemon
-//        ArrayList<HashMap<String,Object>> a = new ArrayList<HashMap<String,Object>>();
-//        for(PokemonInformation p:player.getPokemonArray()){
-//            if(p.getPokemon().getID() != pI.getPokemon().getID()){
-//                String byteArrayRaw = "";
-//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//
-//                }
-//
-//                HashMap<String,Object> map = new HashMap<String,Object>();
-//                map.put("ID",p.getPokemon().getID());
-//                map.put("lat",p.getLocationLat());
-//                map.put("long",p.getLocationLong());
-//                map.put("image", byteArrayRaw);
-//                map.put("city",p.getCityName());
-//                map.put("country",p.getCountryName());
-//                a.add(map);
-//            }
-//        }
-//
-//        playerRef.update("pokemon_owned", a)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        // Handle success, if needed
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        // Handle failure, if needed
-//                    }
-//                });
 
             PokemonInformation pI = player.getPokemonArray().get(pos);
             String valueToDelete = pI.getPokemon().getID();
@@ -363,6 +331,26 @@ public class OverviewFragment extends Fragment {
         // Replace whatever is in the fragment_container view with this fragment
         transaction.replace(R.id.container, new QRMoreInfoFragment(player,player.getPokemonArray().get(position).getPokemon()), null);
         transaction.commit();
+    }
+
+    private String getWorstPokemon() {
+        double minScore = Double.POSITIVE_INFINITY;
+        String lowestScoringQRName = "";
+        try {
+            System.out.println(player.getUserName());
+            usernameVal.setText(player.getUserName());
+
+            for (int i = 0; i < player.getPokemonArray().size(); i++) {
+                double pScore = player.getPokemonArray().get(i).getPokemon().getScore();
+                if (pScore < minScore) {
+                    minScore = pScore;
+                    lowestScoringQRName = player.getPokemonArray().get(i).getPokemon().getName();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return lowestScoringQRName;
     }
 
 }
