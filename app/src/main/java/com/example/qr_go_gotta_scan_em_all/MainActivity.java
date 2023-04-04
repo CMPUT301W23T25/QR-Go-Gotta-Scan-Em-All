@@ -497,8 +497,6 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, Object> pMap = new HashMap<>();
         pMap.put("comments",new ArrayList<Map<String,String>>());
         pMap.put("pokemon_locations",new ArrayList<Map<String,Object>>());
-        pMap.put("pokemon_lat",p.getLocationLat());
-        pMap.put("pokemon_long",p.getLocationLong());
         // make sure the specific ID of the player is used
         DocumentReference docRef = db.getPokemonCol().document(ID);
 
@@ -559,21 +557,25 @@ public class MainActivity extends AppCompatActivity {
         locationMap.put("longitude", p.getLocationLong());
 
         // Check if both city and country are not null
-        pokemonLocationsRef.update("pokemon_locations", FieldValue.arrayUnion(locationMap))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Handle success, if needed
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle failure, if needed
-                        switchToNetworkFail();
-                    }
-                });
+        if (p.getCityName() != null && p.getCountryName() != null){
+            pokemonLocationsRef.update("pokemon_locations", FieldValue.arrayUnion(locationMap))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Handle success, if needed
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Handle failure, if needed
+                            switchToNetworkFail();
+                        }
+                    });
+        }
+
     }
 
 
